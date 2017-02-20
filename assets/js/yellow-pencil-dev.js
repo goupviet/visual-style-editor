@@ -2461,7 +2461,8 @@
         });
 
         $(".yp-close-btn").click(function() {
-            $('#plugin-content').remove();
+            $('#plugin-content').hide();
+            $('.yp-selector-mode').trigger('click');
         });
 
         /* ---------------------------------------------------- */

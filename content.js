@@ -4,36 +4,35 @@ chrome.runtime.onMessage.addListener(
 
             $(document).ready(function () {
 
+                if($('#plugin-content').length > 0){
+                    $('#plugin-content').toggle();
+                    $('.yp-selector-mode').trigger('click');
+
+                    return false;
+                }
+
                 $.ajax({
-                url: chrome.extension.getURL('/plugin.html'),
-                dataType: 'html',
-                success: function (data) {
-                    $('body').append(data).addClass('yp-yellow-pencil wt-yellow-pencil yp-metric-disable yp-body-selector-mode-active browser_chrome');
+                    url: chrome.extension.getURL('/plugin.html'),
+                    dataType: 'html',
+                    success: function (data) {
+                        $('body').append(data).addClass('yp-yellow-pencil wt-yellow-pencil yp-metric-disable yp-body-selector-mode-active browser_chrome');
 
-                    chrome.runtime.sendMessage({"message": "dom_loaded", "id": request.id});
+                        chrome.runtime.sendMessage({"message": "dom_loaded", "id": request.id});
 
-                    // All plugin element list
-                    window.plugin_classes_list = 'yp-styles-area|yp-animating|yp-animate-data|yp-scene-1|yp-sharp-selector-mode-active|yp-scene-2|yp-scene-3|yp-scene-4|yp-scene-5|yp-scene-6|yp-anim-creator|data-anim-scene|yp-anim-link-toggle|yp-animate-test-playing|ui-draggable-handle|yp-css-data-trigger|yp-yellow-pencil-demo-mode|yp-yellow-pencil-loaded|yp-element-resized|resize-time-delay|yp-selected-handle|yp-parallax-disabled|yp_onscreen|yp_hover|yp_click|yp_focus|yp-recent-hover-element|yp-selected-others|yp-multiple-selected|yp-demo-link|yp-live-editor-link|yp-yellow-pencil|wt-yellow-pencil|yp-content-selected|yp-selected-has-transform|yp-hide-borders-now|ui-draggable|yp-target-active|yp-yellow-pencil-disable-links|yp-closed|yp-responsive-device-mode|yp-metric-disable|yp-css-editor-active|wtfv|yp-clean-look|yp-has-transform|yp-will-selected|yp-selected|yp-fullscreen-editor|yp-element-resizing|yp-element-resizing-width-left|yp-element-resizing-width-right|yp-element-resizing-height-top|yp-element-resizing-height-bottom|context-menu-active|yp-selectors-hide|yp-contextmenuopen|yp-control-key-down|yp-selected-others-multiable-box';
-                    // Any visible element.
-                    window.simple_not_selector = 'head, script, style, [class^="yp-"], [class*=" yellow-pencil-"], link, meta, title, noscript';
-                    // basic simple.
-                    window.basic_not_selector = '*:not(script):not(style):not(link):not(meta):not(title):not(noscript)';
-                    // Variable
-                    window.loadStatus = false;
+                        // All plugin element list
+                        window.plugin_classes_list = 'yp-styles-area|yp-animating|yp-animate-data|yp-scene-1|yp-sharp-selector-mode-active|yp-scene-2|yp-scene-3|yp-scene-4|yp-scene-5|yp-scene-6|yp-anim-creator|data-anim-scene|yp-anim-link-toggle|yp-animate-test-playing|ui-draggable-handle|yp-css-data-trigger|yp-yellow-pencil-demo-mode|yp-yellow-pencil-loaded|yp-element-resized|resize-time-delay|yp-selected-handle|yp-parallax-disabled|yp_onscreen|yp_hover|yp_click|yp_focus|yp-recent-hover-element|yp-selected-others|yp-multiple-selected|yp-demo-link|yp-live-editor-link|yp-yellow-pencil|wt-yellow-pencil|yp-content-selected|yp-selected-has-transform|yp-hide-borders-now|ui-draggable|yp-target-active|yp-yellow-pencil-disable-links|yp-closed|yp-responsive-device-mode|yp-metric-disable|yp-css-editor-active|wtfv|yp-clean-look|yp-has-transform|yp-will-selected|yp-selected|yp-fullscreen-editor|yp-element-resizing|yp-element-resizing-width-left|yp-element-resizing-width-right|yp-element-resizing-height-top|yp-element-resizing-height-bottom|context-menu-active|yp-selectors-hide|yp-contextmenuopen|yp-control-key-down|yp-selected-others-multiable-box';
+                        // Any visible element.
+                        window.simple_not_selector = 'head, script, style, [class^="yp-"], [class*=" yellow-pencil-"], link, meta, title, noscript';
+                        // basic simple.
+                        window.basic_not_selector = '*:not(script):not(style):not(link):not(meta):not(title):not(noscript)';
+                        // Variable
+                        window.loadStatus = false;
 
-                    // Document Load Note:
-                    yp_load_note("Editor loading..");
-
-                        // Frame load note:
-                        yp_load_note("Reading styles..");
 
                         var iframe = $(document);
                         var iframeHead = iframe.find("head");
                         var iframeBody = iframe.find("body");
                         var body = iframe.find("body");
-
-                        // Styles load Note:
-                        yp_load_note("Loading fonts..");
 
                         // Loading Styles
                         $('<script src="' + chrome.extension.getURL("assets/js/jquery/jquery.js") + '" >').appendTo("head");
@@ -47,34 +46,8 @@ chrome.runtime.onMessage.addListener(
                         $('<link rel="stylesheet" href="' + chrome.extension.getURL("assets/css/yellow-pencil.css") + '" >').appendTo('head');
                         $('<link rel="stylesheet" href="' + chrome.extension.getURL("assets/css/frame.css") + '" >').appendTo('head');
 
-                        // Scripts Load note:
-                        yp_load_note("Preparing tools..");
-
                         // Scripts Loading.
                         setTimeout(function () {
-
-                            // let the user feel as that loads quickly.
-                            yp_load_note("Drawing wireframe..");
-
-                            setTimeout(function () {
-                                yp_load_note("Analyzes the design..");
-                            }, 600);
-
-                            setTimeout(function () {
-                                yp_load_note("Preparing palettes..");
-                            }, 1000);
-
-                            setTimeout(function () {
-                                yp_load_note("Generating selectors..");
-                            }, 1500);
-
-                            setTimeout(function () {
-                                yp_load_note("Playing with codes..");
-                            }, 2800);
-
-                            setTimeout(function () {
-                                yp_load_note("Preparing..");
-                            }, 4000);
 
                             // Ace Code Editor Base.
                             window.aceEditorBase = chrome.extension.getURL("assets/js/ace");
@@ -219,7 +192,7 @@ chrome.runtime.onMessage.addListener(
                             function yp_start_editor() {
 
                                 // Ready!:
-                                yp_load_note("Ready!");
+                                yp_load_note("加载插件...");
 
                                 // Set true.
                                 window.loadStatus = true;
@@ -265,8 +238,8 @@ chrome.runtime.onMessage.addListener(
 
                         });
 
-                }
-            });
+                    }
+                });
 
             });
             // This line is new!

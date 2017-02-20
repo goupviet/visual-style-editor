@@ -4,6 +4,7 @@
     height: 100%;
     top: 0;
     left: 0;
+    opacity: .5;
     position: fixed;
     background-size: 24px;
     background-color: #FFFFFF;
@@ -85,9 +86,6 @@ body.yp-responsive-device-mode {
     animation: spin 1.2s;
 }
 
-body.yp-yellow-pencil-loaded{
-    margin:0;
-}
 
 body.yp-yellow-pencil-loaded .yp-select-bar, body.yp-yellow-pencil-loaded .top-area-btn-group {
     display: block !important;
@@ -404,10 +402,10 @@ body.yp-responsive-device-mode .context-menu-root {
 .yp-select-bar .yp-editor-top .yp-button {
     float: right !important;
     margin-top: 0 !important;
-    background: #80A256;
+    background: #4C89D9;
     color: rgba(255, 255, 255, 0.8) !important;
     height: 45px;
-    width: 84px;
+    width: 74px;
     position: relative;
     left: 15px;
     text-align: center;
