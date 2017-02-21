@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Visual Style Editor",
   "version": "1.0",
-  "description": "Visual Style Editor是一款可视化样式编辑器,用于所见及所得式的样式重定义",
+  "description": "Visual Style Editor is a chrome browser plugin made for customize style in way of wysiwyg",
   "icons":{"128":"logo.png"},
   "background": {
     "scripts": [
