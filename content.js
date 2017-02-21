@@ -192,7 +192,7 @@ chrome.runtime.onMessage.addListener(
                             function yp_start_editor() {
 
                                 // Ready!:
-                                yp_load_note("加载插件...");
+                                yp_load_note("loading...");
 
                                 // Set true.
                                 window.loadStatus = true;

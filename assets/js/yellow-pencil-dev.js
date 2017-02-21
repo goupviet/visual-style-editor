@@ -1,8 +1,8 @@
-;(function($) {
+;(function ($) {
 
     "use strict";
     // Ace Editor Set Up
-    ace.config.set("basePath",window.aceEditorBase);
+    ace.config.set("basePath", window.aceEditorBase);
     ace.require("ace/ext/language_tools");
     var editor = ace.edit("cssData");
     //editor.getSession().setMode("ace/mode/css");
@@ -32,13 +32,13 @@
     window.separator = ' ';
 
     // All Yellow Pencil Functions.
-    window.yellow_pencil_main = function() {
+    window.yellow_pencil_main = function () {
 
         // Cache left bar width.
         window.leftbarWidth = 46;
 
         // Onscreen plugin.
-        $.expr[":"].onScreenFrame = function(n) {
+        $.expr[":"].onScreenFrame = function (n) {
             var t = $(document),
                 o = t.scrollTop(),
                 r = t.height(),
@@ -52,7 +52,7 @@
 
 
         // Don't load again.
-        if ($("body").hasClass("yp-yellow-pencil-loaded")){
+        if ($("body").hasClass("yp-yellow-pencil-loaded")) {
             return false;
         }
 
@@ -70,22 +70,22 @@
 
 
         // Adding yp-animating class to animating elements.
-        iframe.find(window.basic_not_selector).on('animationend webkitAnimationEnd oanimationend MSAnimationEnd',function(){
+        iframe.find(window.basic_not_selector).on('animationend webkitAnimationEnd oanimationend MSAnimationEnd', function () {
 
             // Stop if any yp animation tool works
-            if(body.hasClass("yp-anim-creator") || body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-anim-creator") || body.hasClass("yp-animate-manager-active")) {
                 return false;
             }
 
             var element = $(this);
 
             // remove animating class.
-            if(element.hasClass("yp-animating")){
+            if (element.hasClass("yp-animating")) {
                 element.removeClass("yp-animating");
             }
 
             // Set outline selected style if selected element has animating.
-            if(element.hasClass("yp-selected") && is_content_selected()){
+            if (element.hasClass("yp-selected") && is_content_selected()) {
                 body.removeClass("yp-has-transform");
                 draw();
             }
@@ -95,58 +95,58 @@
         });
 
 
-        $(".yp-animate-manager-inner").on("scroll",function(){
+        $(".yp-animate-manager-inner").on("scroll", function () {
 
             var l = $(this).scrollLeft();
-            $(".yp-anim-control-right").css("left",-Math.abs(l));
+            $(".yp-anim-control-right").css("left", -Math.abs(l));
 
-            $(".yp-anim-left-part-column").css("left",l);
+            $(".yp-anim-left-part-column").css("left", l);
 
         });
 
 
         // Nice logo rotation. per 1min.
-        setInterval(function(){
+        setInterval(function () {
             $(".yellow-pencil-logo").toggleClass("yp-logo-play");
-        },80000);
+        }, 80000);
 
 
         // Anim control
-        $(".yp-anim-control-play").on("click",function(){
+        $(".yp-anim-control-play").on("click", function () {
 
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 return false;
             }
 
             body.addClass("yp-animate-manager-playing yp-clean-look yp-hide-borders-now");
 
             // Find largest line for play/stop.
-            var maxWidth = Math.max.apply( null, $( '.yp-anim-process-inner' ).map( function (){
-                return $( this ).outerWidth( true );
-            }).get() );
+            var maxWidth = Math.max.apply(null, $('.yp-anim-process-inner').map(function () {
+                return $(this).outerWidth(true);
+            }).get());
 
 
-            var s = (parseFloat(maxWidth)/100);
-            $("#yp-animate-helper").html("@-webkit-keyframes playingBorder{from{left: 0px;}to{left:"+maxWidth+"px;}}@keyframes playingBorder{from{left: 0px;}to{left:"+maxWidth+"px;}}");
+            var s = (parseFloat(maxWidth) / 100);
+            $("#yp-animate-helper").html("@-webkit-keyframes playingBorder{from{left: 0px;}to{left:" + maxWidth + "px;}}@keyframes playingBorder{from{left: 0px;}to{left:" + maxWidth + "px;}}");
 
-            $(".yp-anim-playing-border").css("animation-duration",s+"s").css("-webkit-animation-duration",s+"s").addClass("active");
+            $(".yp-anim-playing-border").css("animation-duration", s + "s").css("-webkit-animation-duration", s + "s").addClass("active");
 
             $(this).addClass("active");
 
-            var S_inMS = (s*1000);
+            var S_inMS = (s * 1000);
             clear_animation_timer();
 
-            window.animationTimer3 = setTimeout(function(){
+            window.animationTimer3 = setTimeout(function () {
                 $(".yp-anim-control-pause").trigger("click");
-            },S_inMS);
+            }, S_inMS);
 
 
             // Playing over width
-            $(".yp-anim-playing-over").css("width",maxWidth+$(window).width());
+            $(".yp-anim-playing-over").css("width", maxWidth + $(window).width());
 
 
             // Play animations
-            iframe.find('[data-rule="animation-name"]').each(function(i){
+            iframe.find('[data-rule="animation-name"]').each(function (i) {
 
                 var data = $(this).html().replace(/\/\*(.*?)\*\//g, "");
 
@@ -154,13 +154,13 @@
                 var selector = data.split("{")[0];
 
                 // Get Selector
-                if(selector.indexOf("@media") != -1){
+                if (selector.indexOf("@media") != -1) {
                     selector = data.split("{")[1].split("{")[0];
                 }
 
-                selector = selector.replace(".yp_hover","").replace(".yp_focus","").replace(".yp_click","").replace(".yp_onscreen","");
+                selector = selector.replace(".yp_hover", "").replace(".yp_focus", "").replace(".yp_click", "").replace(".yp_onscreen", "");
 
-                iframe.find(selector).each(function(){
+                iframe.find(selector).each(function () {
                     $(this).addClass("yp_hover yp_focus yp_click yp_onscreen");
                 });
 
@@ -171,51 +171,57 @@
             //yp-counter-second
             //yp-counter-ms
             var min = 0;
-            window.animMinC = setInterval(function(){
+            window.animMinC = setInterval(function () {
 
                 // min
-                min = min+1;if(ms == 59){ms = 0;}
+                min = min + 1;
+                if (ms == 59) {
+                    ms = 0;
+                }
 
                 var result = min;
-                if(min < 10){
-                    result = "0"+min;
+                if (min < 10) {
+                    result = "0" + min;
                 }
 
                 $(".yp-counter-min").text(result);
 
-            },60000);
+            }, 60000);
 
             var second = 0;
-            window.animSecC = setInterval(function(){
+            window.animSecC = setInterval(function () {
 
                 // Sc
-                second = second+1;
+                second = second + 1;
 
                 var result = second;
-                if(second < 10){
-                    result = "0"+second;
+                if (second < 10) {
+                    result = "0" + second;
                 }
                 $(".yp-counter-second").text(result);
 
-            },1000);
+            }, 1000);
 
             var ms = 0;
-            window.animMsC = setInterval(function(){
+            window.animMsC = setInterval(function () {
 
                 // Ms
-                ms = ms+1;if(ms == 99){ms = 0;}
+                ms = ms + 1;
+                if (ms == 99) {
+                    ms = 0;
+                }
 
                 var result = ms;
-                if(ms < 10){
-                    result = "0"+ms;
+                if (ms < 10) {
+                    result = "0" + ms;
                 }
                 $(".yp-counter-ms").text(result);
 
-            },1);
+            }, 1);
 
         });
 
-        $(".yp-anim-control-pause").on("click",function(){
+        $(".yp-anim-control-pause").on("click", function () {
 
             clearTimeout(window.yp_anim_player);
 
@@ -223,7 +229,7 @@
             $(".yp-anim-control-play").removeClass("active");
 
             // Pause animations
-            iframe.find('[data-rule="animation-name"]').each(function(i){
+            iframe.find('[data-rule="animation-name"]').each(function (i) {
 
                 // Variables
                 var data = $(this).html().replace(/\/\*(.*?)\*\//g, "");
@@ -231,14 +237,14 @@
                 var selector = array[0];
 
                 // Get Selector
-                if(selector.indexOf("@media") != -1){
+                if (selector.indexOf("@media") != -1) {
 
                     selector = array[1].split("{")[0];
                 }
 
-                selector = selector.replace(".yp_hover","").replace(".yp_focus","").replace(".yp_click","").replace(".yp_onscreen","");
+                selector = selector.replace(".yp_hover", "").replace(".yp_focus", "").replace(".yp_click", "").replace(".yp_onscreen", "");
 
-                iframe.find(selector).each(function(){
+                iframe.find(selector).each(function () {
                     $(this).removeClass("yp_hover yp_focus yp_click yp_onscreen");
                 });
 
@@ -258,15 +264,15 @@
 
         });
 
-        $(".yp-anim-control-close,.yp-visual-editor-link").on("click",function(){
+        $(".yp-anim-control-close,.yp-visual-editor-link").on("click", function () {
             $(".animation-manager-btn").trigger("click");
         });
 
-        $(document).on("mouseenter", ".yp-control-trash", function() {
+        $(document).on("mouseenter", ".yp-control-trash", function () {
             $(this).parent().tooltip('hide');
         });
 
-        $(document).on("click", ".yp-control-trash", function() {
+        $(document).on("click", ".yp-control-trash", function () {
 
             var that = $(this);
 
@@ -276,7 +282,7 @@
                 confirmButtonText: "Delete Animate",
                 closeOnConfirm: true,
                 animation: false
-            },function(){
+            }, function () {
 
                 that.parent(".yp-anim-process-bar").prev(".yp-anim-process-bar-delay").remove();
                 that.parent(".yp-anim-process-bar").remove();
@@ -285,11 +291,11 @@
 
                 update_animation_manager();
 
-                $(".yp-delay-zero").each(function(){
+                $(".yp-delay-zero").each(function () {
 
-                    var allLeft = $(".yp-anim-process-inner").offset().left-5;
-                    var left = $(this).next(".yp-anim-process-bar").offset().left-allLeft;
-                    $(this).css("left",left);
+                    var allLeft = $(".yp-anim-process-inner").offset().left - 5;
+                    var left = $(this).next(".yp-anim-process-bar").offset().left - allLeft;
+                    $(this).css("left", left);
 
                     $(this).next(".yp-anim-process-bar").addClass("yp-anim-has-zero-delay");
 
@@ -307,7 +313,7 @@
         /* ---------------------------------------------------- */
         /* get selected element object                          */
         /* ---------------------------------------------------- */
-        function get_selected_element(){
+        function get_selected_element() {
 
             return iframe.find(".yp-selected");
 
@@ -316,19 +322,19 @@
         /* ---------------------------------------------------- */
         /* check if content selected                            */
         /* ---------------------------------------------------- */
-        function is_content_selected(){
+        function is_content_selected() {
 
             return body.hasClass("yp-content-selected");
 
         }
 
-        function is_dragging(){
+        function is_dragging() {
 
             return body.hasClass("yp-dragging");
 
         }
 
-        function is_resizing(){
+        function is_resizing() {
 
             return body.hasClass("yp-element-resizing");
 
@@ -338,18 +344,17 @@
         /* ---------------------------------------------------- */
         /* Check if is anim creator mode                        */
         /* ---------------------------------------------------- */
-        function is_animate_creator(){
+        function is_animate_creator() {
 
             return body.hasClass("yp-anim-creator");
 
         }
 
 
-
         /* ---------------------------------------------------- */
         /* Get the element classes (Cleaned by editor classes)  */
         /* ---------------------------------------------------- */
-        function get_cleaned_classes(el,oldArray){
+        function get_cleaned_classes(el, oldArray) {
 
             var resultArray = [];
 
@@ -357,7 +362,7 @@
             var classes = el.attr("class");
 
             // Is defined?
-            if(isDefined(classes)){
+            if (isDefined(classes)) {
 
                 // Cleaning all Yellow Pencil classes.
                 classes = class_cleaner(classes);
@@ -366,21 +371,21 @@
                 classes = space_cleaner(classes);
 
                 // If not empty
-                if(classes.length >= 1){
+                if (classes.length >= 1) {
 
                     var classesArray = get_classes_array(classes);
 
                     // Be sure there have more class then one.
-                    if(classesArray.length > 0){
+                    if (classesArray.length > 0) {
 
                         // Each
-                        for(var io = 0;io < classesArray.length; io++){
+                        for (var io = 0; io < classesArray.length; io++) {
 
                             // Clean spaces
                             var that = space_cleaner(classesArray[io]);
 
                             // continue If not have this class in data
-                            if(resultArray.indexOf(that) == -1 && oldArray.indexOf(that) == -1 && that.length >= 1){
+                            if (resultArray.indexOf(that) == -1 && oldArray.indexOf(that) == -1 && that.length >= 1) {
 
                                 // Push.
                                 resultArray.push(that);
@@ -389,10 +394,10 @@
 
                         }
 
-                    }else{
+                    } else {
 
                         // continue If not have this class in data
-                        if(resultArray.match(classes) == -1 && oldArray.indexOf(classes) == -1){
+                        if (resultArray.match(classes) == -1 && oldArray.indexOf(classes) == -1) {
 
                             // Push
                             resultArray.push(classes);
@@ -414,7 +419,7 @@
         /* ---------------------------------------------------- */
         /* Updating Design information section                  */
         /* ---------------------------------------------------- */
-        function update_design_information(type){
+        function update_design_information(type) {
 
 
             // Was wireframe?
@@ -422,7 +427,7 @@
 
 
             // Check wireframe
-            if(body.hasClass("yp-wireframe-mode")){
+            if (body.hasClass("yp-wireframe-mode")) {
                 washaveWireFrame = true;
                 body.removeClass("yp-wireframe-mode");
             }
@@ -439,7 +444,7 @@
 
 
             // Updating Section.
-            if(type != 'element'){
+            if (type != 'element') {
 
 
                 // Delete Old
@@ -468,8 +473,8 @@
 
                 // Font Sizes
                 var paragraphElement = iframeBody.find("#yp-paragraph-test"),
-                    bodyFontSize = (Math.round( parseFloat( iframeBody.css("font-size") ) * 10 ) / 10),
-                    paragraphFontSize = (Math.round( parseFloat( paragraphElement.css("font-size") ) * 10 ) / 10);
+                    bodyFontSize = (Math.round(parseFloat(iframeBody.css("font-size")) * 10) / 10),
+                    paragraphFontSize = (Math.round(parseFloat(paragraphElement.css("font-size")) * 10) / 10);
 
 
                 // Font family
@@ -479,8 +484,8 @@
 
                 // Update typography information
                 typographyList
-                    .append('<li><span class="typo-list-left">General (body)</span><span class="typo-list-right"><span>'+bodyFontSize+'px, '+get_font_name(bodyFamily)+'</span></span></li>')
-                    .append('<li><span class="typo-list-left">Paragraph</span><span class="typo-list-right"><span>'+paragraphFontSize+'px, '+get_font_name(paragraphFamily)+'</span></span></li>');
+                    .append('<li><span class="typo-list-left">General (body)</span><span class="typo-list-right"><span>' + bodyFontSize + 'px, ' + get_font_name(bodyFamily) + '</span></span></li>')
+                    .append('<li><span class="typo-list-left">Paragraph</span><span class="typo-list-right"><span>' + paragraphFontSize + 'px, ' + get_font_name(paragraphFamily) + '</span></span></li>');
 
 
                 // Delete created element. (Created only for test)
@@ -488,12 +493,12 @@
 
 
                 // Update Heading tags. h1 > h6
-                for(var i = 1; i <= 6; i++){
-                    var el = iframeBody.find("#yp-heading-test-level-"+i);
+                for (var i = 1; i <= 6; i++) {
+                    var el = iframeBody.find("#yp-heading-test-level-" + i);
                     var size = parseFloat(el.css("font-size"));
-                    size = Math.round( size * 10 ) / 10;
+                    size = Math.round(size * 10) / 10;
                     var family = el.css("font-family");
-                    typographyList.append('<li><span class="typo-list-left">Heading Level '+i+'</span><span class="typo-list-right"><span>'+size+'px, '+get_font_name(family)+'</span></span></li>');
+                    typographyList.append('<li><span class="typo-list-left">Heading Level ' + i + '</span><span class="typo-list-right"><span>' + size + 'px, ' + get_font_name(family) + '</span></span></li>');
                     el.remove();
                 }
 
@@ -507,7 +512,7 @@
                 var boxSizingArray = [];
 
                 // Each
-                iframeBody.find(get_all_elements()).each(function(i){
+                iframeBody.find(get_all_elements()).each(function (i) {
 
 
                     // Element
@@ -518,8 +523,8 @@
                     var otherWidth = el.outerWidth();
 
                     // 720 768 940 960 980 1030 1040 1170 1210 1268
-                    if(otherWidth >= 720 && otherWidth <= 1268 && otherWidth < (k-80)){
-                        if(otherWidth > maxWidth){
+                    if (otherWidth >= 720 && otherWidth <= 1268 && otherWidth < (k - 80)) {
+                        if (otherWidth > maxWidth) {
                             maxWidthEl = el;
                         }
 
@@ -531,26 +536,26 @@
 
                     // Filter font family elements.
                     var family = get_font_name(el.css("font-family"));
-                    if(familyArray.indexOf(family) == -1){
+                    if (familyArray.indexOf(family) == -1) {
                         familyArray.push(family);
                     }
 
 
                     // Filter colored elements.
-                    var color = el.css("background-color").toLowerCase().replace(/ /g,"");
-                    if(color != 'transparent' && color != 'rgb(255,255,255)' && color != 'rgba(0,0,0,0)' && color != 'rgba(255,255,255,0)'){
+                    var color = el.css("background-color").toLowerCase().replace(/ /g, "");
+                    if (color != 'transparent' && color != 'rgb(255,255,255)' && color != 'rgba(0,0,0,0)' && color != 'rgba(255,255,255,0)') {
                         ColoredEl.push(this);
                     }
 
 
                     // Get box sizing
-                    if(i < 20){ // Get only on first 20 elements. no need to more.
+                    if (i < 20) { // Get only on first 20 elements. no need to more.
                         var boxSizing = (el.css("box-sizing"));
-                        if(isDefined(boxSizing)){
+                        if (isDefined(boxSizing)) {
 
-                            boxSizing  = $.trim(boxSizing);
+                            boxSizing = $.trim(boxSizing);
 
-                            if(boxSizingArray.indexOf(boxSizing) == -1){
+                            if (boxSizingArray.indexOf(boxSizing) == -1) {
                                 boxSizingArray.push(boxSizing);
                             }
 
@@ -559,16 +564,16 @@
 
 
                     // Find classes and ids
-                    setTimeout(function(){
+                    setTimeout(function () {
 
                         // If there not have any class in our list
-                        if(globalclasslist.find("li").length === 0){
+                        if (globalclasslist.find("li").length === 0) {
 
                             // Get Cleaned classes.
-                            var arrayClassAll = get_cleaned_classes(el,classArray);
+                            var arrayClassAll = get_cleaned_classes(el, classArray);
 
                             // Concat if not empty.
-                            if(arrayClassAll.length > 0){
+                            if (arrayClassAll.length > 0) {
                                 classArray = classArray.concat(arrayClassAll);
                             }
 
@@ -577,16 +582,16 @@
 
                         // Get ID
                         // If there not have any id in our list.
-                        if(globalidlist.find("li").length === 0){
+                        if (globalidlist.find("li").length === 0) {
 
                             // Get Id
                             var id = el.attr("id");
 
                             // is defined
-                            if(isDefined(id)){
+                            if (isDefined(id)) {
 
                                 // continue If not have this class in data
-                                if(idArray.indexOf(id) == -1){
+                                if (idArray.indexOf(id) == -1) {
 
                                     // Push
                                     idArray.push(id);
@@ -598,17 +603,17 @@
                         }
 
 
-                    },500);
+                    }, 500);
 
                 });
 
 
                 // Filter animated elements.
-                iframe.find(".yp-styles-area [data-rule='animation-name']").each(function(){
+                iframe.find(".yp-styles-area [data-rule='animation-name']").each(function () {
 
                     var animate = escape_data_value($(this).html());
 
-                    if(animatedArray.indexOf(animate) == -1){
+                    if (animatedArray.indexOf(animate) == -1) {
                         animatedArray.push(animate);
                     }
 
@@ -617,75 +622,75 @@
 
                 // Not adding on responsive mode.
                 var containerWidth;
-                if($("body").hasClass("yp-responsive-device-mode") === false){
+                if ($("body").hasClass("yp-responsive-device-mode") === false) {
 
-                    containerWidth = maxWidth+'px';
+                    containerWidth = maxWidth + 'px';
 
-                }else{
+                } else {
                     containerWidth = 'Unknown';
                 }
 
 
                 // Apply colors
-                $(ColoredEl).each(function(){
+                $(ColoredEl).each(function () {
 
                     var el = $(this);
-                    var color = el.css("background-color").toLowerCase().replace(/ /g,"");
+                    var color = el.css("background-color").toLowerCase().replace(/ /g, "");
 
-                    var current = $(".info-color-scheme-list div[data-color='"+color+"']");
-                    var ratio = parseFloat(100/$(ColoredEl).length);
+                    var current = $(".info-color-scheme-list div[data-color='" + color + "']");
+                    var ratio = parseFloat(100 / $(ColoredEl).length);
 
-                    if(current.length > 0){
+                    if (current.length > 0) {
                         var cWi = parseFloat(current.attr("data-width"));
-                        current.css("width",(cWi+ratio)+"%");
-                        current.attr("data-width",(cWi+ratio));
-                    }else{
-                        colorlist.append('<div data-width="'+ratio+'" data-color="'+color+'" style="width:'+ratio+'%;background-color:'+color+';"></div>');
+                        current.css("width", (cWi + ratio) + "%");
+                        current.attr("data-width", (cWi + ratio));
+                    } else {
+                        colorlist.append('<div data-width="' + ratio + '" data-color="' + color + '" style="width:' + ratio + '%;background-color:' + color + ';"></div>');
                     }
 
                 });
 
 
                 // Update fonts
-                $.each(familyArray,function(i,v){
-                    familylist.append("<li>"+v+"</li>");
+                $.each(familyArray, function (i, v) {
+                    familylist.append("<li>" + v + "</li>");
                 });
 
 
                 // Update animations.
-                $.each(animatedArray,function(i,v){
-                    animatelist.append("<li>"+v+"</li>");
+                $.each(animatedArray, function (i, v) {
+                    animatelist.append("<li>" + v + "</li>");
                 });
 
 
                 // Append Size information to size section.
-                sizelist.append('<li><span class="typo-list-left">Box Sizing</span><span class="typo-list-right"><span>'+boxSizingArray.toString()+'</span></span></li>')
-                    .append('<li><span class="typo-list-left">Container Width</span><span class="typo-list-right"><span>'+containerWidth+'</span></span></li>')
-                    .append('<li><span class="typo-list-left">Document Width</span><span class="typo-list-right"><span>'+(parseInt(iframe.width())+window.leftbarWidth)+'px</span></span></li>')
-                    .append('<li><span class="typo-list-left">Document Height</span><span class="typo-list-right"><span>'+iframe.height()+'px</span></span></li>');
+                sizelist.append('<li><span class="typo-list-left">Box Sizing</span><span class="typo-list-right"><span>' + boxSizingArray.toString() + '</span></span></li>')
+                    .append('<li><span class="typo-list-left">Container Width</span><span class="typo-list-right"><span>' + containerWidth + '</span></span></li>')
+                    .append('<li><span class="typo-list-left">Document Width</span><span class="typo-list-right"><span>' + (parseInt(iframe.width()) + window.leftbarWidth) + 'px</span></span></li>')
+                    .append('<li><span class="typo-list-left">Document Height</span><span class="typo-list-right"><span>' + iframe.height() + 'px</span></span></li>');
 
 
                 // waiting a litte for high performance.
-                setTimeout(function(){
+                setTimeout(function () {
 
                     // Append classes
-                    $.each(classArray,function(i,v){
-                        globalclasslist.append("<li>."+v+"</li>");
+                    $.each(classArray, function (i, v) {
+                        globalclasslist.append("<li>." + v + "</li>");
                     });
 
                     // Append ids
-                    $.each(idArray,function(i,v){
-                        globalidlist.append("<li>#"+v+"</li>");
+                    $.each(idArray, function (i, v) {
+                        globalidlist.append("<li>#" + v + "</li>");
                     });
 
-                },1000);
+                }, 1000);
 
 
             }
 
 
             // if is element Section
-            if(is_content_selected()){
+            if (is_content_selected()) {
 
 
                 // Hide and show some sections in design information
@@ -700,13 +705,13 @@
 
 
                 // Getting element ID.
-                if(isDefined(selectedID)){
+                if (isDefined(selectedID)) {
 
                     // Is valid?
-                    if(selectedID !== ''){
+                    if (selectedID !== '') {
 
                         // Append
-                        elementMain.append('<li><span class="typo-list-left">Element ID</span><span class="typo-list-right"><span>#'+selectedID+'</span></span></li>');
+                        elementMain.append('<li><span class="typo-list-left">Element ID</span><span class="typo-list-right"><span>#' + selectedID + '</span></span></li>');
 
                     }
 
@@ -714,37 +719,37 @@
 
 
                 // Append Tag name
-                elementMain.append('<li><span class="typo-list-left">Tag</span><span class="typo-list-right"><span>'+selectedEl[0].nodeName+'</span></span></li>');
+                elementMain.append('<li><span class="typo-list-left">Tag</span><span class="typo-list-right"><span>' + selectedEl[0].nodeName + '</span></span></li>');
 
 
                 // Append Affected count
-                elementMain.append('<li><span class="typo-list-left">Affected elements</span><span class="typo-list-right"><span>'+(parseInt(iframeBody.find(".yp-selected-others").length)+1)+'</span></span></li>');
+                elementMain.append('<li><span class="typo-list-left">Affected elements</span><span class="typo-list-right"><span>' + (parseInt(iframeBody.find(".yp-selected-others").length) + 1) + '</span></span></li>');
 
 
                 // Get class Array
-                var classSelfArray = get_cleaned_classes(selectedEl,[]);
+                var classSelfArray = get_cleaned_classes(selectedEl, []);
 
                 var x;
 
                 // Append all classes.
-                for(x = 0; x < classSelfArray.length; x++){
+                for (x = 0; x < classSelfArray.length; x++) {
 
                     // Append
-                    elementClasseslist.append("<li>."+classSelfArray[x]+"</li>");
+                    elementClasseslist.append("<li>." + classSelfArray[x] + "</li>");
 
                 }
 
 
                 // Hide class section if empty.
-                if(elementClasseslist.find("li").length === 0){
+                if (elementClasseslist.find("li").length === 0) {
                     $(".info-element-classes-section").hide();
-                }else{
+                } else {
                     $(".info-element-classes-section").show();
                 }
 
 
                 // Current Selector
-                elementSelectorList.append('<li>'+get_current_selector()+'</li>');
+                elementSelectorList.append('<li>' + get_current_selector() + '</li>');
 
 
                 // Create dom data. For show DOM HTML in Design information tool
@@ -752,16 +757,16 @@
 
 
                 // Clean basic position relative style from clone
-                if(isDefined(clone.attr("style"))){
+                if (isDefined(clone.attr("style"))) {
 
                     // Trim Style
-                    var trimCloneStyle = clone.attr("style").replace(/position:(\s*?)relative(\;?)|animation-fill-mode:(\s*?)(both|forwards|backwards|none)(\;?)/g,"");
+                    var trimCloneStyle = clone.attr("style").replace(/position:(\s*?)relative(\;?)|animation-fill-mode:(\s*?)(both|forwards|backwards|none)(\;?)/g, "");
 
                     // Remove Style Attr if is empty.
-                    if(trimCloneStyle == ''){
+                    if (trimCloneStyle == '') {
                         clone.removeAttr("style");
-                    }else{
-                        clone.attr("style",trimCloneStyle);
+                    } else {
+                        clone.attr("style", trimCloneStyle);
                     }
 
                 }
@@ -771,7 +776,7 @@
 
 
                 // Just add valid classes.
-                for(x = 0; x < classSelfArray.length; x++){
+                for (x = 0; x < classSelfArray.length; x++) {
 
                     // addClass.
                     clone.addClass(classSelfArray[x]);
@@ -792,7 +797,7 @@
 
 
                 // Show there no element selected section.
-            }else{
+            } else {
 
                 $(".info-no-element-selected").show();
 
@@ -802,7 +807,7 @@
 
             // Active wireframe if was active before open.
             // Notice: This function close wireframe for getting colors and details of the elements.
-            if(washaveWireFrame === true){
+            if (washaveWireFrame === true) {
                 body.addClass("yp-wireframe-mode");
             }
 
@@ -810,7 +815,7 @@
 
 
         // lock options values.
-        $(".lock-btn").on("click",function(){
+        $(".lock-btn").on("click", function () {
 
             // Toggle active
             $(this).toggleClass("active");
@@ -818,9 +823,9 @@
         });
 
 
-        function get_font_name(family){
+        function get_font_name(family) {
 
-            if(family.indexOf(",") != -1){
+            if (family.indexOf(",") != -1) {
                 family = family.split(",")[0];
             }
 
@@ -830,17 +835,17 @@
 
         }
 
-        $(".advanced-close-link").on("click",function(){
+        $(".advanced-close-link").on("click", function () {
             $(".advanced-info-box").hide();
             $(".info-btn").removeClass("active");
         });
 
-        $(".info-btn").on("click",function(){
+        $(".info-btn").on("click", function () {
 
-            if(!$(this).hasClass("active")){
+            if (!$(this).hasClass("active")) {
                 $(".element-btn").trigger("click");
-                var max = $(window).height()-$(this).offset().top;
-                $(".advanced-info-box").css({"top":$(this).offset().top,"max-height": max});
+                var max = $(window).height() - $(this).offset().top;
+                $(".advanced-info-box").css({"top": $(this).offset().top, "max-height": max});
                 update_design_information('all');
             }
 
@@ -848,34 +853,34 @@
 
         });
 
-        $(".typography-btn").on("click",function(){
+        $(".typography-btn").on("click", function () {
             $(this).parent().find(".active").removeClass("active");
             $(this).addClass("active");
             $(".typography-content,.element-content,.advanced-content").hide();
             $(".typography-content").show();
         });
 
-        $(".element-btn").on("click",function(){
+        $(".element-btn").on("click", function () {
             $(this).parent().find(".active").removeClass("active");
             $(this).addClass("active");
             $(".element-content,.typography-content,.advanced-content").hide();
             $(".element-content").show();
         });
 
-        $(".advanced-btn").on("click",function(){
+        $(".advanced-btn").on("click", function () {
             $(this).parent().find(".active").removeClass("active");
             $(this).addClass("active");
             $(".element-content,.typography-content,.advanced-content").hide();
             $(".advanced-content").show();
         });
 
-        $(".advance-info-btns").on("click",function(){
+        $(".advance-info-btns").on("click", function () {
             $(".advanced-info-box-inner").scrollTop(0);
         });
 
 
         // Get all Animated Elements
-        function animation_manager(){
+        function animation_manager() {
 
             $(".yp-animate-manager [data-toggle='tooltipAnim']").tooltip("destroy");
             $(".yp-anim-process-bar-delay,.yp-anim-process-bar").resizable('destroy');
@@ -883,11 +888,11 @@
 
             // Update metric
             $(".yp-anim-metric").empty();
-            for(var i = 1; i < 61; i++){
-                $(".yp-anim-metric").append('<div class="second"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>'+i+'s</b></div>');
+            for (var i = 1; i < 61; i++) {
+                $(".yp-anim-metric").append('<div class="second"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>' + i + 's</b></div>');
             }
 
-            iframe.find('[data-rule="animation-name"]').each(function(iX){
+            iframe.find('[data-rule="animation-name"]').each(function (iX) {
 
                 // Variables
                 var data = $(this).html().replace(/\/\*(.*?)\*\//g, "");
@@ -899,175 +904,175 @@
                 var animateTimeOr = "1s";
                 var mode = 'yp_onscreen';
 
-                if(animateName == 'none'){
+                if (animateName == 'none') {
                     return true;
                 }
 
-                if(selector.indexOf("yp_hover") != -1){
+                if (selector.indexOf("yp_hover") != -1) {
                     mode = 'yp_hover';
-                }else if(selector.indexOf("yp_focus") != -1){
+                } else if (selector.indexOf("yp_focus") != -1) {
                     mode = 'yp_focus';
-                }else if(selector.indexOf("yp_click") != -1){
+                } else if (selector.indexOf("yp_click") != -1) {
                     mode = 'yp_click';
-                }else if(selector.indexOf("yp_onscreen") != -1){
+                } else if (selector.indexOf("yp_onscreen") != -1) {
                     mode = 'yp_onscreen';
                 }
 
-                var deviceName =  '';
+                var deviceName = '';
                 var deviceHTML = '';
-                var modeName = mode.replace("yp_","");
+                var modeName = mode.replace("yp_", "");
 
                 // Get Selector
-                if(selector.indexOf("@media") != -1){
-                    device = $.trim(selector.replace("@media",""));
+                if (selector.indexOf("@media") != -1) {
+                    device = $.trim(selector.replace("@media", ""));
                     selector = array[1].split("{")[0];
                 }
 
-                if(device != 'desktop'){
+                if (device != 'desktop') {
                     deviceName = 'Responsive';
                 }
 
-                if(deviceName !== ''){
-                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>"+deviceName+"</label><span class='yp-anim-media-details'>"+device+"</span>";
+                if (deviceName !== '') {
+                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>" + deviceName + "</label><span class='yp-anim-media-details'>" + device + "</span>";
                 }
 
                 // Clean Selector
-                var selectorClean = selector.replace(".yp_hover","").replace(".yp_focus","").replace(".yp_click","").replace(".yp_onscreen","");
+                var selectorClean = selector.replace(".yp_hover", "").replace(".yp_focus", "").replace(".yp_click", "").replace(".yp_onscreen", "");
 
                 // Get Element Name
                 var elementName = 'Undefined';
-                if(iframe.find(selectorClean).length > 0){
+                if (iframe.find(selectorClean).length > 0) {
                     elementName = removeDiacritics(uppercase_first_letter(get_tag_information(selectorClean)).replace(/\d+/g, ''));
                 }
 
                 // Element Variables
-                if(iframe.find("."+get_id(selector)+"-animation-duration-style[data-size-mode='"+device+"']").length > 0){
-                    animateTimeOr = iframe.find("."+get_id(selector)+"-animation-duration-style[data-size-mode='"+device+"']").html();
+                if (iframe.find("." + get_id(selector) + "-animation-duration-style[data-size-mode='" + device + "']").length > 0) {
+                    animateTimeOr = iframe.find("." + get_id(selector) + "-animation-duration-style[data-size-mode='" + device + "']").html();
                     animateTimeOr = escape_data_value(animateTimeOr);
                 }
 
-                if(iframe.find("."+get_id(selector)+"-animation-delay-style[data-size-mode='"+device+"']").length > 0){
-                    animateDelayOr = iframe.find("."+get_id(selector)+"-animation-delay-style[data-size-mode='"+device+"']").html();
+                if (iframe.find("." + get_id(selector) + "-animation-delay-style[data-size-mode='" + device + "']").length > 0) {
+                    animateDelayOr = iframe.find("." + get_id(selector) + "-animation-delay-style[data-size-mode='" + device + "']").html();
                     animateDelayOr = escape_data_value(animateDelayOr);
                 }
 
-                var animateTime = $.trim(animateTimeOr.replace('/[^0-9\.]+/g','').replace(/ms/g,"").replace(/s/g,""));
-                var animateDelay = $.trim(animateDelayOr.replace('/[^0-9\.]+/g','').replace(/ms/g,"").replace(/s/g,""));
+                var animateTime = $.trim(animateTimeOr.replace('/[^0-9\.]+/g', '').replace(/ms/g, "").replace(/s/g, ""));
+                var animateDelay = $.trim(animateDelayOr.replace('/[^0-9\.]+/g', '').replace(/ms/g, "").replace(/s/g, ""));
 
-                if(animateName.indexOf(",") == -1){
+                if (animateName.indexOf(",") == -1) {
 
                     animateTime = animateTime * 100;
                     animateDelay = animateDelay * 100;
 
-                    if(animateDelay < 10){
+                    if (animateDelay < 10) {
                         animateDelay = 10;
                     }
 
                 }
 
                 var extraClass = '';
-                if(animateDelay == 10){
+                if (animateDelay == 10) {
                     extraClass = ' yp-delay-zero';
                 }
 
-                var animateContent = "<div class='yp-anim-process-bar-delay"+extraClass+"' data-toggle='tooltipAnim' data-placement='top' title='Delay "+parseFloat(animateDelayOr).toFixed(2)+"s' style='width:"+animateDelay+"px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: "+parseFloat(animateTimeOr).toFixed(2)+"s' style='width:"+animateTime+"px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>"+animateName+"</div>";
+                var animateContent = "<div class='yp-anim-process-bar-delay" + extraClass + "' data-toggle='tooltipAnim' data-placement='top' title='Delay " + parseFloat(animateDelayOr).toFixed(2) + "s' style='width:" + animateDelay + "px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: " + parseFloat(animateTimeOr).toFixed(2) + "s' style='width:" + animateTime + "px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>" + animateName + "</div>";
 
 
-                var childAnimateDelayOr,childAnimateDelay,childAnimateTimeOr,childAnimateTime;
-                if(animateName.indexOf(",") != -1){
+                var childAnimateDelayOr, childAnimateDelay, childAnimateTimeOr, childAnimateTime;
+                if (animateName.indexOf(",") != -1) {
 
                     animateContent = '';
 
                     var prevsBeforeAppend = 0;
 
-                    for(var i = 0; i < animateName.split(",").length; i++){
+                    for (var i = 0; i < animateName.split(",").length; i++) {
 
-                        if(animateDelayOr.toString().indexOf(",") != -1){
+                        if (animateDelayOr.toString().indexOf(",") != -1) {
                             childAnimateDelayOr = $.trim(animateDelayOr.split(",")[i]);
-                        }else{
+                        } else {
                             childAnimateDelayOr = animateDelayOr;
                         }
 
                         // default is 1s for child animate delay Or.
-                        if(isUndefined(childAnimateDelayOr)){
+                        if (isUndefined(childAnimateDelayOr)) {
                             childAnimateDelayOr = "0s";
                         }
 
-                        if(animateDelay.toString().indexOf(",") != -1){
+                        if (animateDelay.toString().indexOf(",") != -1) {
                             childAnimateDelay = $.trim(animateDelay.split(",")[i]);
-                        }else{
+                        } else {
                             childAnimateDelay = animateDelay;
                         }
 
                         // default is 1s for child animate delay.
-                        if(isUndefined(childAnimateDelay)){
+                        if (isUndefined(childAnimateDelay)) {
                             childAnimateDelay = 0;
                         }
 
-                        if(animateTimeOr.toString().indexOf(",") != -1){
+                        if (animateTimeOr.toString().indexOf(",") != -1) {
                             childAnimateTimeOr = $.trim(animateTimeOr.split(",")[i]);
-                        }else{
+                        } else {
                             childAnimateTimeOr = animateTimeOr;
                         }
 
                         // default is 1s for child animate time Or.
-                        if(isUndefined(childAnimateTimeOr)){
+                        if (isUndefined(childAnimateTimeOr)) {
                             childAnimateTimeOr = "1s";
                         }
 
 
-                        if(animateTime.toString().indexOf(",") != -1){
+                        if (animateTime.toString().indexOf(",") != -1) {
                             childAnimateTime = $.trim(animateTime.split(",")[i]);
-                        }else{
+                        } else {
                             childAnimateTime = animateTime;
                         }
 
                         // default is 1s for child animate.
-                        if(isUndefined(childAnimateTime)){
+                        if (isUndefined(childAnimateTime)) {
                             childAnimateTime = 1;
                         }
 
-                        var childAnimate = $.trim(animateName.split(",")[i].replace(/\s+?!important/g,'').replace(/\;$/g,''));
+                        var childAnimate = $.trim(animateName.split(",")[i].replace(/\s+?!important/g, '').replace(/\;$/g, ''));
 
                         childAnimateTime = childAnimateTime * 100;
                         childAnimateDelay = childAnimateDelay * 100;
 
-                        if(childAnimateDelay < 10){
+                        if (childAnimateDelay < 10) {
                             childAnimateDelay = 10;
                         }
 
-                        var SmartDelayView = (childAnimateDelay-prevsBeforeAppend);
-                        var smartDelayOrView = SmartDelayView/100;
-                        if(SmartDelayView <= 10){
+                        var SmartDelayView = (childAnimateDelay - prevsBeforeAppend);
+                        var smartDelayOrView = SmartDelayView / 100;
+                        if (SmartDelayView <= 10) {
                             SmartDelayView = 10;
                             smartDelayOrView = "0s";
                         }
 
                         extraClass = '';
-                        if(SmartDelayView == 10){
+                        if (SmartDelayView == 10) {
                             extraClass = ' yp-delay-zero';
                         }
 
-                        animateContent += "<div class='yp-anim-process-bar-delay"+extraClass+"' data-toggle='tooltipAnim' data-placement='top' title='Delay "+parseFloat(smartDelayOrView).toFixed(2)+"s' style='width:"+SmartDelayView+"px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: "+parseFloat(childAnimateTimeOr).toFixed(2)+"s' style='width:"+childAnimateTime+"px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>"+childAnimate+"</div>";
+                        animateContent += "<div class='yp-anim-process-bar-delay" + extraClass + "' data-toggle='tooltipAnim' data-placement='top' title='Delay " + parseFloat(smartDelayOrView).toFixed(2) + "s' style='width:" + SmartDelayView + "px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: " + parseFloat(childAnimateTimeOr).toFixed(2) + "s' style='width:" + childAnimateTime + "px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>" + childAnimate + "</div>";
 
-                        prevsBeforeAppend = childAnimateDelay+childAnimateTime;
+                        prevsBeforeAppend = childAnimateDelay + childAnimateTime;
 
                     }
 
                 }
 
                 // Append.
-                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column yp-anim-el-column-"+get_id(selectorClean)+"' data-anim-media-size='"+device+"'><span data-toggle='tooltipAnim' data-placement='right' title='"+selectorClean+"'>"+elementName+"</span> <label>"+modeName+"</label>"+deviceHTML+"</div>");
+                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column yp-anim-el-column-" + get_id(selectorClean) + "' data-anim-media-size='" + device + "'><span data-toggle='tooltipAnim' data-placement='right' title='" + selectorClean + "'>" + elementName + "</span> <label>" + modeName + "</label>" + deviceHTML + "</div>");
 
-                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar' id='yp-animate-bar-"+iX+"'><div class='yp-anim-process-bar-area' data-responsive='"+device+"' data-selector='"+selectorClean+"' data-selector-full='"+selector+"'><div class='yp-anim-process-inner'>"+animateContent+"</div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
+                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar' id='yp-animate-bar-" + iX + "'><div class='yp-anim-process-bar-area' data-responsive='" + device + "' data-selector='" + selectorClean + "' data-selector-full='" + selector + "'><div class='yp-anim-process-inner'>" + animateContent + "</div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
 
             });
 
-            $(".yp-delay-zero").each(function(){
+            $(".yp-delay-zero").each(function () {
 
-                var allLeft = $(".yp-anim-process-inner").offset().left-5;
-                var left = $(this).next(".yp-anim-process-bar").offset().left-allLeft;
-                $(this).css("left",left);
+                var allLeft = $(".yp-anim-process-inner").offset().left - 5;
+                var left = $(this).next(".yp-anim-process-bar").offset().left - allLeft;
+                $(this).css("left", left);
 
                 $(this).next(".yp-anim-process-bar").addClass("yp-anim-has-zero-delay");
 
@@ -1075,92 +1080,92 @@
 
             // Get current selector
             var Cselector = get_current_selector();
-            var Lineway = $(".yp-anim-el-column-"+get_id(Cselector)+"[data-anim-media-size='"+get_current_media_query()+"']");
+            var Lineway = $(".yp-anim-el-column-" + get_id(Cselector) + "[data-anim-media-size='" + get_current_media_query() + "']");
 
             // has selected element and there not have same element in manager list
-            if(isDefined(Cselector) && Lineway.length === 0){
+            if (isDefined(Cselector) && Lineway.length === 0) {
 
                 // Get Element Name
                 var elementName = 'Undefined';
-                if(iframe.find(Cselector).length > 0){
+                if (iframe.find(Cselector).length > 0) {
                     elementName = removeDiacritics(uppercase_first_letter(get_tag_information(Cselector)).replace(/\d+/g, ''));
                 }
 
                 var deviceHTML = '';
 
-                if(get_current_media_query() != 'desktop'){
-                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>Responsive</label><span class='yp-anim-media-details'>"+get_current_media_query()+"</span>";
+                if (get_current_media_query() != 'desktop') {
+                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>Responsive</label><span class='yp-anim-media-details'>" + get_current_media_query() + "</span>";
                 }
 
                 // Bar
-                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column anim-active-row yp-anim-el-column-"+get_id(Cselector)+"' data-anim-media-size='"+get_current_media_query()+"'><span data-toggle='tooltipAnim' data-placement='right' title='"+Cselector+"'>"+elementName+"</span> <label>onscreen</label>"+deviceHTML+"</div>");
+                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column anim-active-row yp-anim-el-column-" + get_id(Cselector) + "' data-anim-media-size='" + get_current_media_query() + "'><span data-toggle='tooltipAnim' data-placement='right' title='" + Cselector + "'>" + elementName + "</span> <label>onscreen</label>" + deviceHTML + "</div>");
 
                 // Adding
-                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar anim-active-row' id='yp-animate-bar-current'><div class='yp-anim-process-bar-area' data-responsive='"+get_current_media_query()+"' data-selector='"+Cselector+"' data-selector-full='"+(Cselector+".yp_onscreen")+"'><div class='yp-anim-process-inner'></div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
+                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar anim-active-row' id='yp-animate-bar-current'><div class='yp-anim-process-bar-area' data-responsive='" + get_current_media_query() + "' data-selector='" + Cselector + "' data-selector-full='" + (Cselector + ".yp_onscreen") + "'><div class='yp-anim-process-inner'></div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
 
-            }else{
+            } else {
                 Lineway.addClass("anim-active-row");
             }
 
             // resizable
-            $( ".yp-anim-process-bar-delay,.yp-anim-process-bar" ).resizable({
+            $(".yp-anim-process-bar-delay,.yp-anim-process-bar").resizable({
                 handles: 'e',
                 minWidth: 10,
-                start: function() {
+                start: function () {
 
                     $(".yp-anim-process-bar-delay,.yp-anim-process-bar").not(this).tooltip("disable").tooltip("hide");
 
                 },
-                resize: function( event, ui ) {
+                resize: function (event, ui) {
 
                     var that = $(this);
                     var w = ui.size.width;
-                    var s = parseFloat(w/100).toFixed(2);
+                    var s = parseFloat(w / 100).toFixed(2);
 
                     var newTitle;
-                    if(that.hasClass(("yp-anim-process-bar-delay"))){
+                    if (that.hasClass(("yp-anim-process-bar-delay"))) {
 
-                        if(w == 10){
+                        if (w == 10) {
                             s = "0";
                         }
-                        newTitle = "Delay: "+s;
+                        newTitle = "Delay: " + s;
 
                         // Delay zero
-                        if(w <= 10){
+                        if (w <= 10) {
                             that.addClass("yp-delay-zero");
                         }
 
                         // clean delay zero
-                        if(that.hasClass(("yp-delay-zero"))){
-                            that.removeClass("yp-delay-zero").css("left","0");
+                        if (that.hasClass(("yp-delay-zero"))) {
+                            that.removeClass("yp-delay-zero").css("left", "0");
                         }
 
-                    }else{
+                    } else {
 
-                        newTitle = "Duration: "+s;
+                        newTitle = "Duration: " + s;
 
-                        if(that.prev(".yp-anim-process-bar-delay").hasClass("yp-delay-zero")){
+                        if (that.prev(".yp-anim-process-bar-delay").hasClass("yp-delay-zero")) {
                             that.addClass("yp-anim-has-zero-delay");
-                        }else if(that.hasClass(("yp-anim-has-zero-delay"))){
+                        } else if (that.hasClass(("yp-anim-has-zero-delay"))) {
                             that.removeClass("yp-anim-has-zero-delay");
                         }
 
                     }
 
 
-                    $(this).parents(".yp-animate-bar").find(".yp-delay-zero").each(function(){
+                    $(this).parents(".yp-animate-bar").find(".yp-delay-zero").each(function () {
 
-                        var allLeft = $(".yp-anim-process-inner").offset().left-5;
-                        var left = $(this).next(".yp-anim-process-bar").offset().left-allLeft;
-                        $(this).css("left",left);
+                        var allLeft = $(".yp-anim-process-inner").offset().left - 5;
+                        var left = $(this).next(".yp-anim-process-bar").offset().left - allLeft;
+                        $(this).css("left", left);
 
                     });
 
 
-                    that.attr('data-original-title', newTitle+"s").tooltip('show');
+                    that.attr('data-original-title', newTitle + "s").tooltip('show');
 
                 },
-                stop: function() {
+                stop: function () {
 
                     update_animation_manager();
                     $(".yp-anim-process-bar-delay,.yp-anim-process-bar").tooltip("enable");
@@ -1176,33 +1181,33 @@
                 html: true
             });
 
-            $("[data-toggle='tooltipAnim']").on('show.bs.tooltip', function(){
+            $("[data-toggle='tooltipAnim']").on('show.bs.tooltip', function () {
                 $("[data-toggle='tooltipAnim']").not(this).tooltip("hide");
             });
 
-            if($(".yp-animate-bar").length === 0){
+            if ($(".yp-animate-bar").length === 0) {
                 $(".animation-manager-empty").show();
-            }else{
+            } else {
                 $(".animation-manager-empty").hide();
             }
 
         }
 
 
-        function update_animation_manager(){
+        function update_animation_manager() {
 
             body.addClass("yp-animate-manager-mode");
 
             // Find largest line for play/stop.
-            var maxWidth = Math.max.apply( null, $( '.yp-anim-process-inner' ).map( function (){
-                return $( this ).outerWidth( true );
-            }).get() );
+            var maxWidth = Math.max.apply(null, $('.yp-anim-process-inner').map(function () {
+                return $(this).outerWidth(true);
+            }).get());
 
             // Always add more px to animate bar width on update.
-            $(".yp-anim-process-bar-area").width(maxWidth+$(window).width());
+            $(".yp-anim-process-bar-area").width(maxWidth + $(window).width());
 
             // Each all lines
-            $(".yp-animate-bar").each(function(){
+            $(".yp-animate-bar").each(function () {
 
                 // Get selector with mode.
                 var selector = $(this).find(".yp-anim-process-bar-area").attr("data-selector-full");
@@ -1220,23 +1225,23 @@
 
                 // Get size
                 var size = $(this).find(".yp-anim-process-bar-area").attr("data-responsive");
-                if(size == ''){
+                if (size == '') {
                     size = 'desktop';
                 }
 
                 // Each all animate bars
-                $(this).find(".yp-anim-process-bar,.yp-anim-process-bar-delay").each(function(){
+                $(this).find(".yp-anim-process-bar,.yp-anim-process-bar-delay").each(function () {
 
                     // Get width.
                     var w = $(this).width();
 
                     // Width to Second.
-                    var s = w/100;
+                    var s = w / 100;
 
                     // If delay and its not a multiable line.
-                    if($(this).hasClass(("yp-anim-process-bar-delay")) && $(this).parent().find(".yp-anim-process-bar-delay").length == 1){
+                    if ($(this).hasClass(("yp-anim-process-bar-delay")) && $(this).parent().find(".yp-anim-process-bar-delay").length == 1) {
 
-                        if(w == 10){
+                        if (w == 10) {
                             s = "0";
                         }
 
@@ -1244,7 +1249,7 @@
                         insert_rule(selector, "animation-delay", Math.round(s * 100) / 100, 's', size);
 
                         // If animate bar and not a multiable line.
-                    }else if($(this).hasClass(("yp-anim-process-bar")) && $(this).parent().find(".yp-anim-process-bar").length == 1){
+                    } else if ($(this).hasClass(("yp-anim-process-bar")) && $(this).parent().find(".yp-anim-process-bar").length == 1) {
 
                         // Update one duration.
                         insert_rule(selector, "animation-duration", s, 's', size);
@@ -1252,35 +1257,35 @@
                         sMultiNames.push($(this).text());
 
                         // If multi line and its delay or animate bar.
-                    }else if($(this).parent().find(".yp-anim-process-bar-delay").length > 1 || $(this).parent().find(".yp-anim-process-bar").length > 1){
+                    } else if ($(this).parent().find(".yp-anim-process-bar-delay").length > 1 || $(this).parent().find(".yp-anim-process-bar").length > 1) {
 
                         // Delay.. Multi..
-                        if($(this).hasClass("yp-anim-process-bar-delay")){
+                        if ($(this).hasClass("yp-anim-process-bar-delay")) {
 
-                            offets = $(this).offset().left-$(this).parent(".yp-anim-process-inner").offset().left;
-                            offets = offets/100;
+                            offets = $(this).offset().left - $(this).parent(".yp-anim-process-inner").offset().left;
+                            offets = offets / 100;
                             offets = Math.round(offets * 100) / 100;
 
-                            if($(this).width() > 10){
+                            if ($(this).width() > 10) {
 
-                                delay = $(this).width()/100;
+                                delay = $(this).width() / 100;
                                 delay = Math.round(delay * 100) / 100;
-                                sMulti.push(delay+offets+"s");
+                                sMulti.push(delay + offets + "s");
 
-                            }else{
+                            } else {
 
-                                sMulti.push(offets+"s");
+                                sMulti.push(offets + "s");
 
                             }
 
                         }
 
                         // Duration.. Multi..
-                        if($(this).hasClass("yp-anim-process-bar")){
+                        if ($(this).hasClass("yp-anim-process-bar")) {
 
-                            var xy = $(this).width()/100;
+                            var xy = $(this).width() / 100;
 
-                            sMultiDuration.push(xy+"s");
+                            sMultiDuration.push(xy + "s");
                             sMultiNames.push($(this).text());
 
                         }
@@ -1290,12 +1295,12 @@
                 });
 
                 // Insert multi delays.
-                if(sMulti.length > 1){
+                if (sMulti.length > 1) {
                     insert_rule(selector, "animation-delay", sMulti.toString(), '', size);
                     insert_rule(selector, "animation-duration", sMultiDuration.toString(), '', size);
                     insert_rule(selector, "animation-name", sMultiNames.toString(), '', size);
 
-                }else if(sMultiNames.length === 0 && body.hasClass("yp-anim-removing")){
+                } else if (sMultiNames.length === 0 && body.hasClass("yp-anim-removing")) {
                     insert_rule(selector, "animation-delay", "disable", '', size);
                     insert_rule(selector, "animation-duration", "disable", '', size);
                     insert_rule(selector, "animation-name", "disable", '', size);
@@ -1309,15 +1314,15 @@
 
         }
 
-        $(window).click(function() {
+        $(window).click(function () {
 
-            if($(".yp-anim-list-menu").is(":visible")){
+            if ($(".yp-anim-list-menu").is(":visible")) {
                 $(".yp-anim-list-menu").hide();
             }
 
         });
 
-        $(document).on("click", ".yp-anim-list-menu ul li", function(e) {
+        $(document).on("click", ".yp-anim-list-menu ul li", function (e) {
 
             // Clean old.
             get_selected_element().removeClass("yp_onscreen yp_hover yp_click yp_focus");
@@ -1332,25 +1337,25 @@
 
             // Get size
             var size = p.parents(".yp-anim-process-bar-area").attr("data-responsive");
-            if(size == ''){
+            if (size == '') {
                 size = 'desktop';
             }
 
             // If empty, so this new.
-            if(p.parent().find(".yp-anim-process-inner").is(':empty')){
-                insert_rule(selector, "animation-name", $(this).data("value"), '',size);
-            }else{
+            if (p.parent().find(".yp-anim-process-inner").is(':empty')) {
+                insert_rule(selector, "animation-name", $(this).data("value"), '', size);
+            } else {
 
                 // push older animations
-                p.parent().find(".yp-anim-process-inner .yp-anim-process-bar").each(function(){
+                p.parent().find(".yp-anim-process-inner .yp-anim-process-bar").each(function () {
                     allAnimNames.push($(this).text());
-                    allDurations.push(($(this).width()/100)+"s");
+                    allDurations.push(($(this).width() / 100) + "s");
                 });
 
                 // push older animations
-                p.parent().find(".yp-anim-process-inner .yp-anim-process-bar-delay").each(function(){
-                    var offets = ($(this).offset().left-p.parent().find(".yp-anim-process-inner").offset().left)/100;
-                    allDelays.push(offets+($(this).width()/100)+"s");
+                p.parent().find(".yp-anim-process-inner .yp-anim-process-bar-delay").each(function () {
+                    var offets = ($(this).offset().left - p.parent().find(".yp-anim-process-inner").offset().left) / 100;
+                    allDelays.push(offets + ($(this).width() / 100) + "s");
                 });
 
                 // push new animation too
@@ -1358,25 +1363,25 @@
                 allDurations.push("1s");
 
                 var lastAnim = p.parent().find(".yp-anim-process-inner .yp-anim-process-bar").last();
-                var offets = ((lastAnim.offset().left+lastAnim.width())-p.parent().find(".yp-anim-process-inner").offset().left)/100;
-                allDelays.push(offets+"s");
+                var offets = ((lastAnim.offset().left + lastAnim.width()) - p.parent().find(".yp-anim-process-inner").offset().left) / 100;
+                allDelays.push(offets + "s");
 
-                insert_rule(selector, "animation-name",allAnimNames.toString(), '',size);
-                insert_rule(selector, "animation-duration",allDurations.toString(), '',size);
-                insert_rule(selector, "animation-delay",allDelays.toString(), '',size);
+                insert_rule(selector, "animation-name", allAnimNames.toString(), '', size);
+                insert_rule(selector, "animation-duration", allDurations.toString(), '', size);
+                insert_rule(selector, "animation-delay", allDelays.toString(), '', size);
 
             }
 
             $("body").removeClass("yp-animate-manager-mode");
 
-            setTimeout(function(){
+            setTimeout(function () {
                 animation_manager();
                 update_animation_manager();
-            },100);
+            }, 100);
 
         });
 
-        $(document).on("click", ".yp-anim-add", function(e) {
+        $(document).on("click", ".yp-anim-add", function (e) {
 
             e.stopPropagation();
             var t = $(this).offset().top;
@@ -1385,24 +1390,24 @@
             var menu = $(".yp-anim-list-menu ul");
             $(".yp-anim-list-menu").removeAttr("style").removeClass("yp-anim-list-top");
             menu.empty();
-            $("#yp-animation-name-data option").each(function(){
+            $("#yp-animation-name-data option").each(function () {
                 var el = $(this);
-                if(el.text() != 'none'){
-                    menu.append("<li data-value='"+el.attr("value")+"' data-text='"+el.data("text")+"'>"+el.text()+"</li>");
+                if (el.text() != 'none') {
+                    menu.append("<li data-value='" + el.attr("value") + "' data-text='" + el.data("text") + "'>" + el.text() + "</li>");
                 }
             });
 
-            var d = $(window).height()-t-46;
+            var d = $(window).height() - t - 46;
 
-            if(d < 150){
+            if (d < 150) {
                 $(".yp-anim-list-menu").addClass("yp-anim-list-top");
-            }else{
-                if(menu.height() > d){
+            } else {
+                if (menu.height() > d) {
                     menu.height(d);
                 }
             }
 
-            $(".yp-anim-list-menu").css("left",l).css("top",t).show();
+            $(".yp-anim-list-menu").css("left", l).css("top", t).show();
 
             $(".yp-anim-add").removeClass("active");
             $(this).addClass("active");
@@ -1411,20 +1416,20 @@
 
 
         // Lite Version Modal Close
-        $(".yp-info-modal-close").click(function() {
+        $(".yp-info-modal-close").click(function () {
             $(this).parent().parent().hide();
             $(".yp-popup-background").hide();
         });
 
         // Background uploader Popup Close.
-        $(".yp-popup-background").click(function() {
+        $(".yp-popup-background").click(function () {
             $(this).hide();
             $(".yp-info-modal").hide();
         });
 
-        $(".yp-selector-mode").click(function() {
+        $(".yp-selector-mode").click(function () {
 
-            if($(".yp-ruler-btn").hasClass("active")){
+            if ($(".yp-ruler-btn").hasClass("active")) {
                 $(".yp-ruler-btn").trigger("click");
                 $(".yp-selector-mode").trigger("click");
             }
@@ -1450,7 +1455,7 @@
             // variables
             var iframeElement = $('body.yp-responsive-device-mode');
 
-            if(isUndefined(window.FrameleftOffset)){
+            if (isUndefined(window.FrameleftOffset)) {
                 var offset = iframeElement.offset();
                 window.FrameleftOffset = offset.left;
                 window.FrametopOffset = offset.top;
@@ -1478,14 +1483,14 @@
         window.rulerWasActive = false;
         window.selectorWasActive = false;
 
-        $(".responsive-right-handle").on("mousedown", function(e) {
+        $(".responsive-right-handle").on("mousedown", function (e) {
 
             window.responsiveModeRMDown = true;
             body.addClass("yp-clean-look yp-responsive-resizing yp-responsive-resizing-right yp-hide-borders-now");
 
-            if($(".yp-selector-mode").hasClass("active")){
+            if ($(".yp-selector-mode").hasClass("active")) {
                 window.selectorWasActive = true;
-            }else{
+            } else {
                 window.selectorWasActive = false;
             }
 
@@ -1503,7 +1508,7 @@
 
         });
 
-        mainDocument.on("mousemove", function(e) {
+        mainDocument.on("mousemove", function (e) {
 
             if (window.responsiveModeRMDown === true) {
 
@@ -1540,11 +1545,11 @@
             }
         });
 
-        mainDocument.on("mouseup", function() {
+        mainDocument.on("mouseup", function () {
 
             if (window.responsiveModeRMDown === true) {
 
-                if(body.hasClass("yp-animate-manager-active")){
+                if (body.hasClass("yp-animate-manager-active")) {
                     animation_manager();
                 }
 
@@ -1556,7 +1561,7 @@
 
                 body.removeClass("yp-clean-look yp-responsive-resizing yp-responsive-resizing-right");
 
-                setTimeout(function() {
+                setTimeout(function () {
                     body.removeClass("yp-hide-borders-now");
                 }, 25);
 
@@ -1569,12 +1574,12 @@
                 }
 
 
-                if(window.selectorWasActive === true){
-                    if($(".yp-selector-mode").hasClass("active") === false){
+                if (window.selectorWasActive === true) {
+                    if ($(".yp-selector-mode").hasClass("active") === false) {
                         $(".yp-selector-mode").trigger("click");
                     }
-                }else{
-                    if($(".yp-selector-mode").hasClass(("active"))){
+                } else {
+                    if ($(".yp-selector-mode").hasClass(("active"))) {
                         $(".yp-selector-mode").trigger("click");
                     }
                 }
@@ -1582,7 +1587,7 @@
                 // Update options
                 insert_default_options();
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $(".eye-enable").removeClass("eye-enable");
                 }, 10);
 
@@ -1594,14 +1599,14 @@
         window.responsiveModeBMDown = false;
         window.SelectorDisableResizeBottom = false;
 
-        $(".responsive-bottom-handle").on("mousedown", function() {
+        $(".responsive-bottom-handle").on("mousedown", function () {
 
             window.responsiveModeBMDown = true;
             body.addClass("yp-clean-look yp-responsive-resizing yp-responsive-resizing-bottom yp-hide-borders-now");
 
-            if($(".yp-selector-mode").hasClass("active")){
+            if ($(".yp-selector-mode").hasClass("active")) {
                 window.selectorWasActive = true;
-            }else{
+            } else {
                 window.selectorWasActive = false;
             }
 
@@ -1619,7 +1624,7 @@
 
         });
 
-        mainDocument.on("mousemove", function(e) {
+        mainDocument.on("mousemove", function (e) {
 
             if (window.responsiveModeBMDown === true) {
 
@@ -1643,7 +1648,7 @@
             }
         });
 
-        mainDocument.on("mouseup", function() {
+        mainDocument.on("mouseup", function () {
 
             if (window.responsiveModeBMDown === true) {
                 window.responsiveModeBMDown = false;
@@ -1654,7 +1659,7 @@
 
                 body.removeClass("yp-clean-look yp-responsive-resizing yp-responsive-resizing-bottom");
 
-                setTimeout(function() {
+                setTimeout(function () {
                     body.removeClass("yp-hide-borders-now");
                 }, 25);
 
@@ -1667,12 +1672,12 @@
                     $(".yp-ruler-btn").trigger("click");
                 }
 
-                if(window.selectorWasActive === true){
-                    if($(".yp-selector-mode").hasClass("active") === false){
+                if (window.selectorWasActive === true) {
+                    if ($(".yp-selector-mode").hasClass("active") === false) {
                         $(".yp-selector-mode").trigger("click");
                     }
-                }else{
-                    if($(".yp-selector-mode").hasClass(("active"))){
+                } else {
+                    if ($(".yp-selector-mode").hasClass(("active"))) {
                         $(".yp-selector-mode").trigger("click");
                     }
                 }
@@ -1680,7 +1685,7 @@
                 // Update options
                 insert_default_options();
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $(".eye-enable").removeClass("eye-enable");
                 }, 10);
 
@@ -1692,7 +1697,7 @@
         var lastKeyUpAt = 0;
 
         // Setting Shortcuts.
-        mainDocument.on("keyup", function(e) {
+        mainDocument.on("keyup", function (e) {
 
             lastKeyUpAt = new Date();
 
@@ -1715,7 +1720,7 @@
             }
 
             // Multi selecting support
-            if(ctrlKey === false && tagType === false){
+            if (ctrlKey === false && tagType === false) {
                 body.removeClass("yp-control-key-down");
                 iframe.find(".yp-multiple-selected").removeClass("yp-multiple-selected");
                 iframe.find(".yp-selected-others-multiable-box").remove();
@@ -1725,7 +1730,7 @@
 
 
         // Setting Shortcuts.
-        mainDocument.on("keydown", function(e) {
+        mainDocument.on("keydown", function (e) {
 
             // get current time
             var keyDownAt = new Date();
@@ -1743,7 +1748,7 @@
             var selector;
 
             // Check If is CTRL Key.
-            if ((e.ctrlKey === true || e.metaKey === true)){
+            if ((e.ctrlKey === true || e.metaKey === true)) {
                 ctrlKey = true;
             }
 
@@ -1764,13 +1769,13 @@
             if (code == 27 && ctrlKey === false) {
 
                 // Was resizing?
-                if(is_resizing()){
+                if (is_resizing()) {
                     return false;
                 }
 
-                if($(".sweet-alert").css("display") == 'none' || $(".sweet-alert").length === 0){
+                if ($(".sweet-alert").css("display") == 'none' || $(".sweet-alert").length === 0) {
 
-                    if($(".yp-popup-background").css("display") != 'none'){
+                    if ($(".yp-popup-background").css("display") != 'none') {
                         $(".yp-info-modal-close").trigger("click");
                         return false;
                     }
@@ -1785,18 +1790,18 @@
 
             }
 
-            if(ctrlKey === false && tagType === false && shifted === true){
+            if (ctrlKey === false && tagType === false && shifted === true) {
 
-                setTimeout(function() {
+                setTimeout(function () {
 
                     // Compare key down time with key up time
-                    if (+keyDownAt > +lastKeyUpAt && is_content_selected()){
+                    if (+keyDownAt > +lastKeyUpAt && is_content_selected()) {
 
                         body.addClass("yp-control-key-down");
 
                         var recentElement = iframe.find(".yp-recent-hover-element");
 
-                        if(recentElement.length > 0){
+                        if (recentElement.length > 0) {
                             recentElement.trigger("mouseover");
                         }
 
@@ -1808,9 +1813,9 @@
 
 
             // UP DOWN keys for move selected element
-            if (ctrlKey === false && tagType === false){
-                if(code == 38 || code == 40 || code == 37 || code == 39){
-                    if(is_content_selected() && is_dragging() === false){
+            if (ctrlKey === false && tagType === false) {
+                if (code == 38 || code == 40 || code == 37 || code == 39) {
+                    if (is_content_selected() && is_dragging() === false) {
                         e.preventDefault();
 
                         var el = get_selected_element();
@@ -1820,27 +1825,27 @@
                         var b = parseInt(el.css("bottom"));
                         var f = 1;
 
-                        if(shifted){
+                        if (shifted) {
                             f = 10;
                         }
 
-                        if(code == 38){
-                            t = t-f;
-                        }else if(code == 40){
-                            t = t+f;
+                        if (code == 38) {
+                            t = t - f;
+                        } else if (code == 40) {
+                            t = t + f;
                         }
 
-                        if(code == 37){
-                            l = l-f;
-                        }else if(code == 39){
-                            l = l+f;
+                        if (code == 37) {
+                            l = l - f;
+                        } else if (code == 39) {
+                            l = l + f;
                         }
 
-                        t = t+"px";
-                        l = l+"px";
+                        t = t + "px";
+                        l = l + "px";
 
                         // Insert new data. TOP BOTTOM
-                        if(code == 38 || code == 40){
+                        if (code == 38 || code == 40) {
 
                             insert_rule(null, "top", t, '');
 
@@ -1851,7 +1856,7 @@
                         }
 
                         // Insert new data. LEFT RIGHT
-                        if(code == 37 || code == 39){
+                        if (code == 37 || code == 39) {
 
                             insert_rule(null, "left", l, '');
 
@@ -1863,17 +1868,17 @@
 
                         var position = el.css("position");
 
-                        if(position == 'static' || position == 'relative'){
+                        if (position == 'static' || position == 'relative') {
                             insert_rule(null, "position", "relative", '');
                         }
 
-                        if ($("#position-static").parent().hasClass("active") || $("#position-relative").parent().hasClass("active")){
+                        if ($("#position-static").parent().hasClass("active") || $("#position-relative").parent().hasClass("active")) {
                             $("#position-relative").trigger("click");
                         }
 
                         // Set default values for top and left options.
                         if ($("li.position-option.active").length > 0) {
-                            $("#top-group,#left-group").each(function() {
+                            $("#top-group,#left-group").each(function () {
                                 set_default_value(get_option_id(this));
                             });
                         } else {
@@ -1990,13 +1995,13 @@
 
                 e.preventDefault();
 
-                if($("body").hasClass("yp-sharp-selector-mode-active")){
+                if ($("body").hasClass("yp-sharp-selector-mode-active")) {
                     selector = $.trim(get_parents(null, "sharp"));
-                }else{
+                } else {
                     selector = $.trim(get_parents(null, "default"));
                 }
 
-                set_selector(selector,get_selected_element());
+                set_selector(selector, get_selected_element());
 
                 return false;
 
@@ -2011,7 +2016,7 @@
                 var selectorNew = get_parents(iframe.find(".yp-multiple-selected"), "sharp");
                 iframe.find(".yp-selected-others-multiable-box").remove();
                 iframe.find(".yp-multiple-selected").addClass("yp-selected-others").removeClass("yp-multiple-selected");
-                set_selector(selectorCurrent+","+selectorNew,get_selected_element());
+                set_selector(selectorCurrent + "," + selectorNew, get_selected_element());
 
                 return false;
 
@@ -2064,7 +2069,7 @@
                 e.preventDefault();
 
                 if (is_animate_creator()) {
-                    swal({title: "Sorry.",text: l18_cantEditor,type: "warning",animation: false});
+                    swal({title: "Sorry.", text: l18_cantEditor, type: "warning", animation: false});
                     return false;
                 }
 
@@ -2077,7 +2082,7 @@
                 e.preventDefault();
 
                 if (is_animate_creator()) {
-                    swal({title: "Sorry.",text: l18_cantEditor,type: "warning",animation: false});
+                    swal({title: "Sorry.", text: l18_cantEditor, type: "warning", animation: false});
                     return false;
                 }
 
@@ -2095,9 +2100,9 @@
         });
 
         // Arrow Keys Up/Down The Value.
-        $(".yp-after-prefix").keydown(function(e){
+        $(".yp-after-prefix").keydown(function (e) {
 
-            if($(this).val() == 'xp'){
+            if ($(this).val() == 'xp') {
                 $(this).val("px");
             }
 
@@ -2127,7 +2132,7 @@
                 win: 'ESC',
                 mac: 'ESC'
             },
-            exec: function() {
+            exec: function () {
 
                 if (body.hasClass("yp-fullscreen-editor")) {
                     body.removeClass("yp-fullscreen-editor");
@@ -2143,42 +2148,42 @@
         });
 
         // Disable forms in iframe.
-        iframe.find("form").submit(function(e) {
+        iframe.find("form").submit(function (e) {
             e.preventDefault();
             return false;
         });
 
-        function check_undoable_history(){
+        function check_undoable_history() {
 
             // Has Undo?
-            if(editor.session.getUndoManager().hasUndo() === false){
+            if (editor.session.getUndoManager().hasUndo() === false) {
                 $(".undo-btn").addClass("disabled");
-            }else{
+            } else {
                 $(".undo-btn").removeClass("disabled");
             }
 
             // Has Redo?
-            if(editor.session.getUndoManager().hasRedo() === false){
+            if (editor.session.getUndoManager().hasRedo() === false) {
                 $(".redo-btn").addClass("disabled");
-            }else{
+            } else {
                 $(".redo-btn").removeClass("disabled");
             }
 
         }
 
         // Keyup: Custom Slider Value
-        $(".yp-after-css").keyup(function(e) {
+        $(".yp-after-css").keyup(function (e) {
 
-            if($(".lock-btn.active").length == 0 && e.originalEvent){
+            if ($(".lock-btn.active").length == 0 && e.originalEvent) {
                 var n = $(this).parent().parent().find(".wqNoUi-target");
                 slide_action(n, n.attr("id").replace("yp-", ""), false, true);
             }
 
         });
 
-        $(".yp-ruler-btn").click(function() {
+        $(".yp-ruler-btn").click(function () {
 
-            if(is_content_selected() === false){
+            if (is_content_selected() === false) {
                 clean();
             }
 
@@ -2199,7 +2204,7 @@
         });
 
         // Single selector
-        $(".yp-sharp-selector-btn").click(function() {
+        $(".yp-sharp-selector-btn").click(function () {
             body.toggleClass("yp-sharp-selector-mode-active");
             if ($(".yp-selector-mode.active").length === 0) {
                 $(".yp-selector-mode").trigger("click");
@@ -2208,9 +2213,9 @@
 
         // Update on Enter Key.
         // Arrow Keys Up/Down The Value.
-        $(".yp-after-css-val").keydown(function(e) {
+        $(".yp-after-css-val").keydown(function (e) {
 
-            if($(this).val() == 'xp'){
+            if ($(this).val() == 'xp') {
                 $(this).val("px");
             }
 
@@ -2226,7 +2231,7 @@
                 $(this).val(parseFloat($(this).val()) - parseFloat(1));
             }
 
-            if(code == 13){
+            if (code == 13) {
                 $(this).trigger("blur");
                 return false;
             }
@@ -2234,9 +2239,9 @@
         });
 
         var wasLast = false;
-        $(".yp-after-css-val").keyup(function(e) {
+        $(".yp-after-css-val").keyup(function (e) {
 
-            if($(this).val() == 'xp'){
+            if ($(this).val() == 'xp') {
                 $(this).val("px");
             }
 
@@ -2244,16 +2249,16 @@
             var range = $(this).getCursorPosition();
             var next = $(this).parent().find(".yp-after-prefix");
 
-            if(range == $(this).val().length && wasLast === false){
+            if (range == $(this).val().length && wasLast === false) {
                 wasLast = true;
                 return true;
             }
 
-            if(range != $(this).val().length){
+            if (range != $(this).val().length) {
                 wasLast = false;
             }
 
-            if(code == 39 && wasLast === true){
+            if (code == 39 && wasLast === true) {
                 next.trigger("focus");
                 wasLast = false;
             }
@@ -2262,9 +2267,9 @@
 
 
         var wasLastPrefix = false;
-        $(".yp-after-prefix").keyup(function(e) {
+        $(".yp-after-prefix").keyup(function (e) {
 
-            if($(this).val() == 'xp'){
+            if ($(this).val() == 'xp') {
                 $(this).val("px");
             }
 
@@ -2272,16 +2277,16 @@
             var range = $(this).getCursorPosition();
             var prev = $(this).parent().find(".yp-after-css-val");
 
-            if(range === 0 && wasLastPrefix === false){
+            if (range === 0 && wasLastPrefix === false) {
                 wasLastPrefix = true;
                 return true;
             }
 
-            if(range !== 0){
+            if (range !== 0) {
                 wasLastPrefix = false;
             }
 
-            if(code == 37 && wasLastPrefix === true){
+            if (code == 37 && wasLastPrefix === true) {
                 prev.trigger("focus");
                 wasLastPrefix = false;
             }
@@ -2290,21 +2295,21 @@
 
         // Update on Enter Key.
         // Arrow Keys Up/Down The Value.
-        $(".yp-after-css-val").keyup(function(e) {
+        $(".yp-after-css-val").keyup(function (e) {
 
             // Number only
-            var numbers = $(this).val().replace(/[^0-9.,-]/g,'');
+            var numbers = $(this).val().replace(/[^0-9.,-]/g, '');
 
-            if(numbers.length === 0){
+            if (numbers.length === 0) {
                 numbers = 0;
             }
 
             // non-number only
-            var prefixs = $(this).val().replace(/[0-9.,-]/g,'');
+            var prefixs = $(this).val().replace(/[0-9.,-]/g, '');
 
             var prefixSelector = $(this).parent().find(".yp-after-prefix");
 
-            if(prefixs.length > 0){
+            if (prefixs.length > 0) {
 
                 $(this).val(numbers);
 
@@ -2322,12 +2327,12 @@
             return $(element).attr("id").replace("-group", "");
         }
 
-        $.fn.hasAttr = function(name) {
+        $.fn.hasAttr = function (name) {
             return this.attr(name) !== undefined;
         };
 
         // http://stackoverflow.com/questions/2897155/get-cursor-position-in-characters-within-a-text-input-field
-        $.fn.getCursorPosition = function() {
+        $.fn.getCursorPosition = function () {
             var input = this.get(0);
             if (!input) return; // No (input) element found
             if ('selectionStart' in input) {
@@ -2344,19 +2349,19 @@
         };
 
 
-        function redo_changes(){
+        function redo_changes() {
 
-            if(is_resizing() || is_dragging() || body.hasClass("yp-processing-now")){
+            if (is_resizing() || is_dragging() || body.hasClass("yp-processing-now")) {
                 return false;
             }
 
             if (is_animate_creator()) {
-                swal({title: "Sorry.",text: l18_cantUndo,type: "warning",animation: false});
+                swal({title: "Sorry.", text: l18_cantUndo, type: "warning", animation: false});
                 return false;
             }
 
             if ($("body").hasClass("yp-animate-manager-active")) {
-                swal({title: "Sorry.",text: l18_cantUndoAnimManager,type: "warning",animation: false});
+                swal({title: "Sorry.", text: l18_cantUndoAnimManager, type: "warning", animation: false});
                 return false;
             }
 
@@ -2371,19 +2376,19 @@
 
         }
 
-        function undo_changes(){
+        function undo_changes() {
 
-            if(is_resizing() || is_dragging() || body.hasClass("yp-processing-now")){
+            if (is_resizing() || is_dragging() || body.hasClass("yp-processing-now")) {
                 return false;
             }
 
             if (is_animate_creator()) {
-                swal({title: "Sorry.",text: l18_cantUndo,type: "warning",animation: false});
+                swal({title: "Sorry.", text: l18_cantUndo, type: "warning", animation: false});
                 return false;
             }
 
             if ($("body").hasClass("yp-animate-manager-active")) {
-                swal({title: "Sorry.",text: l18_cantUndoAnimManager,type: "warning",animation: false});
+                swal({title: "Sorry.", text: l18_cantUndoAnimManager, type: "warning", animation: false});
                 return false;
             }
 
@@ -2395,10 +2400,10 @@
 
             // Update draggable after undo
             var elx = iframeBody.find(".yp-selected");
-            if(elx.length > 0){
+            if (elx.length > 0) {
 
-                if(elx.css("position") == 'static'){
-                    elx.css("position","relative");
+                if (elx.css("position") == 'static') {
+                    elx.css("position", "relative");
                 }
 
             }
@@ -2408,23 +2413,23 @@
         }
 
 
-        function isDefined(a){
-            if(typeof a !== typeof undefined && a !== false && a != '' && a != ' ' && a != 'undefined' && a !== null){
+        function isDefined(a) {
+            if (typeof a !== typeof undefined && a !== false && a != '' && a != ' ' && a != 'undefined' && a !== null) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
 
-        function isUndefined(a){
-            if(typeof a === typeof undefined || a === false || a === '' || a == ' ' || a == 'undefined' || a === null){
+        function isUndefined(a) {
+            if (typeof a === typeof undefined || a === false || a === '' || a == ' ' || a == 'undefined' || a === null) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
 
-        $.fn.cssImportant = function(rule, value) {
+        $.fn.cssImportant = function (rule, value) {
 
             // Set default CSS.
             this.css(rule, value);
@@ -2434,25 +2439,25 @@
 
         };
 
-        $(".yp-button-live").click(function() {
+        $(".yp-button-live").click(function () {
 
             var el = $(this);
             var href = el.attr("data-href");
             el.addClass("live-btn-loading");
 
             if ($("body").hasClass("yp-yellow-pencil-demo-mode")) {
-                swal({title: "Sorry.",text: l18_live_preview,type: "info",animation: false});
+                swal({title: "Sorry.", text: l18_live_preview, type: "info", animation: false});
                 el.removeClass("live-btn-loading");
                 return false;
             }
 
-            var posting = $.post( ajaxurl, {
+            var posting = $.post(ajaxurl, {
                 action: "yp_preview_data_save",
                 yp_data: get_clean_css(true)
-            } );
+            });
 
             // Done.
-            posting.complete(function(data) {
+            posting.complete(function (data) {
                 el.removeClass("live-btn-loading");
                 window.open(href, href);
                 return false;
@@ -2460,9 +2465,11 @@
 
         });
 
-        $(".yp-close-btn").click(function() {
-            $('#plugin-content').hide();
-            $('.yp-selector-mode').trigger('click');
+        $(".yp-close-btn").click(function () {
+            if ($('.yp-close-btn').hasClass('dashicons-no-alt')) {
+                $('#plugin-content').hide();
+                $('.yp-selector-mode').trigger('click');
+            }
         });
 
         /* ---------------------------------------------------- */
@@ -2470,22 +2477,22 @@
         /*                                                      */
         /* Creating tooltip, borders. Set as selected element.  */
         /* ---------------------------------------------------- */
-        function set_selector(selector,selected) {
+        function set_selector(selector, selected) {
 
             clean();
 
             window.setSelector = selector;
 
-            var element = iframe.find(get_foundable_query(selector,true,false,false));
+            var element = iframe.find(get_foundable_query(selector, true, false, false));
 
             body.attr("data-clickable-select", selector);
 
             if (iframe.find(".yp-will-selected").length > 0) {
                 iframe.find(".yp-will-selected").trigger("mouseover").trigger("click");
                 iframe.find(".yp-will-selected").removeClass("yp-will-selected");
-            } else if(selected !== null){
+            } else if (selected !== null) {
                 selected.trigger("mouseover").trigger("click");
-            }else{
+            } else {
                 element.filter(":visible").first().trigger("mouseover").trigger("click");
             }
 
@@ -2496,11 +2503,11 @@
 
             body.addClass("yp-content-selected");
 
-            if(body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-animate-manager-active")) {
                 animation_manager();
             }
 
-            if($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")){
+            if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
                 update_design_information("element");
             }
 
@@ -2539,12 +2546,12 @@
 
             draw();
 
-            if(body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-animate-manager-active")) {
                 animation_manager();
             }
 
             // Update the element informations.
-            if($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")){
+            if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
                 update_design_information("element");
             }
 
@@ -2564,7 +2571,7 @@
         }).on('shown.bs.tooltip', function () {
 
             // Don't show if popover visible
-            if($(".popover").length > 0){
+            if ($(".popover").length > 0) {
                 $(this).tooltip("hide");
             }
 
@@ -2583,7 +2590,7 @@
             html: true
         });
         $('.info-btn').on('show.bs.tooltip', function () {
-            if($(this).hasClass("active")){
+            if ($(this).hasClass("active")) {
                 return false;
             }
         });
@@ -2596,7 +2603,7 @@
         $('.yp-option-group,.yp-advanced-option').on('shown.bs.popover', function () {
 
             // Don't show if popover visible
-            if(parseFloat($(".popover").css("top")) < 80){
+            if (parseFloat($(".popover").css("top")) < 80) {
                 $(this).popover("hide");
             }
 
@@ -2632,27 +2639,27 @@
         // Draggable editor area
         $(".yp-select-bar").draggable({
             handle: ".yp-editor-top",
-            start: function(){
+            start: function () {
                 $("body").append("<div class='fake-layer'></div>");
             },
-            stop: function(){
+            stop: function () {
                 $(".fake-layer").remove();
             }
         });
 
         $(".anim-bar").draggable({
             handle: ".anim-bar-title",
-            stop: function() {
+            stop: function () {
                 $(".anim-bar").addClass("anim-bar-dragged");
             }
         });
 
-        $("#yp-set-animation-name").keyup(function() {
+        $("#yp-set-animation-name").keyup(function () {
             $(this).val(get_basic_id($(this).val()));
         });
 
         // Fullscreen Editor
-        $(".yp-css-fullscreen-btn").click(function() {
+        $(".yp-css-fullscreen-btn").click(function () {
 
             // Fullscreen class
             body.toggleClass("yp-fullscreen-editor");
@@ -2665,7 +2672,7 @@
 
         // If There not have any selected item
         // and if mouseover on options, so hide borders.
-        $(".top-area-btn-group,.yp-select-bar,.metric").hover(function() {
+        $(".top-area-btn-group,.yp-select-bar,.metric").hover(function () {
             if (is_content_selected() === false) {
                 clean();
             }
@@ -2678,9 +2685,9 @@
         }
 
         // Only number
-        $(document).on('keydown keyup', '.scenes .scene input', function(e){
+        $(document).on('keydown keyup', '.scenes .scene input', function (e) {
 
-            $(this).val(number_filter($(this).val().replace(/\-/g,'')));
+            $(this).val(number_filter($(this).val().replace(/\-/g, '')));
 
             if (parseFloat($(this).val()) > 100) {
                 $(this).val('100');
@@ -2693,14 +2700,14 @@
         });
 
         // Last scene always 100
-        $(document).on('keyup keydown blur', '.scenes .scene:not(.scene-add):last input', function(e) {
+        $(document).on('keyup keydown blur', '.scenes .scene:not(.scene-add):last input', function (e) {
 
             $(this).val('100');
 
         });
 
         // First scene always 0
-        $(document).on('keyup keydown blur', '.scenes .scene:first-child input', function(e) {
+        $(document).on('keyup keydown blur', '.scenes .scene:first-child input', function (e) {
 
             $(this).val('0');
 
@@ -2709,7 +2716,7 @@
         function yp_create_anim() {
 
             if (iframe.find(".yp-anim-scenes style").length === 0) {
-                swal({title: "Sorry.",text: l18_allScenesEmpty,type: "warning",animation: false});
+                swal({title: "Sorry.", text: l18_allScenesEmpty, type: "warning", animation: false});
                 return false;
             }
 
@@ -2723,7 +2730,7 @@
 
                 scenesData = scenesData + $(".scenes .scene-" + i + " input").val() + "% {";
 
-                iframe.find(".yp-anim-scenes").find(".style-scene-" + i).each(function() {
+                iframe.find(".yp-anim-scenes").find(".style-scene-" + i).each(function () {
                     scenesData = scenesData + (($(this).html().match(/\{(.*?)\}/g)).toString().replace("{", "").replace("}", "")) + ";";
                 });
 
@@ -2740,7 +2747,7 @@
             // wait
             var watingForAdd = [];
             var added = '{';
-            var x,lineData,rules,countT,count;
+            var x, lineData, rules, countT, count;
 
             for (i = 1; i < scenesDataReverseArray.length; i++) {
 
@@ -2866,7 +2873,7 @@
                             }
 
                             // Clean important prefix.
-                            foundedValue = $.trim(foundedValue).replace(/\s+?!important/g,'').replace(/\;$/g,'');
+                            foundedValue = $.trim(foundedValue).replace(/\s+?!important/g, '').replace(/\;$/g, '');
 
                             // If same rule have in rulesNames, get index.
                             var index = rulesNames.indexOf(foundedName);
@@ -2928,20 +2935,20 @@
 
             scenesData = scenesData.replace(/\}/g, "}\r");
 
-            scenesData = scenesData.replace(";;","");
+            scenesData = scenesData.replace(";;", "");
 
             return scenesData;
 
         }
 
         // Play/stop control
-        $(document).on("click", ".yp-animation-player,.yp-anim-play", function() {
+        $(document).on("click", ".yp-animation-player,.yp-anim-play", function () {
 
             var element = $(this);
 
             var willActive = 1;
 
-            $(".scenes .scene").each(function(i) {
+            $(".scenes .scene").each(function (i) {
 
                 if ($(this).hasClass("scene-active")) {
                     willActive = (i + 1);
@@ -2958,7 +2965,7 @@
                 return false;
             }
 
-            var delay,delayWait;
+            var delay, delayWait;
 
             body.addClass("yp-hide-borders-now");
 
@@ -2999,16 +3006,16 @@
             iframe.find(".animate-test-drive").append("<style>body.yp-animate-test-playing .yp-selected,body.yp-animate-test-playing .yp-selected-others{animation-name:" + $("#yp-set-animation-name").val() + " !important;animation-duration:" + delay + " !important;animation-iteration-count:1 !important;}</style>");
 
             // playing.
-            element.html("Playing"+'<span style="color:#B73131 !important;" class="dashicons dashicons-controls-play"></span>');
-            $(".anim-play").html("Playing"+'<span style="color:#B73131 !important;" class="dashicons dashicons-controls-play"></span>');
+            element.html("Playing" + '<span style="color:#B73131 !important;" class="dashicons dashicons-controls-play"></span>');
+            $(".anim-play").html("Playing" + '<span style="color:#B73131 !important;" class="dashicons dashicons-controls-play"></span>');
 
             clear_animation_timer();
 
             // Wait until finish. END.
-            window.animationTimer4 = setTimeout(function() {
+            window.animationTimer4 = setTimeout(function () {
 
-                element.html("Play"+'<span class="dashicons dashicons-controls-play"></span>');
-                $(".anim-play").html("Play"+'<span class="dashicons dashicons-controls-play"></span>');
+                element.html("Play" + '<span class="dashicons dashicons-controls-play"></span>');
+                $(".anim-play").html("Play" + '<span class="dashicons dashicons-controls-play"></span>');
                 body.removeClass("yp-animate-test-playing");
                 iframe.find(".animate-test-drive").empty();
                 body.removeClass("yp-hide-borders-now");
@@ -3024,7 +3031,7 @@
         });
 
         // Start animation creator.
-        $(".yp-animation-creator-start,.yp-anim-save").click(function() {
+        $(".yp-animation-creator-start,.yp-anim-save").click(function () {
 
             var text = $('.yp-animation-creator-start').text();
 
@@ -3042,7 +3049,7 @@
                 }
 
                 $(".yp-animation-creator-start").text(text == l18_create ? l18_save : l18_create);
-                $(".yp-anim-save").html($(".yp-animation-creator-start").text()+'<span class="dashicons dashicons-flag"></span>');
+                $(".yp-anim-save").html($(".yp-animation-creator-start").text() + '<span class="dashicons dashicons-flag"></span>');
 
                 var posting = $.post(ajaxurl, {
 
@@ -3053,7 +3060,7 @@
                 });
 
                 // Done.
-                posting.complete(function(data) {
+                posting.complete(function (data) {
                     //Saved.
                 });
 
@@ -3062,7 +3069,7 @@
 
                 // Get data by select
                 var data = [];
-                $("#yp-animation-name-data option").each(function() {
+                $("#yp-animation-name-data option").each(function () {
                     data.push($(this).text());
                 });
 
@@ -3078,7 +3085,7 @@
                 yp_anim_cancel();
 
                 // Set animation name
-                setTimeout(function() {
+                setTimeout(function () {
                     insert_rule(null, "animation-name", animName, '');
                     insert_rule(null, "animation-fill-mode", 'both', '');
                     $("li.animation-option").removeAttr("data-loaded");
@@ -3124,7 +3131,7 @@
             $(".animation-option.active > h3").trigger("click");
 
             $(this).text(text == l18_create ? l18_save : l18_create);
-            $(".yp-anim-save").html($(".yp-animation-creator-start").text()+'<span class="dashicons dashicons-flag"></span>');
+            $(".yp-anim-save").html($(".yp-animation-creator-start").text() + '<span class="dashicons dashicons-flag"></span>');
 
         });
 
@@ -3166,7 +3173,7 @@
 
         }
 
-        $(document).on("click", ".scenes .scene .scene-delete", function() {
+        $(document).on("click", ".scenes .scene .scene-delete", function () {
 
             var current = $(this).parent().attr("data-scene").replace("scene-", "");
             var next = $(".scenes .scene").length - 1;
@@ -3193,7 +3200,7 @@
 
         });
 
-        $(document).on("click", ".scenes .scene", function() {
+        $(document).on("click", ".scenes .scene", function () {
 
             // Not scene add.
             if ($(this).hasClass("scene-add")) {
@@ -3279,102 +3286,201 @@
 
         });
 
-        $(".yp-anim-cancel").click(function() {
+        $(".yp-anim-cancel").click(function () {
             $(".yp-anim-cancel-link").trigger("click");
         });
 
 
         // Credit: http://web.archive.org/web/20120918093154/http://lehelk.com/2011/05/06/script-to-remove-diacritics
-        function removeDiacritics (str) {
+        function removeDiacritics(str) {
 
             var defaultDiacriticsRemovalMap = [
-                {'base':'A', 'letters':/[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
-                {'base':'AA','letters':/[\uA732]/g},
-                {'base':'AE','letters':/[\u00C6\u01FC\u01E2]/g},
-                {'base':'AO','letters':/[\uA734]/g},
-                {'base':'AU','letters':/[\uA736]/g},
-                {'base':'AV','letters':/[\uA738\uA73A]/g},
-                {'base':'AY','letters':/[\uA73C]/g},
-                {'base':'B', 'letters':/[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g},
-                {'base':'C', 'letters':/[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g},
-                {'base':'D', 'letters':/[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g},
-                {'base':'DZ','letters':/[\u01F1\u01C4]/g},
-                {'base':'Dz','letters':/[\u01F2\u01C5]/g},
-                {'base':'E', 'letters':/[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g},
-                {'base':'F', 'letters':/[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g},
-                {'base':'G', 'letters':/[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g},
-                {'base':'H', 'letters':/[\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D]/g},
-                {'base':'I', 'letters':/[\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197]/g},
-                {'base':'J', 'letters':/[\u004A\u24BF\uFF2A\u0134\u0248]/g},
-                {'base':'K', 'letters':/[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g},
-                {'base':'L', 'letters':/[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g},
-                {'base':'LJ','letters':/[\u01C7]/g},
-                {'base':'Lj','letters':/[\u01C8]/g},
-                {'base':'M', 'letters':/[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g},
-                {'base':'N', 'letters':/[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g},
-                {'base':'NJ','letters':/[\u01CA]/g},
-                {'base':'Nj','letters':/[\u01CB]/g},
-                {'base':'O', 'letters':/[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g},
-                {'base':'OI','letters':/[\u01A2]/g},
-                {'base':'OO','letters':/[\uA74E]/g},
-                {'base':'OU','letters':/[\u0222]/g},
-                {'base':'P', 'letters':/[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g},
-                {'base':'Q', 'letters':/[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g},
-                {'base':'R', 'letters':/[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g},
-                {'base':'S', 'letters':/[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g},
-                {'base':'T', 'letters':/[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g},
-                {'base':'TZ','letters':/[\uA728]/g},
-                {'base':'U', 'letters':/[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g},
-                {'base':'V', 'letters':/[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g},
-                {'base':'VY','letters':/[\uA760]/g},
-                {'base':'W', 'letters':/[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g},
-                {'base':'X', 'letters':/[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g},
-                {'base':'Y', 'letters':/[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g},
-                {'base':'Z', 'letters':/[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g},
-                {'base':'a', 'letters':/[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g},
-                {'base':'aa','letters':/[\uA733]/g},
-                {'base':'ae','letters':/[\u00E6\u01FD\u01E3]/g},
-                {'base':'ao','letters':/[\uA735]/g},
-                {'base':'au','letters':/[\uA737]/g},
-                {'base':'av','letters':/[\uA739\uA73B]/g},
-                {'base':'ay','letters':/[\uA73D]/g},
-                {'base':'b', 'letters':/[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g},
-                {'base':'c', 'letters':/[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g},
-                {'base':'d', 'letters':/[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g},
-                {'base':'dz','letters':/[\u01F3\u01C6]/g},
-                {'base':'e', 'letters':/[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g},
-                {'base':'f', 'letters':/[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g},
-                {'base':'g', 'letters':/[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g},
-                {'base':'h', 'letters':/[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g},
-                {'base':'hv','letters':/[\u0195]/g},
-                {'base':'i', 'letters':/[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g},
-                {'base':'j', 'letters':/[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g},
-                {'base':'k', 'letters':/[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g},
-                {'base':'l', 'letters':/[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g},
-                {'base':'lj','letters':/[\u01C9]/g},
-                {'base':'m', 'letters':/[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g},
-                {'base':'n', 'letters':/[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g},
-                {'base':'nj','letters':/[\u01CC]/g},
-                {'base':'o', 'letters':/[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g},
-                {'base':'oi','letters':/[\u01A3]/g},
-                {'base':'ou','letters':/[\u0223]/g},
-                {'base':'oo','letters':/[\uA74F]/g},
-                {'base':'p','letters':/[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g},
-                {'base':'q','letters':/[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g},
-                {'base':'r','letters':/[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g},
-                {'base':'s','letters':/[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g},
-                {'base':'t','letters':/[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g},
-                {'base':'tz','letters':/[\uA729]/g},
-                {'base':'u','letters':/[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g},
-                {'base':'v','letters':/[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g},
-                {'base':'vy','letters':/[\uA761]/g},
-                {'base':'w','letters':/[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g},
-                {'base':'x','letters':/[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g},
-                {'base':'y','letters':/[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g},
-                {'base':'z','letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g}
+                {
+                    'base': 'A',
+                    'letters': /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g
+                },
+                {'base': 'AA', 'letters': /[\uA732]/g},
+                {'base': 'AE', 'letters': /[\u00C6\u01FC\u01E2]/g},
+                {'base': 'AO', 'letters': /[\uA734]/g},
+                {'base': 'AU', 'letters': /[\uA736]/g},
+                {'base': 'AV', 'letters': /[\uA738\uA73A]/g},
+                {'base': 'AY', 'letters': /[\uA73C]/g},
+                {'base': 'B', 'letters': /[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g},
+                {'base': 'C', 'letters': /[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g},
+                {
+                    'base': 'D',
+                    'letters': /[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g
+                },
+                {'base': 'DZ', 'letters': /[\u01F1\u01C4]/g},
+                {'base': 'Dz', 'letters': /[\u01F2\u01C5]/g},
+                {
+                    'base': 'E',
+                    'letters': /[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g
+                },
+                {'base': 'F', 'letters': /[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g},
+                {
+                    'base': 'G',
+                    'letters': /[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g
+                },
+                {
+                    'base': 'H',
+                    'letters': /[\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D]/g
+                },
+                {
+                    'base': 'I',
+                    'letters': /[\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197]/g
+                },
+                {'base': 'J', 'letters': /[\u004A\u24BF\uFF2A\u0134\u0248]/g},
+                {
+                    'base': 'K',
+                    'letters': /[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g
+                },
+                {
+                    'base': 'L',
+                    'letters': /[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g
+                },
+                {'base': 'LJ', 'letters': /[\u01C7]/g},
+                {'base': 'Lj', 'letters': /[\u01C8]/g},
+                {'base': 'M', 'letters': /[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g},
+                {
+                    'base': 'N',
+                    'letters': /[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g
+                },
+                {'base': 'NJ', 'letters': /[\u01CA]/g},
+                {'base': 'Nj', 'letters': /[\u01CB]/g},
+                {
+                    'base': 'O',
+                    'letters': /[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g
+                },
+                {'base': 'OI', 'letters': /[\u01A2]/g},
+                {'base': 'OO', 'letters': /[\uA74E]/g},
+                {'base': 'OU', 'letters': /[\u0222]/g},
+                {'base': 'P', 'letters': /[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g},
+                {'base': 'Q', 'letters': /[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g},
+                {
+                    'base': 'R',
+                    'letters': /[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g
+                },
+                {
+                    'base': 'S',
+                    'letters': /[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g
+                },
+                {
+                    'base': 'T',
+                    'letters': /[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g
+                },
+                {'base': 'TZ', 'letters': /[\uA728]/g},
+                {
+                    'base': 'U',
+                    'letters': /[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g
+                },
+                {'base': 'V', 'letters': /[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g},
+                {'base': 'VY', 'letters': /[\uA760]/g},
+                {'base': 'W', 'letters': /[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g},
+                {'base': 'X', 'letters': /[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g},
+                {
+                    'base': 'Y',
+                    'letters': /[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g
+                },
+                {
+                    'base': 'Z',
+                    'letters': /[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g
+                },
+                {
+                    'base': 'a',
+                    'letters': /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
+                },
+                {'base': 'aa', 'letters': /[\uA733]/g},
+                {'base': 'ae', 'letters': /[\u00E6\u01FD\u01E3]/g},
+                {'base': 'ao', 'letters': /[\uA735]/g},
+                {'base': 'au', 'letters': /[\uA737]/g},
+                {'base': 'av', 'letters': /[\uA739\uA73B]/g},
+                {'base': 'ay', 'letters': /[\uA73D]/g},
+                {'base': 'b', 'letters': /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g},
+                {
+                    'base': 'c',
+                    'letters': /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
+                },
+                {
+                    'base': 'd',
+                    'letters': /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
+                },
+                {'base': 'dz', 'letters': /[\u01F3\u01C6]/g},
+                {
+                    'base': 'e',
+                    'letters': /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
+                },
+                {'base': 'f', 'letters': /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g},
+                {
+                    'base': 'g',
+                    'letters': /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
+                },
+                {
+                    'base': 'h',
+                    'letters': /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
+                },
+                {'base': 'hv', 'letters': /[\u0195]/g},
+                {
+                    'base': 'i',
+                    'letters': /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
+                },
+                {'base': 'j', 'letters': /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g},
+                {
+                    'base': 'k',
+                    'letters': /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
+                },
+                {
+                    'base': 'l',
+                    'letters': /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
+                },
+                {'base': 'lj', 'letters': /[\u01C9]/g},
+                {'base': 'm', 'letters': /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g},
+                {
+                    'base': 'n',
+                    'letters': /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
+                },
+                {'base': 'nj', 'letters': /[\u01CC]/g},
+                {
+                    'base': 'o',
+                    'letters': /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
+                },
+                {'base': 'oi', 'letters': /[\u01A3]/g},
+                {'base': 'ou', 'letters': /[\u0223]/g},
+                {'base': 'oo', 'letters': /[\uA74F]/g},
+                {'base': 'p', 'letters': /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g},
+                {'base': 'q', 'letters': /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g},
+                {
+                    'base': 'r',
+                    'letters': /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
+                },
+                {
+                    'base': 's',
+                    'letters': /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
+                },
+                {
+                    'base': 't',
+                    'letters': /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
+                },
+                {'base': 'tz', 'letters': /[\uA729]/g},
+                {
+                    'base': 'u',
+                    'letters': /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
+                },
+                {'base': 'v', 'letters': /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g},
+                {'base': 'vy', 'letters': /[\uA761]/g},
+                {'base': 'w', 'letters': /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g},
+                {'base': 'x', 'letters': /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g},
+                {
+                    'base': 'y',
+                    'letters': /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
+                },
+                {
+                    'base': 'z',
+                    'letters': /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+                }
             ];
 
-            for(var i=0; i<defaultDiacriticsRemovalMap.length; i++) {
+            for (var i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
                 str = str.replace(defaultDiacriticsRemovalMap[i].letters, defaultDiacriticsRemovalMap[i].base);
             }
 
@@ -3384,7 +3490,7 @@
 
 
         // Yellow Pencil Toggle Advanced Boxes. Used For Parallax, Transform.
-        $(".yp-advanced-link").click(function() {
+        $(".yp-advanced-link").click(function () {
 
             // Adding animation link
             if ($(this).hasClass("yp-add-animation-link")) {
@@ -3396,15 +3502,15 @@
                     yp_anim_cancel();
                 }
 
-                if ($("#animation-duration-value").val() == '0' || $("#animation-duration-value").val() == '0.00'){
+                if ($("#animation-duration-value").val() == '0' || $("#animation-duration-value").val() == '0.00') {
                     $("#animation-duration-value").val("1");
                     $("#animation-duration-value").trigger("blur");
                 }
 
                 // update animation ame.
-                if($(this).hasClass("yp-add-animation-link")){
+                if ($(this).hasClass("yp-add-animation-link")) {
                     var slctor = get_current_selector();
-                    var animID = removeDiacritics(get_basic_id(uppercase_first_letter(get_tag_information(slctor)))+"_Animation_"+Math.floor((Math.random() * 99)));
+                    var animID = removeDiacritics(get_basic_id(uppercase_first_letter(get_tag_information(slctor))) + "_Animation_" + Math.floor((Math.random() * 99)));
                     $("#yp-set-animation-name").val(animID).trigger("focus");
                 }
 
@@ -3428,7 +3534,7 @@
         });
 
         // Background Assents Set Active Click.
-        $(".yp-bg-img-btn").click(function() {
+        $(".yp-bg-img-btn").click(function () {
 
             $(this).toggleClass("active");
             $(".yp_background_assets").toggle();
@@ -3437,22 +3543,22 @@
 
         });
 
-        $(".top-area-btn").click(function(){
-            setTimeout(function(){
+        $(".top-area-btn").click(function () {
+            setTimeout(function () {
                 window.FrameleftOffset = undefined;
                 draw_responsive_handle();
-            },50);
+            }, 50);
         });
 
         // Active Class For undo, redo, CSS Editor buttons.
-        $(".top-area-btn:not(.undo-btn):not(.redo-btn):not(.css-editor-btn)").click(function(){
+        $(".top-area-btn:not(.undo-btn):not(.redo-btn):not(.css-editor-btn)").click(function () {
 
-            if(is_animate_creator() === false){
+            if (is_animate_creator() === false) {
 
                 $(this).toggleClass("active");
                 $(this).tooltip("hide");
 
-            }else if($(this).hasClass("yp-selector-mode") === false && $(this).hasClass("yp-button-target") === false){
+            } else if ($(this).hasClass("yp-selector-mode") === false && $(this).hasClass("yp-button-target") === false) {
 
                 $(this).toggleClass("active");
                 $(this).tooltip("hide");
@@ -3462,46 +3568,46 @@
         });
 
         // Fullscreen
-        $(".fullscreen-btn").click(function() {
+        $(".fullscreen-btn").click(function () {
             toggle_fullscreen(document.body);
         });
 
         // Undo
-        $(".undo-btn").click(function() {
+        $(".undo-btn").click(function () {
 
             undo_changes();
 
         });
 
         // Redo
-        $(".redo-btn").click(function() {
+        $(".redo-btn").click(function () {
 
             redo_changes();
 
         });
 
         // Background Assents Loading On Scrolling.
-        $(".yp_background_assets").scroll(function() {
+        $(".yp_background_assets").scroll(function () {
 
-            $(".yp_bg_assets").filter(":onScreenFrame").each(function() {
+            $(".yp_bg_assets").filter(":onScreenFrame").each(function () {
                 $(this).css("background-image", "url(" + $(this).data("url") + ")");
             });
 
         });
 
         // Set Background Assents
-        $(".yp-bg-img-btn:not(.yp-first-clicked)").click(function() {
+        $(".yp-bg-img-btn:not(.yp-first-clicked)").click(function () {
 
             $(this).addClass("yp-first-clicked");
 
-            $(".yp_bg_assets").filter(":onScreenFrame").each(function() {
+            $(".yp_bg_assets").filter(":onScreenFrame").each(function () {
                 $(this).css("background-image", "url(" + $(this).data("url") + ")");
             });
 
         });
 
         // Flat color helper toggle
-        $(".yp-flat-colors").click(function() {
+        $(".yp-flat-colors").click(function () {
 
             $(this).toggleClass("active");
             $(this).parent().find(".yp_flat_colors_area").toggle();
@@ -3511,7 +3617,7 @@
         });
 
         // Meterial color helper toggle
-        $(".yp-meterial-colors").click(function() {
+        $(".yp-meterial-colors").click(function () {
 
             $(this).toggleClass("active");
             $(this).parent().find(".yp_meterial_colors_area").toggle();
@@ -3521,7 +3627,7 @@
         });
 
         // Nice color helper toggle.
-        $(".yp-nice-colors").click(function() {
+        $(".yp-nice-colors").click(function () {
 
             $(this).parent().find(".yp_nice_colors_area").toggle();
             $(this).toggleClass("active");
@@ -3531,16 +3637,16 @@
         });
 
         // Image Uploader
-        $(".yp-upload-btn").click(function() {
+        $(".yp-upload-btn").click(function () {
 
             // Get iframe contents.
-            $('#image_uploader iframe').attr('src',$('#image_uploader iframe').attr('data-url'));
+            $('#image_uploader iframe').attr('src', $('#image_uploader iframe').attr('data-url'));
 
-            $('#image_uploader iframe').attr('src', function(i, val){
+            $('#image_uploader iframe').attr('src', function (i, val) {
                 return val;
             });
 
-            window.send_to_editor = function(output) {
+            window.send_to_editor = function (output) {
 
                 var imgurl = output.match(/src="(.*?)"/g);
                 var imgNew = '';
@@ -3582,10 +3688,10 @@
         });
 
         // Image Uploader close
-        $("#image_uploader_background").click(function() {
+        $("#image_uploader_background").click(function () {
             $("#image_uploader").toggle();
             $("#image_uploader_background").toggle();
-            $('#image_uploader iframe').attr('src', function(i, val) {
+            $('#image_uploader iframe').attr('src', function (i, val) {
                 return val;
             });
         });
@@ -3593,7 +3699,7 @@
         // Uploader callback
         window.restore_send_to_editor = window.send_to_editor;
 
-        window.send_to_editor = function(html) {
+        window.send_to_editor = function (html) {
 
             var imgurl = $('img', html).attr('src');
             $("#yp-background-image").val(imgurl);
@@ -3602,7 +3708,7 @@
 
             $("#image_uploader").toggle();
             $("#image_uploader_background").toggle();
-            $('#image_uploader iframe').attr('src', function(i, val) {
+            $('#image_uploader iframe').attr('src', function (i, val) {
                 return val;
             });
 
@@ -3629,7 +3735,7 @@
         }
 
         // Save Button
-        $(".yp-save-btn").on("click", function() {
+        $(".yp-save-btn").on("click", function () {
 
             // If all changes already saved, So Stop.
             if ($(this).hasClass("yp-disabled")) {
@@ -3674,7 +3780,7 @@
                         data.indexOf("opacity:") != -1 ||
                         data.match(/\s\s+height\:/g) !== null ||
                         data.match(/\s\s+width\:/g) !== null ||
-                        data.match(/\s\s+color\:/g) !== null){
+                        data.match(/\s\s+color\:/g) !== null) {
 
                         status = false;
 
@@ -3713,20 +3819,20 @@
                             yp_id: id,
                             yp_stype: type,
                             yp_data: data,
-                            yp_editor_data: get_editor_data()
+                            //yp_editor_data: get_editor_data()
 
                         });
 
-                        $.post(ajaxurl, {
-
-                            action: "yp_preview_data_save",
-                            yp_data: data
-
+                        swal({
+                            title: "Here's the result", text: data, showCancelButton: false,
+                            closeOnConfirm: true
+                        }, function () {
+                            $(".yp-save-btn").html(l18_save).removeClass("yp-disabled");
+                            return true;
                         });
-
 
                         // Done.
-                        posting.complete(function(data) {
+                        posting.complete(function (data) {
                             $(".yp-save-btn").html(l18_saved).addClass("yp-disabled").removeClass("waiting-for-save");
                         });
 
@@ -3736,7 +3842,7 @@
 
             } else {
 
-                swal({title: "Sorry.",text: l18_demo_alert,type: "info",animation: false});
+                swal({title: "Sorry.", text: l18_demo_alert, type: "info", animation: false});
                 $(".yp-save-btn").html(l18_saved).addClass("yp-disabled").removeClass("waiting-for-save");
 
             }
@@ -3745,19 +3851,19 @@
 
 
         // Be sure there not have any element animating.
-        function check_with_parents(element, css, value, comparison){
+        function check_with_parents(element, css, value, comparison) {
 
             var checkElements = element.add(element.parents());
-            var animation_fill_mode,el,returnValue = true;
+            var animation_fill_mode, el, returnValue = true;
 
-            checkElements.each(function(){
+            checkElements.each(function () {
 
                 el = $(this);
 
                 animation_fill_mode = null;
 
                 // Be sure there not have any element animating.
-                if(el.hasClass("yp-animating") === false){
+                if (el.hasClass("yp-animating") === false) {
 
                     // nowdays a lot website using animation on page loads.
                     // the problem is a lot animations has transfrom, opacity etc.
@@ -3766,37 +3872,37 @@
                     animation_fill_mode = el.css("animation-fill-mode");
 
                     // Disable it until we get real value.
-                    if(animation_fill_mode == 'forwards' || animation_fill_mode == 'both'){
+                    if (animation_fill_mode == 'forwards' || animation_fill_mode == 'both') {
 
                         // Set none for animation-fill-mode and be sure. using promise.
-                        $.when(el.css("animation-fill-mode","none")).promise().always(function() {
+                        $.when(el.css("animation-fill-mode", "none")).promise().always(function () {
 
                             // Continue after done.
                             returnValue = check_with_parents_last(el, css, value, comparison, animation_fill_mode);
 
-                            if(returnValue === true){
+                            if (returnValue === true) {
                                 return false;
                             }
 
                         });
 
-                    }else{
+                    } else {
 
                         // Continue to last part.
                         returnValue = check_with_parents_last(el, css, value, comparison);
 
-                        if(returnValue === true){
+                        if (returnValue === true) {
                             return false;
                         }
 
                     }
 
-                }else{
+                } else {
 
                     // Continue to last part.
                     returnValue = check_with_parents_last(el, css, value, comparison);
 
-                    if(returnValue === true){
+                    if (returnValue === true) {
                         return false;
                     }
 
@@ -3810,7 +3916,7 @@
 
 
         // just an part of check_with_parents function.
-        function check_with_parents_last(el, css, value, comparison, animation_fill_mode){
+        function check_with_parents_last(el, css, value, comparison, animation_fill_mode) {
 
             var isVal = false;
 
@@ -3818,14 +3924,16 @@
             var cssValue = el.css(css);
 
             // If not none but and not have any transfrom.
-            if(css == 'transfrom' && cssValue != 'none' && cssValue == 'matrix(1, 0, 0, 1, 0, 0)'){
+            if (css == 'transfrom' && cssValue != 'none' && cssValue == 'matrix(1, 0, 0, 1, 0, 0)') {
                 cssValue = 'none';
             }
 
             if (comparison == '==') {
 
                 if (cssValue === value) {
-                    if(animation_fill_mode !== undefined){el.css("animation-fill-mode",animation_fill_mode);}
+                    if (animation_fill_mode !== undefined) {
+                        el.css("animation-fill-mode", animation_fill_mode);
+                    }
                     return true;
 
                 }
@@ -3833,52 +3941,55 @@
             } else {
 
                 if (cssValue !== value) {
-                    if(animation_fill_mode !== undefined){el.css("animation-fill-mode",animation_fill_mode);}
+                    if (animation_fill_mode !== undefined) {
+                        el.css("animation-fill-mode", animation_fill_mode);
+                    }
                     return true;
 
                 }
 
             }
 
-            if(animation_fill_mode !== undefined){el.css("animation-fill-mode",animation_fill_mode);}
+            if (animation_fill_mode !== undefined) {
+                el.css("animation-fill-mode", animation_fill_mode);
+            }
             return isVal;
 
         }
 
 
-
         // Hide contextmenu on scroll.
         var timerx = null;
-        iframe.scroll(function() {
+        iframe.scroll(function () {
 
             if (iframe.find(".context-menu-active").length > 0) {
                 get_selected_element().contextMenu("hide");
             }
 
-            if(timerx !== null) {
+            if (timerx !== null) {
                 clearTimeout(timerx);
             }
 
-            if(is_content_selected()){
+            if (is_content_selected()) {
 
                 // Set outline border while scrolling if its is fixed.
                 // Need to reflesh the position on scrolling and this will make feel slow the editor.
                 if (check_with_parents(get_selected_element(), "position", "fixed", "==") === true) {
 
-                    if (!body.hasClass("yp-has-transform")){ // if not have.
+                    if (!body.hasClass("yp-has-transform")) { // if not have.
 
                         body.addClass("yp-has-transform"); // add
 
-                    }else{
+                    } else {
 
                         // back to normal borders and update position.
-                        timerx = setTimeout(function(){
+                        timerx = setTimeout(function () {
 
                             body.removeClass("yp-has-transform");
 
                             draw();
 
-                        },250);
+                        }, 250);
 
                     }
 
@@ -3891,14 +4002,14 @@
 
         // update tooltip while scrolling always
         var timer = null;
-        iframe.on("scroll", iframe, function(evt){
+        iframe.on("scroll", iframe, function (evt) {
 
-            if(timer !== null) {
+            if (timer !== null) {
                 clearTimeout(timer);
             }
 
-            timer = setTimeout(function(){
-                if(is_content_selected()){
+            timer = setTimeout(function () {
+                if (is_content_selected()) {
                     draw_tooltip();
                 }
             }, 120);
@@ -3907,7 +4018,7 @@
 
 
         // Set As Background Image
-        $(".yp_background_assets div").click(function() {
+        $(".yp_background_assets div").click(function () {
             $(".yp_background_assets div.active").removeClass("active");
             $(this).parent().parent().find(".yp-input").val($(this).data("url")).trigger("keyup");
             $(this).addClass("active");
@@ -3915,7 +4026,7 @@
         });
 
         // Set Color
-        $(".yp_flat_colors_area div,.yp_meterial_colors_area div,.yp_nice_colors_area div").click(function() {
+        $(".yp_flat_colors_area div,.yp_meterial_colors_area div,.yp_nice_colors_area div").click(function () {
 
             var element = $(this);
             var elementParent = element.parent();
@@ -3927,9 +4038,9 @@
         });
 
         // Custom Blur Callback
-        $(document).click(function(event) {
+        $(document).click(function (event) {
 
-            if(!event.originalEvent){
+            if (!event.originalEvent) {
                 return false;
             }
 
@@ -3970,7 +4081,7 @@
 
         });
 
-        $("#yp-target-dropdown").on("click", function(e) {
+        $("#yp-target-dropdown").on("click", function (e) {
             if (e.target !== this) {
                 return;
             }
@@ -4034,7 +4145,7 @@
                     $("body").removeClass("yp-css-editor-active");
 
                     var ebtn = $(".css-editor-btn");
-                    ebtn.attr("data-original-title",ebtn.attr("data-title"));
+                    ebtn.attr("data-original-title", ebtn.attr("data-title"));
 
                     $("#leftAreaEditor").hide();
                 }
@@ -4067,10 +4178,10 @@
 
             // adding all ids
             if (selector == '#') {
-                iframe.find("[id]").not(window.simple_not_selector).each(function(i, v){
+                iframe.find("[id]").not(window.simple_not_selector).each(function (i, v) {
                     if (i < max) {
                         add_similar_selectors("#" + $(this).attr('id'));
-                    }else{
+                    } else {
                         return false;
                     }
                 });
@@ -4079,10 +4190,10 @@
 
             // adding all classes
             if (selector == '.') {
-                iframe.find("[class]").not(window.simple_not_selector).each(function(i, v) {
+                iframe.find("[class]").not(window.simple_not_selector).each(function (i, v) {
                     if (i < max) {
                         add_similar_selectors("." + $(this).attr('class'));
-                    }else{
+                    } else {
                         return false;
                     }
                 });
@@ -4103,22 +4214,22 @@
             if (get_selector_array(selector).length > 0) {
 
                 var last = null;
-                var elsAll,rex;
+                var elsAll, rex;
                 var lastPart = get_selector_array(selector)[(get_selector_array(selector).length - 1)];
                 if (lastPart.indexOf(" ") == -1) {
                     last = lastPart;
                 }
 
-                if (last !== null){
+                if (last !== null) {
 
-                    var selectorY = $.trim(selector.replace(/\#$/g,"").replace(/\.$/g,""));
+                    var selectorY = $.trim(selector.replace(/\#$/g, "").replace(/\.$/g, ""));
 
                     // adding all ids
                     if (last == '#') {
-                        iframe.find(selectorY).find("[id]").not(window.simple_not_selector).each(function(i, v) {
+                        iframe.find(selectorY).find("[id]").not(window.simple_not_selector).each(function (i, v) {
                             if (i < max) {
                                 add_similar_selectors(selector + $(this).attr('id'));
-                            }else{
+                            } else {
                                 return false;
                             }
                         });
@@ -4127,10 +4238,10 @@
 
                     // adding all classes
                     if (last == '.') {
-                        iframe.find(selectorY).find("[class]").not(window.simple_not_selector).each(function(i, v) {
+                        iframe.find(selectorY).find("[class]").not(window.simple_not_selector).each(function (i, v) {
                             if (i < max) {
                                 add_similar_selectors(selector + $(this).attr('class'));
-                            }else{
+                            } else {
                                 return false;
                             }
                         });
@@ -4138,12 +4249,12 @@
                     }
 
                     // For Classes
-                    if (last.indexOf(".") != -1){
+                    if (last.indexOf(".") != -1) {
 
                         elsAll = iframe.find("[class^='" + last.replace(/\./g, '') + "']").not(window.simple_not_selector);
                         rex = new RegExp("^" + last.replace(/\./g, '') + "(.+)");
 
-                        elsAll.each(function(){
+                        elsAll.each(function () {
 
                             var classes = $(this).attr('class').split(' ');
 
@@ -4163,12 +4274,12 @@
                     }
 
                     // For ID
-                    if (last.indexOf("#") != -1){
+                    if (last.indexOf("#") != -1) {
 
                         elsAll = iframe.find("[id^='" + last.replace(/\#/g, '') + "']").not(window.simple_not_selector);
                         rex = new RegExp("^" + last.replace(/\#/g, '') + "(.+)");
 
-                        elsAll.each(function(){
+                        elsAll.each(function () {
 
                             var ids = $(this).attr('id').split(' ');
 
@@ -4187,7 +4298,7 @@
 
                     }
 
-                }else{
+                } else {
                     add_similar_selectors(selector);
                 }
 
@@ -4200,17 +4311,17 @@
                 return false;
             }
 
-            childrens.each(function(i) {
-                if(i < max){
+            childrens.each(function (i) {
+                if (i < max) {
                     add_similar_selectors(selector + " " + get_best_class($(this)));
-                }else{
+                } else {
                     return false;
                 }
             });
 
         }
 
-        $(document).on("click", "#yp-target-dropdown li", function() {
+        $(document).on("click", "#yp-target-dropdown li", function () {
 
             $("#yp-button-target-input").val($(this).text().split(" |")[0]).trigger("keyup").trigger("focus");
 
@@ -4219,7 +4330,7 @@
         });
 
         // Custom Selector
-        $(".yp-button-target").click(function(e) {
+        $(".yp-button-target").click(function (e) {
 
             if ($(e.target).hasClass("yp-button-target-input")) {
                 return false;
@@ -4269,15 +4380,15 @@
                 var hoverPosition = selector.match(/:hover(.*?)$/g);
                 var focusPosition = selector.match(/:focus(.*?)$/g);
 
-                if(hoverPosition !== null){
-                    hoverPosition = hoverPosition.toString().trim().replace(/:hover/g,'').trim().length;
-                }else{
+                if (hoverPosition !== null) {
+                    hoverPosition = hoverPosition.toString().trim().replace(/:hover/g, '').trim().length;
+                } else {
                     hoverPosition = 0;
                 }
 
-                if(focusPosition !== null){
-                    focusPosition = focusPosition.toString().trim().replace(/:focus/g,'').trim().length;
-                }else{
+                if (focusPosition !== null) {
+                    focusPosition = focusPosition.toString().trim().replace(/:focus/g, '').trim().length;
+                } else {
                     focusPosition = 0;
                 }
 
@@ -4290,7 +4401,7 @@
                         get_selected_element().addClass("yp-will-selected");
                     }
 
-                    set_selector(space_cleaner(selector),null);
+                    set_selector(space_cleaner(selector), null);
 
                     // selected element
                     var selectedElement = iframe.find(selectorNew);
@@ -4306,7 +4417,7 @@
                     element.addClass("active");
                     body.removeClass("yp-target-active");
 
-                } else if (selectorNew != '' && selectorNew != ' '){
+                } else if (selectorNew != '' && selectorNew != ' ') {
 
                     $("#yp-button-target-input").css("color", "red");
 
@@ -4320,7 +4431,7 @@
         });
 
         // Custom Selector Close.
-        $("#target_background").click(function() {
+        $("#target_background").click(function () {
 
             body.removeClass("yp-target-active");
             $("#yp-button-target-input").val("");
@@ -4329,13 +4440,13 @@
         });
 
         // Custom Selector Keyup
-        $("#yp-button-target-input").keyup(function(e) {
+        $("#yp-button-target-input").keyup(function (e) {
 
-            if($(this).val().length > 1 || $(this).val() == '#' || $(this).val() == "."){
+            if ($(this).val().length > 1 || $(this).val() == '#' || $(this).val() == ".") {
                 create_similar_selectors();
             }
 
-            if (e.keyCode != 13){
+            if (e.keyCode != 13) {
                 $(this).attr("style", "");
             }
 
@@ -4350,9 +4461,9 @@
         });
 
         // Selector Color Red Remove.
-        $("#yp-button-target-input").keydown(function(e) {
+        $("#yp-button-target-input").keydown(function (e) {
 
-            if (e.keyCode != 13){
+            if (e.keyCode != 13) {
                 $(this).attr("style", "");
             }
 
@@ -4467,7 +4578,7 @@
 
             // UpData current active values.
             if (options.length > 0) {
-                options.each(function() {
+                options.each(function () {
 
                     if ($(this).attr("id") != "background-parallax-group" && $(this).attr("id") != "background-parallax-speed-group" && $(this).attr("id") != "background-parallax-x-group" && $(this).attr("id") != "background-position-group") {
 
@@ -4490,11 +4601,11 @@
 
         }
 
-        $(".input-autocomplete").each(function() {
+        $(".input-autocomplete").each(function () {
 
             // Get data by select
             var data = [];
-            $(this).parent().find("select option").each(function() {
+            $(this).parent().find("select option").each(function () {
                 data.push($(this).text());
             });
 
@@ -4506,21 +4617,21 @@
                 delay: 0,
                 minLength: 0,
                 autoFocus: true,
-                close: function(event, ui) {
+                close: function (event, ui) {
 
                     $(".active-autocomplete-item").removeClass("active-autocomplete-item");
                     $(this).removeClass("active");
 
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $("body").removeClass("autocomplete-active");
-                    },300);
+                    }, 300);
 
                     if ($(this).parent().find('select option:contains(' + $(this).val() + ')').length) {
                         $(this).val($(this).parent().find('select option:contains(' + $(this).val() + ')').val());
                     }
 
                 },
-                open: function(event, ui) {
+                open: function (event, ui) {
 
                     window.openVal = $(this).val();
 
@@ -4544,7 +4655,7 @@
                         }
                     }
 
-                    if (fontGoogle === null){
+                    if (fontGoogle === null) {
                         if ($('#yp-' + id + '-data option[value="' + current + '"]').length > 0) {
                             current = $('#yp-' + id + '-data option[value="' + current + '"]').text();
                         }
@@ -4552,14 +4663,14 @@
                         current = fontGoogle;
                     }
 
-                    if ($(this).parent().find(".autocomplete-div").find('li').filter(function() {
+                    if ($(this).parent().find(".autocomplete-div").find('li').filter(function () {
                             return $.text([this]) === current;
                         }).length == 1) {
 
                         $(".active-autocomplete-item").removeClass("active-autocomplete-item");
                         if ($(".active-autocomplete-item").length === 0) {
 
-                            $(this).parent().find(".autocomplete-div").find('li').filter(function() {
+                            $(this).parent().find(".autocomplete-div").find('li').filter(function () {
                                 return $.text([this]) === current;
                             }).addClass("active-autocomplete-item");
 
@@ -4583,7 +4694,7 @@
                     // Font Weight
                     if (id == 'font-weight') {
 
-                        $(".autocomplete-div li").each(function() {
+                        $(".autocomplete-div li").each(function () {
 
                             // Light 300 > 300
                             var v = Math.abs(number_filter($(this).text()));
@@ -4593,14 +4704,14 @@
 
                     }
 
-                    if(id == 'font-weight' || id == 'font-family'){
+                    if (id == 'font-weight' || id == 'font-family') {
                         load_near_fonts($(this).parent().find(".autocomplete-div"));
                     }
 
                     // Text shadow
                     if (id == 'text-shadow') {
 
-                        $(".autocomplete-div li").each(function() {
+                        $(".autocomplete-div li").each(function () {
 
                             if ($(this).text() == 'Basic Shadow') {
                                 $(this).css("text-shadow", 'rgba(0, 0, 0, 0.3) 0px 1px 1px');
@@ -4633,13 +4744,13 @@
                 },
 
                 appendTo: "#yp-autocomplete-place-" + $(this).parent().parent().attr("id").replace("-group", "").toString()
-            }).click(function() {
+            }).click(function () {
                 $(this).autocomplete("search", "");
             });
 
         });
 
-        $(".yp-responsive-btn").click(function() {
+        $(".yp-responsive-btn").click(function () {
 
             if ($("body").hasClass("yp-css-editor-active")) {
                 $(".yp-css-close-btn").trigger("click");
@@ -4648,7 +4759,7 @@
         });
 
         // Responsive Helper: tablet
-        $(".yp-responsive-btn").click(function() {
+        $(".yp-responsive-btn").click(function () {
 
             if ($(this).hasClass("active")) {
                 body.removeClass("yp-responsive-device-mode");
@@ -4667,14 +4778,14 @@
                 draw();
             }
 
-            if(body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-animate-manager-active")) {
                 animation_manager();
             }
 
         });
 
         // Reset Button
-        $(".yp-button-reset").click(function() {
+        $(".yp-button-reset").click(function () {
 
             if (is_animate_creator()) {
                 if (!confirm(l18_closeAnim)) {
@@ -4688,11 +4799,11 @@
             var t = $(".yp-ul-single-list").find(".active").text();
 
             if ($(".yp-ul-all-pages-list").find(".active").length > 0) {
-                l18_reset = "你确定重置<strong>'"+p+"'</strong>页面的所有改变?";
+                l18_reset = "You are sure to reset changes on <strong>'" + p + "'</strong> page?";
             } else if ($(".yp-ul-single-list").find(".active").length > 0) {
-                l18_reset = "你确定重置<strong>'"+t+"'</strong>模板的所有改变?";
+                l18_reset = "You are sure to reset changes on <strong>'" + t + "'</strong> template?";
             } else {
-                l18_reset = "你确定重置所有<strong>全局改变</strong>?";
+                l18_reset = "You are sure to reset all <strong>global changes</strong>?";
 
             }
 
@@ -4712,7 +4823,7 @@
                 animation: false,
                 customClass: 'yp-reset-popup',
                 html: true
-            },function(){
+            }, function () {
 
                 iframe.find(".yp_current_styles").remove();
 
@@ -4742,10 +4853,10 @@
 
                 // Update draggable after reset
                 var el = iframeBody.find(".yp-selected");
-                if(el.length > 0){
+                if (el.length > 0) {
 
-                    if(el.css("position") == 'static'){
-                        el.css("position","relative");
+                    if (el.css("position") == 'static') {
+                        el.css("position", "relative");
                     }
 
                 }
@@ -4756,29 +4867,29 @@
 
         // Install All Options Types.
         // Installing and setting default value to all.
-        $(".yp-slider-option").each(function() {
+        $(".yp-slider-option").each(function () {
             slider_option(get_option_id(this), $(this).data("decimals"), $(this).data("pxv"), $(this).data("pcv"), $(this).data("emv"));
         });
 
-        $(".yp-radio-option").each(function() {
+        $(".yp-radio-option").each(function () {
             radio_option(get_option_id(this));
         });
 
-        $(".yp-color-option").each(function() {
+        $(".yp-color-option").each(function () {
             color_option(get_option_id(this));
         });
 
-        $(".yp-input-option").each(function() {
+        $(".yp-input-option").each(function () {
             input_option(get_option_id(this));
         });
 
         // Updating slider by input value.
-        function update_slide_by_input(element,value,prefix) {
+        function update_slide_by_input(element, value, prefix) {
 
             var elementParent = element.parent().parent().parent();
             var range;
 
-            if(value === false){
+            if (value === false) {
                 value = element.parent().find(".yp-after-css-val").val();
                 prefix = element.parent().find(".yp-after-prefix").val();
             }
@@ -4821,7 +4932,7 @@
                 max = value;
             }
 
-            if (isNaN(min) === false && isNaN(max) === false && isNaN(value) === false){
+            if (isNaN(min) === false && isNaN(max) === false && isNaN(value) === false) {
 
                 slide.wqNoUiSlider({
                     range: {
@@ -4837,16 +4948,16 @@
         }
 
         // process CSS before open CSS editor.
-        $("body:not(.yp-css-editor-active) .css-editor-btn").hover(function() {
+        $("body:not(.yp-css-editor-active) .css-editor-btn").hover(function () {
             if (!$("body").hasClass("yp-css-editor-active")) {
                 process(false, false, false);
             }
         });
 
         // Hide CSS Editor.
-        $(".css-editor-btn,.yp-css-close-btn").click(function() {
+        $(".css-editor-btn,.yp-css-close-btn").click(function () {
 
-            if(body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-animate-manager-active")) {
                 $(".animation-manager-btn.active").trigger("click");
             }
 
@@ -4870,9 +4981,9 @@
                     cssData = cssData.replace(/a:a;/g, "");
                     editor.setValue(cssData);
                     editor.resize(true);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         editor.scrollToLine(goToLine, true, false);
-                    },2);
+                    }, 2);
                     editor.focus();
                     if ($("body").hasClass("yp-responsive-device-mode")) {
                         editor.gotoLine(goToLine, 2, true);
@@ -4886,8 +4997,8 @@
 
                 var ebtn = $(".css-editor-btn");
                 var title = ebtn.attr("data-original-title"); // Save
-                ebtn.attr("data-title",title); // save as data
-                ebtn.attr("data-original-title",""); // remove title
+                ebtn.attr("data-title", title); // save as data
+                ebtn.attr("data-original-title", ""); // remove title
 
                 iframeBody.trigger("scroll");
 
@@ -4904,9 +5015,9 @@
         });
 
         // Blur: Custom Slider Value
-        $(".yp-after-css-val,.yp-after-prefix").on("keydown keyup",function(e) {
+        $(".yp-after-css-val,.yp-after-prefix").on("keydown keyup", function (e) {
 
-            if(!e.originalEvent){
+            if (!e.originalEvent) {
                 return false;
             }
 
@@ -4915,9 +5026,9 @@
             var lock = thisContent.find(".lock-btn.active").length;
             var lockedIdArray = [];
 
-            if(lock){
-                thisContent.find(".yp-option-group").each(function(){
-                    if($(this).attr("data-css") != id){
+            if (lock) {
+                thisContent.find(".yp-option-group").each(function () {
+                    if ($(this).attr("data-css") != id) {
                         lockedIdArray.push($(this).attr("data-css"));
                     }
                 });
@@ -4927,15 +5038,15 @@
             var prefix = $(this).parent().find(".yp-after-prefix").val();
 
             // Self
-            update_slide_by_input($(this),false);
+            update_slide_by_input($(this), false);
 
             // others
-            if(lock){
+            if (lock) {
 
-                for(var y = 0;y < lockedIdArray.length; y++){
-                    $("#" + lockedIdArray[y]+"-value").val(value);
-                    $("#" + lockedIdArray[y]+"-after").val(prefix);
-                    update_slide_by_input($("#" + lockedIdArray[y]+"-value"),value,prefix);
+                for (var y = 0; y < lockedIdArray.length; y++) {
+                    $("#" + lockedIdArray[y] + "-value").val(value);
+                    $("#" + lockedIdArray[y] + "-after").val(prefix);
+                    update_slide_by_input($("#" + lockedIdArray[y] + "-value"), value, prefix);
                     slide_action($("#yp-" + lockedIdArray[y]), lockedIdArray[y], true, false);
                 }
 
@@ -4954,7 +5065,7 @@
         function single_selector(selector) {
 
             var customClass = 'yp-selected';
-            if(body.hasClass("yp-control-key-down") && is_content_selected()){
+            if (body.hasClass("yp-control-key-down") && is_content_selected()) {
                 customClass = 'yp-multiple-selected';
             }
 
@@ -4978,7 +5089,7 @@
 
                 if (iframe.find(selectorPlus).length > 1) {
 
-                    iframe.find(selectorPlus).each(function(){
+                    iframe.find(selectorPlus).each(function () {
 
                         if (selectorPlus.substr(selectorPlus.length - 1) != ')') {
 
@@ -4986,11 +5097,11 @@
 
                                 indexOf = 0;
 
-                                $(this).parent().children().each(function() {
+                                $(this).parent().children().each(function () {
 
                                     indexOf++;
 
-                                    if ($(this).find("."+customClass).length > 0 || $(this).hasClass((customClass))) {
+                                    if ($(this).find("." + customClass).length > 0 || $(this).hasClass((customClass))) {
 
                                         selectorPlus = selectorPlus + ":nth-child(" + indexOf + ")";
 
@@ -5010,34 +5121,34 @@
 
 
             // Clean no-need nth-childs.
-            if(selectorPlus.indexOf(":nth-child") != -1){
+            if (selectorPlus.indexOf(":nth-child") != -1) {
 
                 // Selector Array
                 selectorArray = get_selector_array(selectorPlus);
 
                 // Each all selector parts
-                for(i = 0; i < selectorArray.length; i++){
+                for (i = 0; i < selectorArray.length; i++) {
 
                     // Get previous parts of selector
-                    var prevAll = get_previous_item(selectorArray,i).join(" ");
+                    var prevAll = get_previous_item(selectorArray, i).join(" ");
 
                     // Gext next parts of selector
-                    var nextAll = get_next_item(selectorArray,i).join(" ");
+                    var nextAll = get_next_item(selectorArray, i).join(" ");
 
                     // check the new selector
-                    var selectorPlusNew = prevAll + window.separator + selectorArray[i].replace(/:nth-child\((.*?)\)/i,'') + window.separator + nextAll;
+                    var selectorPlusNew = prevAll + window.separator + selectorArray[i].replace(/:nth-child\((.*?)\)/i, '') + window.separator + nextAll;
 
                     // clean
                     selectorPlusNew = space_cleaner(selectorPlusNew);
 
                     // Add " > " to last part of selector for be sure everything works fine.
-                    if(iframe.find(selectorPlusNew).length > 1){
-                        selectorPlusNew = selectorPlusNew.replace(/(?=[^ ]*$)/i,' > ');
+                    if (iframe.find(selectorPlusNew).length > 1) {
+                        selectorPlusNew = selectorPlusNew.replace(/(?=[^ ]*$)/i, ' > ');
                     }
 
                     // Check the selector without nth-child and be sure have only 1 element.
-                    if(iframe.find(selectorPlusNew).length == 1){
-                        selectorArray[i] = selectorArray[i].replace(/:nth-child\((.*?)\)/i,'');
+                    if (iframe.find(selectorPlusNew).length == 1) {
+                        selectorArray[i] = selectorArray[i].replace(/:nth-child\((.*?)\)/i, '');
                     }
 
                 }
@@ -5049,8 +5160,8 @@
 
 
             // Add > symbol to last if selector finding more element than one.
-            if(iframe.find(selectorPlus).length > 1){
-                selectorPlus = selectorPlus.replace(/(?=[^ ]*$)/i,' > ');
+            if (iframe.find(selectorPlus).length > 1) {
+                selectorPlus = selectorPlus.replace(/(?=[^ ]*$)/i, ' > ');
             }
 
 
@@ -5060,13 +5171,13 @@
         }
 
 
-        function get_previous_item(arr,current){
+        function get_previous_item(arr, current) {
 
             var result = [];
 
-            for(var i = 0; i < arr.length; i++){
+            for (var i = 0; i < arr.length; i++) {
 
-                if(i < current){
+                if (i < current) {
 
                     result.push(arr[i]);
 
@@ -5078,13 +5189,13 @@
 
         }
 
-        function get_next_item(arr,current){
+        function get_next_item(arr, current) {
 
             var result = [];
 
-            for(var i = 0; i < arr.length; i++){
+            for (var i = 0; i < arr.length; i++) {
 
-                if(i > current){
+                if (i > current) {
 
                     result.push(arr[i]);
 
@@ -5105,7 +5216,7 @@
             events: {
 
                 // Draw Again Borders, Tooltip After Contextmenu Hide.
-                hide: function(opt) {
+                hide: function (opt) {
 
                     body.removeClass("yp-contextmenuopen");
 
@@ -5114,7 +5225,7 @@
                 },
 
                 // if contextmenu show; update some options.
-                show: function() {
+                show: function () {
 
                     // Disable contextmenu on animate creator.
                     if (is_animate_creator()) {
@@ -5139,7 +5250,7 @@
 
             // Open context menu only if a element selected.
             selector: 'body.yp-content-selected .yp-selected,body.yp-content-selected.yp-selected',
-            callback: function(key, options) {
+            callback: function (key, options) {
 
                 body.removeClass("yp-contextmenuopen");
 
@@ -5163,16 +5274,16 @@
                     var parentSelector = $.trim(get_parents(iframe.find(".yp-will-selected"), "default"));
 
                     // Set Selector
-                    set_selector(parentSelector,null);
+                    set_selector(parentSelector, null);
 
                 }
 
                 // Context Menu: Hover
                 if (key == "hover" || key == "focus") {
 
-                    selector = selector.replace(/:(?!hover|focus)/g,"YP_DOTTED_PREFIX");
+                    selector = selector.replace(/:(?!hover|focus)/g, "YP_DOTTED_PREFIX");
 
-                    if (!$(".yp-contextmenu-" + key).hasClass("yp-active-contextmenu")){
+                    if (!$(".yp-contextmenu-" + key).hasClass("yp-active-contextmenu")) {
                         if (selector.indexOf(":") == -1) {
                             selector = selector + ":" + key;
                         } else {
@@ -5182,9 +5293,9 @@
                         selector = selector.split(":")[0];
                     }
 
-                    selector = selector.replace(/YP_DOTTED_PREFIX/g,":");
+                    selector = selector.replace(/YP_DOTTED_PREFIX/g, ":");
 
-                    set_selector(selector,null);
+                    set_selector(selector, null);
 
                 }
 
@@ -5208,7 +5319,7 @@
                     var selectorPlus = single_selector(selector);
 
                     if (iframe.find(selectorPlus).length !== 0) {
-                        set_selector(selectorPlus,null);
+                        set_selector(selectorPlus, null);
                     }
 
                     $("body").removeClass("yp-select-just-it");
@@ -5216,11 +5327,11 @@
                 }
                 /* Select just it functions end here */
 
-                if(key == 'resetit'){
+                if (key == 'resetit') {
                     reset_selected_element(false);
                 }
 
-                if(key == 'reset-with-childs'){
+                if (key == 'reset-with-childs') {
                     reset_selected_element(true);
                 }
 
@@ -5266,7 +5377,7 @@
                 },
                 "reset": {
                     name: "Reset",
-                    items:{
+                    items: {
                         "resetit": {
                             name: "The Element",
                             className: "yp-contextmenu-reset-it"
@@ -5286,7 +5397,6 @@
         });
 
 
-
         /* ---------------------------------------------------- */
         /* Resize.                                              */
         /* Dynamic resize yellow pencil panel                   */
@@ -5294,7 +5404,7 @@
         function gui_update() {
 
             // Variables
-            var topBarHeight,height,heightLitte,footerHeight,topPadding,topHeightBar;
+            var topBarHeight, height, heightLitte, footerHeight, topPadding, topHeightBar;
 
             // update.
             window.scroll_width = get_scroll_bar_width();
@@ -5373,9 +5483,9 @@
                     footerHeight = 33;
                 }
 
-                if($("body").hasClass("yp-wireframe-mode")){
-                    topPadding = (($(".yp-editor-list > li").length - 6) * topBarHeight) + footerHeight+3;
-                }else{
+                if ($("body").hasClass("yp-wireframe-mode")) {
+                    topPadding = (($(".yp-editor-list > li").length - 6) * topBarHeight) + footerHeight + 3;
+                } else {
                     topPadding = (($(".yp-editor-list > li").length - 3) * topBarHeight) + footerHeight;
                 }
 
@@ -5394,13 +5504,13 @@
         }
 
         // Element Picker Helper
-        $(".yp-element-picker").click(function() {
+        $(".yp-element-picker").click(function () {
             $("body").toggleClass("yp-element-picker-active");
             $(this).toggleClass("active");
         });
 
         // ruler helper.
-        mainDocument.on("mousemove mousedown", function(e){
+        mainDocument.on("mousemove mousedown", function (e) {
 
             if ($("body").hasClass("yp-metric-disable") === false) {
                 var x = e.pageX;
@@ -5500,9 +5610,9 @@
 
         });
 
-        iframe.on("mousemove", function(e) {
+        iframe.on("mousemove", function (e) {
 
-            if ($("body").hasClass("yp-metric-disable") === false){
+            if ($("body").hasClass("yp-metric-disable") === false) {
 
                 var element = $(e.target);
 
@@ -5580,23 +5690,23 @@
         });
 
 
-        $(window).resize(function(){
-            setTimeout(function(){
+        $(window).resize(function () {
+            setTimeout(function () {
                 gui_update();
-            },5);
+            }, 5);
         });
 
         /* ---------------------------------------------------- */
         /* Element Selector Box Function                        */
         /* ---------------------------------------------------- */
-        iframe.on("mouseover mouseout", iframe, function(evt){
+        iframe.on("mouseover mouseout", iframe, function (evt) {
 
             if ($(evt.target).closest('#plugin-content').length > 0) {
                 return false;
             }
 
 
-            if ($(".yp-selector-mode.active").length > 0 && $("body").hasClass(("yp-metric-disable"))){
+            if ($(".yp-selector-mode.active").length > 0 && $("body").hasClass(("yp-metric-disable"))) {
 
                 // Element
                 var element = $(evt.target);
@@ -5639,7 +5749,7 @@
 
                     if (window.pickerColor == '' || window.pickerColor == 'transparent') {
 
-                        element.parents().each(function() {
+                        element.parents().each(function () {
 
                             if ($(this).css("background-color") != 'transparent' && $(this).css("background-color") != '' && $(this).css("background-color") !== null) {
                                 window.pickerColor = $(this).css("background-color");
@@ -5697,11 +5807,11 @@
                 // Cache
                 window.styleData = element.attr("style");
 
-                if(isUndefined(window.styleData)){
+                if (isUndefined(window.styleData)) {
                     window.styleData = '';
                 }
 
-                if (is_content_selected() === false){
+                if (is_content_selected() === false) {
 
                     // Remove all ex data.
                     clean();
@@ -5739,7 +5849,7 @@
                     iframeBody.append("<div class='yp-selected-tooltip'><small class='yp-tooltip-small'>" + get_tag_information(selectorTag) + "</small> " + $.trim(selectorView) + "</div><div class='yp-edit-menu'></div>");
 
                     // Select Others.. (using .not because will be problem when selector has "," multip selectors)
-                    iframe.find(selector).not(".yp-selected").not(".yp-multiple-selected").each(function(i) {
+                    iframe.find(selector).not(".yp-selected").not(".yp-multiple-selected").each(function (i) {
 
                         $(this).addClass("yp-selected-others");
                         draw_other_box(this, 'yp-selected-others', i);
@@ -5748,11 +5858,11 @@
 
                     draw_tooltip();
 
-                }else{
+                } else {
 
-                    if(is_content_selected() && body.hasClass("yp-control-key-down")){
+                    if (is_content_selected() && body.hasClass("yp-control-key-down")) {
 
-                        if(element.parents(".yp-selected").length === 0){
+                        if (element.parents(".yp-selected").length === 0) {
 
                             // Clean before
                             iframe.find(".yp-multiple-selected").removeClass("yp-multiple-selected");
@@ -5789,7 +5899,7 @@
             draw_box(".yp-selected", 'yp-selected-boxed');
 
             // Select Others.
-            iframe.find(".yp-selected-others:not(.yp-multiple-selected)").each(function(i) {
+            iframe.find(".yp-selected-others:not(.yp-multiple-selected)").each(function (i) {
                 draw_other_box(this, 'yp-selected-others', i);
             });
 
@@ -5803,17 +5913,17 @@
 
 
         // Resort media query by media numbers.
-        function resort_style_data_positions(){
+        function resort_style_data_positions() {
 
             var styleArea = the_editor_data();
 
             // Sort element by selector because Created CSS Will keep all css rules in one selector.
-            styleArea.find("style").each(function(){
+            styleArea.find("style").each(function () {
 
                 var that = $(this);
 
                 // Check if not resorted.
-                if(that.hasClass("yp-resorted") === false){
+                if (that.hasClass("yp-resorted") === false) {
 
                     // addClass for not sort again.
                     that.addClass("yp-resorted");
@@ -5822,15 +5932,15 @@
                     var style = that.attr("data-style");
 
                     // check if there next styles that has same selector.
-                    if(styleArea.find("[data-style="+style+"]").length > 1){
+                    if (styleArea.find("[data-style=" + style + "]").length > 1) {
 
                         // Find all next styles that has same selector
-                        styleArea.find("[data-style="+style+"]").not(this).each(function(){
+                        styleArea.find("[data-style=" + style + "]").not(this).each(function () {
 
                             // Cache
                             var element = $(this);
 
-                            if(element.hasClass("yp-resorted") === false){
+                            if (element.hasClass("yp-resorted") === false) {
 
                                 // move from dom.
                                 that.after(element);
@@ -5849,13 +5959,13 @@
             });
 
             // max-width == 9 > 1
-            styleArea.find("style[data-size-mode^='(max-width:']").not("[data-size-mode*=and]").sort(function (a,b){
-                return +parseInt(b.getAttribute('data-size-mode').replace(/\D/g,'')) - +parseInt(a.getAttribute('data-size-mode').replace(/\D/g,''));
+            styleArea.find("style[data-size-mode^='(max-width:']").not("[data-size-mode*=and]").sort(function (a, b) {
+                return +parseInt(b.getAttribute('data-size-mode').replace(/\D/g, '')) - +parseInt(a.getAttribute('data-size-mode').replace(/\D/g, ''));
             }).appendTo(styleArea);
 
             // min-width == 1 > 9
-            styleArea.find("style[data-size-mode^='(min-width:']").not("[data-size-mode*=and]").sort(function (a,b){
-                return +parseInt(a.getAttribute('data-size-mode').replace(/\D/g,'')) - +parseInt(b.getAttribute('data-size-mode').replace(/\D/g,''));
+            styleArea.find("style[data-size-mode^='(min-width:']").not("[data-size-mode*=and]").sort(function (a, b) {
+                return +parseInt(a.getAttribute('data-size-mode').replace(/\D/g, '')) - +parseInt(b.getAttribute('data-size-mode').replace(/\D/g, ''));
             }).appendTo(styleArea);
 
         }
@@ -5889,7 +5999,7 @@
             }
         }
 
-        $(".media-control").click(function() {
+        $(".media-control").click(function () {
             var c = $(this).attr("data-code");
 
             if (c == 'max-width') {
@@ -5924,7 +6034,7 @@
             var css = id;
 
             // Clean value
-            value = value.replace(/\s+?!important/g,'').replace(/\;$/g,'');
+            value = value.replace(/\s+?!important/g, '').replace(/\;$/g, '');
 
             // Remove Style Without important.
             iframe.find("." + get_id(selector) + '-' + id + '-style[data-size-mode="' + size + '"]').remove();
@@ -5955,7 +6065,7 @@
                     var mediaBefore = create_media_query_before();
                     var mediaAfter = create_media_query_after();
 
-                    if(isDefined(size) && body.hasClass(("yp-animate-manager-active")) && body.hasClass(("yp-responsive-device-mode"))){
+                    if (isDefined(size) && body.hasClass(("yp-animate-manager-active")) && body.hasClass(("yp-responsive-device-mode"))) {
                         mediaBefore = "@media " + size + "{";
                     }
 
@@ -5968,17 +6078,16 @@
             }
 
 
-
         }
 
         //setup before functions
         var typingTimer;
 
         // Keyup bind For CSS Editor.
-        $("#cssData").on("keyup", function(e) {
+        $("#cssData").on("keyup", function (e) {
 
             var typingTimerS = 0;
-            if(e.originalEvent){
+            if (e.originalEvent) {
                 typingTimerS = 900;
             }
 
@@ -5998,7 +6107,7 @@
             body.removeClass("yp-css-data-trigger");
 
             clearTimeout(typingTimer);
-            typingTimer = setTimeout(function() {
+            typingTimer = setTimeout(function () {
 
                 if (body.hasClass(("yp-selectors-hide")) && $(".wqNoUi-active").length === 0 && $("body").hasClass("autocomplete-active") === false && $(".yp-select-bar .tooltip").length === 0) {
 
@@ -6039,7 +6148,7 @@
         });
 
         // Return to data again.
-        $(".yp-select-bar").on("mouseover mouseout", function() {
+        $(".yp-select-bar").on("mouseover mouseout", function () {
 
             if (body.hasClass(("yp-need-to-process"))) {
 
@@ -6078,7 +6187,7 @@
                 return false;
             }
 
-            if(body.hasClass("yp-force-hide-select-ui")){
+            if (body.hasClass("yp-force-hide-select-ui")) {
                 return false;
             }
 
@@ -6096,9 +6205,9 @@
 
         // Hide borders while editing.
         $(".yp-this-content,.anim-bar").bind({
-            mouseenter: function() {
+            mouseenter: function () {
 
-                if($(".fake-layer").length > 0){
+                if ($(".fake-layer").length > 0) {
                     return false;
                 }
 
@@ -6116,9 +6225,9 @@
                 }
 
             },
-            mouseleave: function() {
+            mouseleave: function () {
 
-                if($(".fake-layer").length > 0){
+                if ($(".fake-layer").length > 0) {
                     return false;
                 }
 
@@ -6134,7 +6243,7 @@
         });
 
         // If on iframe, always show borders.
-        iframe.on("mouseover", iframe, function(){
+        iframe.on("mouseover", iframe, function () {
 
             if ($(".wqNoUi-active").length === 0 && $("body").hasClass("autocomplete-active") === false && $(".yp-select-bar .tooltip").length === 0) {
 
@@ -6145,7 +6254,7 @@
         });
 
         // YP bar leave: show.
-        iframe.on("mouseleave", ".yp-select-bar", function(){
+        iframe.on("mouseleave", ".yp-select-bar", function () {
 
             if (body.hasClass(("yp-selectors-hide")) && $(".wqNoUi-active").length === 0 && $("body").hasClass("autocomplete-active") === false && $(".yp-select-bar .tooltip").length === 0) {
 
@@ -6159,7 +6268,7 @@
 
 
         // Get current media condition
-        function get_media_condition(){
+        function get_media_condition() {
 
             // Default
             var size = 'desktop';
@@ -6179,12 +6288,12 @@
 
 
         // Getting current CSS Selectors
-        function get_all_selectors(){
+        function get_all_selectors() {
 
             // Source.
             var source = editor.getValue();
 
-            source = get_minimized_css(source,true);
+            source = get_minimized_css(source, true);
 
             // if no source, stop.
             if (source == '') {
@@ -6207,10 +6316,10 @@
         }
 
         // Reset selected element
-        function reset_selected_element(childs){
+        function reset_selected_element(childs) {
 
             // If not have an selected element
-            if(!is_content_selected()){
+            if (!is_content_selected()) {
                 return false;
             }
 
@@ -6218,35 +6327,35 @@
             var array = get_all_selectors();
 
             // If not have selectors
-            if(array.length <= 0){
+            if (array.length <= 0) {
                 return false;
             }
 
             // Each all selectors
-            for(var i = 0; i < array.length; i++){
+            for (var i = 0; i < array.length; i++) {
 
-                var searchSelector = get_foundable_query(array[i],true,true,true);
+                var searchSelector = get_foundable_query(array[i], true, true, true);
 
 
-                if(childs === false){
+                if (childs === false) {
 
                     // Target is selected element.
-                    if(iframe.find(searchSelector).hasClass("yp-selected")){
+                    if (iframe.find(searchSelector).hasClass("yp-selected")) {
 
                         // remove
-                        iframe.find("[data-style='"+get_id(array[i])+"']").remove();
+                        iframe.find("[data-style='" + get_id(array[i]) + "']").remove();
 
                     }
 
                 }
 
-                if(childs === true){
+                if (childs === true) {
 
                     // Target is selected element and childs.
-                    if(iframe.find(searchSelector).parents(".yp-selected").length > 0){
+                    if (iframe.find(searchSelector).parents(".yp-selected").length > 0) {
 
                         // remove
-                        iframe.find("[data-style='"+get_id(array[i])+"']").remove();
+                        iframe.find("[data-style='" + get_id(array[i]) + "']").remove();
 
                     }
 
@@ -6261,9 +6370,9 @@
 
 
         // Clean not:(X) etc. Not want "(" sysbol.
-        function nice_selectors(data,start){
+        function nice_selectors(data, start) {
 
-            if(start === true){
+            if (start === true) {
 
                 // Nth child
                 data = data.replace(/:nth-child\((.*?)\)/g, '\.nth-child\.$1\.');
@@ -6283,7 +6392,7 @@
                 // nth-of-type()
                 data = data.replace(/:nth-of-type\((.*?)\)/g, '\.nth-of-type\.$1\.');
 
-            }else{
+            } else {
 
                 // Nth child
                 data = data.replace(/\.nth-child\.(.*?)\./g, ':nth-child($1)');
@@ -6338,7 +6447,7 @@
             // Delete same for -webkit- prefix: filter and transform.
             exStyle = iframe.find("." + get_id(selector) + '-' + "-webkit-" + id + '-style[data-size-mode="' + size + '"]');
             if (exStyle.length > 0) {
-                if (escape_data_value(exStyle.html()) == value){
+                if (escape_data_value(exStyle.html()) == value) {
 
                     return false;
                 } else {
@@ -6352,7 +6461,7 @@
             }
 
             // Append default value.
-            if (get_id(selector) != ''){
+            if (get_id(selector) != '') {
 
                 var dpt = ':';
 
@@ -6384,7 +6493,7 @@
             var source = editor.getValue();
 
             // Clean "()" symbol for lets to process CSS as well.
-            source = nice_selectors(source,true);
+            source = nice_selectors(source, true);
 
             // Clean.
             source = source.replace(/(\r\n|\n|\r)/g, "").replace(/\t/g, '');
@@ -6393,7 +6502,7 @@
             source = source.replace(/\/\*(.*?)\*\//g, "");
 
             // clean.
-            source = source.replace(/\}\s+\}/g, '}}').replace(/\s+\{/g, '{').replace(/\}\s+/g,'}');
+            source = source.replace(/\}\s+\}/g, '}}').replace(/\s+\{/g, '{').replace(/\}\s+/g, '}');
 
             // clean.
             source = source.replace(/\s+\}/g, '}').replace(/\{\s+/g, '{');
@@ -6425,11 +6534,11 @@
 
             // if have a problem in source, stop.
             if (source.split('{').length != source.split('}').length) {
-                swal({title: "Sorry.",text: "CSS Editor: Parse Error.",type: "error",animation: false});
+                swal({title: "Sorry.", text: "CSS Editor: Parse Error.", type: "error", animation: false});
                 return false;
             }
 
-            var selector,insertData = '';
+            var selector, insertData = '';
 
             // IF Desktop; Remove All Rules. (because first call by desktop)
             if (type == 'desktop') {
@@ -6446,7 +6555,7 @@
             source = "}" + source;
 
             // Make } it two for get multiple selectors rules.
-            source = source.replace(/\}/g,"}}");
+            source = source.replace(/\}/g, "}}");
 
             // Each All Selectors
             for (var i = 0; i < allSelectors.length; i++) {
@@ -6473,7 +6582,7 @@
                     var CSSRules = source.match(new RegExp("\}" + selectorRegex + '{(.*?)}', 'g'));
 
                     // Back up cleanen "(" symbols
-                    selector = nice_selectors(selector,false);
+                    selector = nice_selectors(selector, false);
 
                     if (CSSRules !== null && CSSRules != '') {
 
@@ -6518,7 +6627,7 @@
             }
 
             // insert at end.
-            if(insertData != ''){
+            if (insertData != '') {
                 the_editor_data().append(insertData);
                 resort_style_data_positions();
             }
@@ -6533,11 +6642,11 @@
         /* ---------------------------------------------------- */
         function insert_rule(selector, id, value, prefix, size) {
 
-            if(selector === null){
+            if (selector === null) {
                 selector = get_current_selector();
             }
 
-            if (isUndefined(size)){
+            if (isUndefined(size)) {
                 size = get_media_condition();
             }
 
@@ -6570,13 +6679,13 @@
             css = css.toString().toLowerCase();
             prefix = prefix.toString().toLowerCase();
 
-            if(value.length){
-                if(value.match(/\.00$/g)){
-                    value = value.replace(/\.00$/g,"");
+            if (value.length) {
+                if (value.match(/\.00$/g)) {
+                    value = value.replace(/\.00$/g, "");
                 }
 
-                if(value.match(/\.0$/g)){
-                    value = value.replace(/\.0$/g,"");
+                if (value.match(/\.0$/g)) {
+                    value = value.replace(/\.0$/g, "");
                 }
             }
 
@@ -6655,35 +6764,35 @@
             }
 
             // Set defaults
-            if(id == 'border-width'){
+            if (id == 'border-width') {
 
                 // Set default values
-                $.each(['border-top-width','border-left-width','border-right-width','border-bottom-width'], function(i, v) {
+                $.each(['border-top-width', 'border-left-width', 'border-right-width', 'border-bottom-width'], function (i, v) {
                     set_default_value(v);
                 });
 
             }
 
-            if(id == 'border-color'){
+            if (id == 'border-color') {
 
                 // Set default values
-                $.each(['border-top-color','border-left-color','border-right-color','border-bottom-color'], function(i, v) {
+                $.each(['border-top-color', 'border-left-color', 'border-right-color', 'border-bottom-color'], function (i, v) {
                     set_default_value(v);
                 });
 
             }
 
-            if(id == 'border-style'){
+            if (id == 'border-style') {
 
                 // Set default values
-                $.each(['border-top-style','border-left-style','border-right-style','border-bottom-style'], function(i, v) {
+                $.each(['border-top-style', 'border-left-style', 'border-right-style', 'border-bottom-style'], function (i, v) {
                     set_default_value(v);
                 });
 
             }
 
             // When border-xxxx-style change
-            if(id.indexOf("border-") != -1 && id.indexOf("-style") != -1 && id != 'border-style'){
+            if (id.indexOf("border-") != -1 && id.indexOf("-style") != -1 && id != 'border-style') {
 
                 // update default value for;
                 set_default_value("border-style");
@@ -6691,7 +6800,7 @@
             }
 
             // When border-xxxx-style change
-            if(id.indexOf("border-") != -1 && id.indexOf("-color") != -1 && id != 'border-color'){
+            if (id.indexOf("border-") != -1 && id.indexOf("-color") != -1 && id != 'border-color') {
 
                 // update default value for;
                 set_default_value("border-color");
@@ -6699,7 +6808,7 @@
             }
 
             // When border-xxxx-style change
-            if(id.indexOf("border-") != -1 && id.indexOf("-width") != -1 && id != 'border-width'){
+            if (id.indexOf("border-") != -1 && id.indexOf("-width") != -1 && id != 'border-width') {
 
                 // update default value for;
                 set_default_value("border-width");
@@ -6708,24 +6817,24 @@
 
 
             // also using in bottom.
-            var duration,delay;
+            var duration, delay;
 
             // Animation name play.
             if (id == 'animation-name' || id == 'animation-play' || id == 'animation-iteration' || id == 'animation-duration') {
 
-                if($(".yp-animate-manager-active").length === 0 && value != 'none'){
+                if ($(".yp-animate-manager-active").length === 0 && value != 'none') {
 
                     duration = get_selected_element().css("animation-duration");
                     delay = get_selected_element().css("animation-delay");
 
                     // Getting right time delay if have multiple animations.
-                    var newDelay = get_multiple_delay(duration,delay);
+                    var newDelay = get_multiple_delay(duration, delay);
 
-                    if(newDelay !== false){
+                    if (newDelay !== false) {
                         delay = parseFloat(newDelay);
-                    }else if(isUndefined(delay)){
+                    } else if (isUndefined(delay)) {
                         delay = 0;
-                    }else{
+                    } else {
                         delay = parseFloat(duration_ms(delay)); // delay
                     }
 
@@ -6737,7 +6846,7 @@
 
                     var waitDelay = delay + duration;
 
-                    if(waitDelay === 0){
+                    if (waitDelay === 0) {
                         waitDelay = 1000;
                     }
 
@@ -6748,7 +6857,7 @@
 
                     clear_animation_timer();
 
-                    window.animationTimer1 = setTimeout(function(){
+                    window.animationTimer1 = setTimeout(function () {
 
                         // remove class.
                         body.removeClass("yp-hide-borders-now yp-force-hide-select-ui");
@@ -6814,8 +6923,8 @@
             // adding automatic relative.
             if (id == 'top' || id == 'bottom' || id == 'left' || id == 'right') {
 
-                setTimeout(function() {
-                    if ($("#position-static").parent().hasClass("active") || $("#position-relative").parent().hasClass("active")){
+                setTimeout(function () {
+                    if ($("#position-static").parent().hasClass("active") || $("#position-relative").parent().hasClass("active")) {
                         $("#position-relative").trigger("click");
                     }
                 }, 5);
@@ -6831,7 +6940,7 @@
                 }
             }
 
-            if (id == 'animation-name' && $(".yp-animate-manager-active").length === 0){
+            if (id == 'animation-name' && $(".yp-animate-manager-active").length === 0) {
                 set_default_value('animation-duration');
                 set_default_value('animation-delay');
                 set_default_value('animation-fill-mode');
@@ -6842,12 +6951,12 @@
 
                 if (id == 'animation-name' || id == 'animation-duration' || id == 'animation-delay') {
 
-                    if($("body").hasClass("yp-animate-manager-mode") === false){
+                    if ($("body").hasClass("yp-animate-manager-mode") === false) {
                         selector = selector.replace(/\.yp_onscreen/g, '').replace(/\.yp_hover/g, '').replace(/\.yp_focus/g, '').replace(/\.yp_click/g, '');
                     }
 
                     var play = '';
-                    if($("body").hasClass("yp-animate-manager-mode") === false){
+                    if ($("body").hasClass("yp-animate-manager-mode") === false) {
                         play = "." + $("#yp-animation-play").val();
                     }
 
@@ -6855,24 +6964,24 @@
                     var selectorNew = selector.split(":");
 
                     // Check if there have :
-                    if(selectorNew.length > 0){
+                    if (selectorNew.length > 0) {
 
                         // Getting all prev selectors until last :
                         var prevSelectors = '';
 
-                        for(var y = 0; y < selectorNew.length-1; y++){
+                        for (var y = 0; y < selectorNew.length - 1; y++) {
                             prevSelectors = prevSelectors + selectorNew[y];
                         }
 
-                        if (selectorNew[selectorNew.length-1] == 'hover' || selectorNew[selectorNew.length-1] == 'focus') {
-                            selector = prevSelectors + play + ":" + selectorNew[selectorNew.length-1];
-                        }else{
+                        if (selectorNew[selectorNew.length - 1] == 'hover' || selectorNew[selectorNew.length - 1] == 'focus') {
+                            selector = prevSelectors + play + ":" + selectorNew[selectorNew.length - 1];
+                        } else {
 
                             selector = selector + play;
 
                         }
 
-                    }else{ // default
+                    } else { // default
 
                         selector = selector + play;
 
@@ -6891,7 +7000,7 @@
 
             } else {
 
-                if(!body.hasClass("yp-processing-now") && selector.indexOf("yp_onscreen") == -1 && selector.indexOf("yp_click") == -1 && selector.indexOf("yp_focus") == -1 && selector.indexOf("yp_hover") == -1 && id != 'animation-play'){
+                if (!body.hasClass("yp-processing-now") && selector.indexOf("yp_onscreen") == -1 && selector.indexOf("yp_click") == -1 && selector.indexOf("yp_focus") == -1 && selector.indexOf("yp_hover") == -1 && id != 'animation-play') {
 
                     selector = add_class_to_body(selector, 'yp-selector-' + selection.replace(':', ''));
 
@@ -6903,7 +7012,7 @@
 
             // Delete same data.
             var exStyle = iframe.find("." + get_id(selector) + '-' + id + '-style[data-size-mode="' + size + '"]');
-            if (exStyle.length > 0){
+            if (exStyle.length > 0) {
                 if (escape_data_value(exStyle.html()) == value) {
                     return false;
                 } else {
@@ -6988,7 +7097,7 @@
 
                 insert_rule(selector, 'transform', translateData, '', size);
 
-                if(translateData == 'none' || translateData == 'disable'){
+                if (translateData == 'none' || translateData == 'disable') {
                     body.removeClass("yp-has-transform");
                 }
 
@@ -7012,7 +7121,7 @@
             // Animation options
             if (id == 'animation-play') {
 
-                iframe.find("[data-style][data-size-mode='"+size+"']").each(function(){
+                iframe.find("[data-style][data-size-mode='" + size + "']").each(function () {
 
                     // onscreen
                     if ($(this).data("style") == get_id(selector + ".yp_onscreen")) {
@@ -7043,12 +7152,12 @@
             }
 
             // Animation name
-            if (id == 'animation-name' && body.hasClass("yp-animate-manager-active") === false){
+            if (id == 'animation-name' && body.hasClass("yp-animate-manager-active") === false) {
 
-                if (value != 'disable' && value != 'none'){
+                if (value != 'disable' && value != 'none') {
 
                     // be sure has a selected element.
-                    if(is_content_selected() && $("#animation-duration-group").hasClass("hidden-option") === false && $("#animation-delay-group").hasClass("hidden-option") === false){
+                    if (is_content_selected() && $("#animation-duration-group").hasClass("hidden-option") === false && $("#animation-delay-group").hasClass("hidden-option") === false) {
 
                         // Get duration from CSS
                         duration = get_selected_element().css("animation-duration").replace(/[^0-9.,]/g, '');
@@ -7060,10 +7169,10 @@
                         var fillMode = get_selected_element().css("animation-fill-mode");
 
                         // If selected element;
-                        if (get_foundable_query(selector,false,true,true) == get_current_selector().trim()){
+                        if (get_foundable_query(selector, false, true, true) == get_current_selector().trim()) {
 
                             // Duration
-                            if(duration == "0"){
+                            if (duration == "0") {
                                 duration = 1;
                             }
 
@@ -7138,7 +7247,7 @@
             var current = value + prefix;
 
             // Clean.
-            current = current.replace(/\s+?!important/g,'').replace(/\;$/g,'');
+            current = current.replace(/\s+?!important/g, '').replace(/\;$/g, '');
 
             // Append default value.
             if (get_id(selector) != '') {
@@ -7157,7 +7266,7 @@
                     var mediaBefore = create_media_query_before();
                     var mediaAfter = create_media_query_after();
 
-                    if(isDefined(size) && body.hasClass(("yp-animate-manager-active")) && body.hasClass(("yp-responsive-device-mode"))){
+                    if (isDefined(size) && body.hasClass(("yp-animate-manager-active")) && body.hasClass(("yp-responsive-device-mode"))) {
                         mediaBefore = "@media " + size + "{";
                     }
 
@@ -7180,7 +7289,7 @@
             var needToImportant = null;
 
             // Each all selected element and check if need to use important.
-            iframe.find(".yp-selected,.yp-selected-others").each(function(){
+            iframe.find(".yp-selected,.yp-selected-others").each(function () {
 
                 // Default true.
                 needToImportant = true;
@@ -7206,12 +7315,12 @@
 
                     }
 
-                    if(css == 'background-image'){
-                        isValue = isValue.replace(/\'/g,'').replace(/\"/g,'');
+                    if (css == 'background-image') {
+                        isValue = isValue.replace(/\'/g, '').replace(/\"/g, '');
                     }
 
-                    if(css == 'box-shadow'){
-                        isValue = isValue.replace('inset','');
+                    if (css == 'box-shadow') {
+                        isValue = isValue.replace('inset', '');
                         isValue = isValue.replace(/\s+/g, ' ');
                     }
 
@@ -7220,8 +7329,8 @@
 
                 }
 
-                if(css == 'box-shadow'){
-                    current = current.replace('inset','');
+                if (css == 'box-shadow') {
+                    current = current.replace('inset', '');
                     current = current.replace(/\s+/g, ' ');
                 }
 
@@ -7308,11 +7417,11 @@
                 if (id == 'width' || id == 'min-width' || id == 'max-width' || id == 'height' || id == 'min-height' || id == 'max-height' || id == 'font-size' || id == 'line-height' || id == 'letter-spacing' || id == 'word-spacing' || id == 'margin-top' || id == 'margin-left' || id == 'margin-right' || id == 'margin-bottom' || id == 'padding-top' || id == 'padding-left' || id == 'padding-right' || id == 'padding-bottom' || id == 'border-left-width' || id == 'border-right-width' || id == 'border-top-width' || id == 'border-bottom-width' || id == 'border-top-left-radius' || id == 'border-top-right-radius' || id == 'border-bottom-left-radius' || id == 'border-bottom-right-radius') {
 
                     // If value is similar.
-                    if (number_filter(current.replace(/\.00$/g, "").replace(/\.0$/g, "")) !== '' && number_filter(current.replace(/\.00$/g, "").replace(/\.0$/g, "")) == number_filter(isValue.replace(/\.00$/g, "").replace(/\.0$/g, ""))){
+                    if (number_filter(current.replace(/\.00$/g, "").replace(/\.0$/g, "")) !== '' && number_filter(current.replace(/\.00$/g, "").replace(/\.0$/g, "")) == number_filter(isValue.replace(/\.00$/g, "").replace(/\.0$/g, ""))) {
                         needToImportant = false;
                     }
 
-                    if((Math.round(current * 100) / 100) == (Math.round(isValue * 100) / 100)){
+                    if ((Math.round(current * 100) / 100) == (Math.round(isValue * 100) / 100)) {
                         needToImportant = false;
                     }
 
@@ -7343,7 +7452,7 @@
                     }
                 }
 
-                if(id == 'animation-fill-mode' || id == 'transform-origin'){
+                if (id == 'animation-fill-mode' || id == 'transform-origin') {
                     needToImportant = false;
                 }
 
@@ -7352,17 +7461,17 @@
                     needToImportant = false;
                 }
 
-                if(needToImportant === true){
+                if (needToImportant === true) {
                     return false;
                 }
 
             }); // Each end.
 
-            if($("body").hasClass("yp-animate-manager-mode")){
+            if ($("body").hasClass("yp-animate-manager-mode")) {
                 needToImportant = false;
             }
 
-            if(needToImportant === false){
+            if (needToImportant === false) {
 
                 return false;
             }
@@ -7374,7 +7483,7 @@
         }
 
         // Hide blue borders on click options section.
-        $(document).on("click",".yp-this-content",function(e){
+        $(document).on("click", ".yp-this-content", function (e) {
             if (e.originalEvent) {
                 hide_frame_ui(200);
             }
@@ -7431,22 +7540,22 @@
                     decimals: decimals
                 })
 
-            },true).on('change', function() {
+            }, true).on('change', function () {
 
                 $(".fake-layer").remove();
 
                 var lock = thisContent.find(".lock-btn.active").length;
                 var lockedIdArray = [];
 
-                if(lock){
+                if (lock) {
 
-                    thisContent.find(".yp-option-group").each(function(){
+                    thisContent.find(".yp-option-group").each(function () {
                         lockedIdArray.push($(this).attr("data-css"));
                     });
 
                     var val = $(this).val();
 
-                    for(var y = 0;y < lockedIdArray.length; y++){
+                    for (var y = 0; y < lockedIdArray.length; y++) {
                         $('#yp-' + lockedIdArray[y]).val(val);
                         $('#' + lockedIdArray[y] + '-after').trigger("keyup");
                         slide_action($("#yp-" + lockedIdArray[y]), lockedIdArray[y], true, false);
@@ -7454,11 +7563,11 @@
 
                     option_change();
 
-                }else{
+                } else {
                     slide_action($(this), id, true, true);
                 }
 
-            }).on('slide', function() {
+            }).on('slide', function () {
 
                 // Be sure its hidden.
                 hide_frame_ui(200);
@@ -7466,28 +7575,28 @@
                 var lock = thisContent.find(".lock-btn.active").length;
                 var lockedIdArray = [];
 
-                if(lock){
-                    thisContent.find(".yp-option-group").each(function(){
+                if (lock) {
+                    thisContent.find(".yp-option-group").each(function () {
                         lockedIdArray.push($(this).attr("data-css"));
                     });
                 }
 
                 // Get val
                 var val = $(this).val();
-                var prefix = $('#' + id+"-after").val();
+                var prefix = $('#' + id + "-after").val();
                 var y;
 
                 val = Number((parseFloat(val)).toFixed(2));
                 var left = $("#" + id + "-group").find(".wqNoUi-origin").css("left");
 
                 // Update the input.
-                if(lock === 0){
+                if (lock === 0) {
                     $('#' + id + '-value').val(val);
-                }else{
-                    for(y = 0;y < lockedIdArray.length; y++){
+                } else {
+                    for (y = 0; y < lockedIdArray.length; y++) {
                         $('#' + lockedIdArray[y] + '-value').val(val);
                         $('#' + lockedIdArray[y] + '-after').val(prefix);
-                        $('#' + lockedIdArray[y] + '-group').find(".wqNoUi-origin").css("left",left);
+                        $('#' + lockedIdArray[y] + '-group').find(".wqNoUi-origin").css("left", left);
                     }
                 }
 
@@ -7497,11 +7606,11 @@
                     prefix = $(this).parent().find("#" + id + "-after").val();
 
                     // Standard.
-                    if(lock === 0){
+                    if (lock === 0) {
                         delete_live_css(id, false);
                         insert_live_css(id, val + prefix, false);
-                    }else{
-                        for(y = 0;y < lockedIdArray.length; y++){
+                    } else {
+                        for (y = 0; y < lockedIdArray.length; y++) {
                             delete_live_css(lockedIdArray[y], false);
                             insert_live_css(lockedIdArray[y], val + prefix, false);
                         }
@@ -7512,7 +7621,7 @@
                     slide_action($(this), id, true, true);
                 }
 
-                if($(".fake-layer").length === 0){
+                if ($(".fake-layer").length === 0) {
                     $("body").append("<div class='fake-layer'></div>");
                 }
 
@@ -7523,7 +7632,7 @@
         /* ---------------------------------------------------- */
         /* Slider Event                                         */
         /* ---------------------------------------------------- */
-        function slide_action(element, id, $slider,changed) {
+        function slide_action(element, id, $slider, changed) {
 
             var css = element.parent().parent().data("css");
             element.parent().parent().addClass("eye-enable");
@@ -7549,7 +7658,7 @@
             insert_rule(null, id, val, css_after);
 
             // Option Changed
-            if(changed){
+            if (changed) {
                 option_change();
             }
 
@@ -7607,7 +7716,7 @@
                     the_id.find(".active").removeClass("active");
 
                     // Disable all.
-                    $("input[name=" + $n + "]").each(function() {
+                    $("input[name=" + $n + "]").each(function () {
 
                         $(this).prop('checked', false);
 
@@ -7626,10 +7735,10 @@
         /* ---------------------------------------------------- */
         function radio_option(id) {
 
-            $("#yp-" + id + " label").on('click', function() {
+            $("#yp-" + id + " label").on('click', function () {
 
-                if($(".position-option.active").length === 0){
-                    if($(this).parent().hasClass("active")){
+                if ($(".position-option.active").length === 0) {
+                    if ($(this).parent().hasClass("active")) {
                         return false;
                     }
                 }
@@ -7661,13 +7770,13 @@
         /* ---------------------------------------------------- */
         function is_safe_font(a) {
 
-            if(isUndefined(a)){
+            if (isUndefined(a)) {
                 return false;
             }
 
-            if(a.toLowerCase().match(/\barial\b|\barial black\b|\barial narrow\b|\barial rounded mt bold\b|\bavant garde\b|\bcalibri\b|\bcandara\b|\bcentury gothic\b|\bfranklin gothic medium\b|\bgeneva\b|\bfutura\b|\bgill sans\b|\bhelvetica neue\b|\bimpact\b|\blucida grande\b|\boptima\b|\bsegoe ui\b|\btahoma\b|\btrebuchet ms\b|\bverdana\b|\bbig caslon\b|\bbodoni mt\b|\bbook antiqua\b|\bcalisto mt\b|\bcambria\b|\bdidot\b|\bgaramond\b|\bgeorgia\b|\bgoudy old style\b|\bhoefler text\b|\blucida bright\b|\bpalatino\b|\bperpetua\b|\brockwell\b|\brockwell extra bold\b|\bbaskerville\b|\btimes new roman\b|\bconsolas\b|\bcourier new\b|\blucida console\b|\bhelveticaneue\b/i)){
+            if (a.toLowerCase().match(/\barial\b|\barial black\b|\barial narrow\b|\barial rounded mt bold\b|\bavant garde\b|\bcalibri\b|\bcandara\b|\bcentury gothic\b|\bfranklin gothic medium\b|\bgeneva\b|\bfutura\b|\bgill sans\b|\bhelvetica neue\b|\bimpact\b|\blucida grande\b|\boptima\b|\bsegoe ui\b|\btahoma\b|\btrebuchet ms\b|\bverdana\b|\bbig caslon\b|\bbodoni mt\b|\bbook antiqua\b|\bcalisto mt\b|\bcambria\b|\bdidot\b|\bgaramond\b|\bgeorgia\b|\bgoudy old style\b|\bhoefler text\b|\blucida bright\b|\bpalatino\b|\bperpetua\b|\brockwell\b|\brockwell extra bold\b|\bbaskerville\b|\btimes new roman\b|\bconsolas\b|\bcourier new\b|\blucida console\b|\bhelveticaneue\b/i)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
 
@@ -7679,7 +7788,7 @@
         /* ---------------------------------------------------- */
 
         /* For animations and display inline. */
-        $(".animation-option").on("click", function(e){
+        $(".animation-option").on("click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7687,7 +7796,7 @@
 
             var t = $("#animation-name-group");
 
-            if(!$(this).hasClass("active")){
+            if (!$(this).hasClass("active")) {
                 t.popover("destroy");
                 return false;
             }
@@ -7709,7 +7818,7 @@
         });
 
         // Margin not working because display inline.
-        $("#margin-left-group,#margin-right-group,#margin-top-group,#margin-bottom-group").on("mouseenter click", function(e) {
+        $("#margin-left-group,#margin-right-group,#margin-top-group,#margin-bottom-group").on("mouseenter click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7732,7 +7841,7 @@
         });
 
         // Padding maybe not working, because display inline.
-        $("#padding-left-group,#padding-right-group,#padding-top-group,#padding-bottom-group").on("mouseenter click", function(e) {
+        $("#padding-left-group,#padding-right-group,#padding-top-group,#padding-bottom-group").on("mouseenter click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7756,7 +7865,7 @@
 
 
         // There is background image, maybe background color not work
-        $("#background-color-group").on("mouseenter click", function(e) {
+        $("#background-color-group").on("mouseenter click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7779,7 +7888,7 @@
         });
 
         // There not have background image, parallax not work without background image.
-        $(".background-parallax-div,#background-size-group,#background-repeat-group,#background-attachment-group,#background-position-group").on("mouseenter click", function(e) {
+        $(".background-parallax-div,#background-size-group,#background-repeat-group,#background-attachment-group,#background-position-group").on("mouseenter click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7802,7 +7911,7 @@
         });
 
         // Box shadow need to any color.
-        $("#box-shadow-color-group").on("mouseenter click", function(e) {
+        $("#box-shadow-color-group").on("mouseenter click", function (e) {
 
             if (!e.originalEvent) {
                 return false;
@@ -7825,11 +7934,10 @@
         });
 
 
-
         /* ---------------------------------------------------- */
         /* Select li hover                                      */
         /* ---------------------------------------------------- */
-        $(".input-autocomplete").keydown(function(e) {
+        $(".input-autocomplete").keydown(function (e) {
 
             var code = e.keyCode || e.which;
 
@@ -7850,11 +7958,11 @@
         });
 
         // Blur select after select.
-        $(document).on("click", ".autocomplete-div ul li", function() {
+        $(document).on("click", ".autocomplete-div ul li", function () {
             $(this).parent().parent().parent().find(".ui-autocomplete-input").trigger("blur");
         });
 
-        $(".input-autocomplete").on("blur", function(e) {
+        $(".input-autocomplete").on("blur", function (e) {
 
             if (window.openVal == $(this).val()) {
                 return false;
@@ -7862,7 +7970,7 @@
 
         });
 
-        $(".input-autocomplete").on("blur keyup", function(e) {
+        $(".input-autocomplete").on("blur keyup", function (e) {
 
             if (window.openVal == $(this).val()) {
                 return false;
@@ -7873,9 +7981,9 @@
             $(".active-autocomplete-item").removeClass("active-autocomplete-item");
             $(this).removeClass("active");
 
-            setTimeout(function(){
+            setTimeout(function () {
                 $("body").removeClass("autocomplete-active");
-            },300);
+            }, 300);
 
             delete_live_css(id, "#yp-" + id + "-test-style");
 
@@ -7909,7 +8017,7 @@
 
         });
 
-        $(document).on("mouseover", ".autocomplete-div li", function() {
+        $(document).on("mouseover", ".autocomplete-div li", function () {
 
             var element = $(this);
 
@@ -7953,7 +8061,7 @@
             // Font Weight
             if (id == 'font-weight') {
 
-                $(".autocomplete-div li").each(function() {
+                $(".autocomplete-div li").each(function () {
                     element.css("font-weight", number_filter(element.text()).replace(/-/g, ''));
                 });
 
@@ -7963,9 +8071,9 @@
         });
 
 
-        function get_multiple_delay(duration,delay){
+        function get_multiple_delay(duration, delay) {
 
-            if(isUndefined(duration) || isUndefined(delay)){
+            if (isUndefined(duration) || isUndefined(delay)) {
                 return false;
             }
 
@@ -7973,19 +8081,19 @@
             var durationArray = duration.toString().split(",");
             var delayArray = delay.toString().split(",");
 
-            if(durationArray.length != delayArray.length){
+            if (durationArray.length != delayArray.length) {
                 return false;
             }
 
-            if(durationArray.length <= 1){
+            if (durationArray.length <= 1) {
                 return false;
             }
 
             var currents = 0;
-            for(var i = 0; i < durationArray.length; i++){
-                if(isDefined(delayArray[i+1])){
+            for (var i = 0; i < durationArray.length; i++) {
+                if (isDefined(delayArray[i + 1])) {
                     currents = currents + parseFloat(duration_ms(durationArray[i]));
-                    resultDelay = (parseFloat(duration_ms(delayArray[i+1])) - currents) + resultDelay;
+                    resultDelay = (parseFloat(duration_ms(delayArray[i + 1])) - currents) + resultDelay;
                     currents = currents + resultDelay;
                 }
             }
@@ -7996,16 +8104,16 @@
 
 
         // If mouseout, stop clear time out.
-        $(document).on("mouseout", ".autocomplete-div", function() {
+        $(document).on("mouseout", ".autocomplete-div", function () {
 
             delete_live_css("font-family", "#yp-font-test-style");
 
         });
 
         // If mouseout, leave.
-        $(document).on("mouseleave", $(document), function() {
+        $(document).on("mouseleave", $(document), function () {
 
-            if(body.hasClass("yp-mouseleave")){
+            if (body.hasClass("yp-mouseleave")) {
                 return false;
             }
 
@@ -8016,14 +8124,14 @@
             iframe.find(".yp-multiple-selected").removeClass("yp-multiple-selected");
             iframe.find(".yp-selected-others-multiable-box").remove();
 
-            if(is_content_selected() === false){
+            if (is_content_selected() === false) {
                 clean();
             }
 
         });
 
         // If mouseenter.
-        $(document).on("mouseenter", $(document), function() {
+        $(document).on("mouseenter", $(document), function () {
 
             body.removeClass("yp-mouseleave");
 
@@ -8036,9 +8144,9 @@
 
 
         // If mouseout, leave.
-        iframe.on("mouseleave", iframe, function() {
+        iframe.on("mouseleave", iframe, function () {
 
-            if(body.hasClass("yp-iframe-mouseleave")){
+            if (body.hasClass("yp-iframe-mouseleave")) {
                 return false;
             }
 
@@ -8052,33 +8160,33 @@
         });
 
         // If mouseenter.
-        iframe.on("mouseenter", iframe, function() {
+        iframe.on("mouseenter", iframe, function () {
 
             body.removeClass("yp-iframe-mouseleave");
 
         });
 
 
-        function load_near_fonts(t){
+        function load_near_fonts(t) {
 
             var element = t.find(".ui-state-focus");
 
-            if(element.length === 0){
+            if (element.length === 0) {
                 element = t.find(".active-autocomplete-item");
             }
 
-            var prev = element.prevAll().slice(0,6);
-            var next = element.nextAll().slice(0,6);
+            var prev = element.prevAll().slice(0, 6);
+            var next = element.nextAll().slice(0, 6);
 
             var all = prev.add(next).add(element);
 
-            all.each(function() {
+            all.each(function () {
 
                 var element = $(this);
 
                 var styleAttr = element.attr("style");
 
-                if (isDefined(styleAttr)){
+                if (isDefined(styleAttr)) {
                     return true;
                 }
 
@@ -8102,7 +8210,7 @@
         }
 
         // Loading fonts on font family hover.
-        $("#yp-autocomplete-place-font-family > ul").bind('scroll', function() {
+        $("#yp-autocomplete-place-font-family > ul").bind('scroll', function () {
 
             load_near_fonts($(this));
 
@@ -8110,7 +8218,7 @@
 
 
         // Toggle options.
-        $(".wf-close-btn-link").click(function(e) {
+        $(".wf-close-btn-link").click(function (e) {
             if ($(".yp-editor-list > li.active:not(.yp-li-about):not(.yp-li-footer)").length > 0) {
                 e.preventDefault();
                 $(".yp-editor-list > li.active:not(.yp-li-about):not(.yp-li-footer) > h3").trigger("click");
@@ -8191,11 +8299,11 @@
 
 
                 // Append
-                if(id == 'filter' || id == 'transform'){ // Webkit support
+                if (id == 'filter' || id == 'transform') { // Webkit support
 
                     iframeBody.append("<style class='" + idAttr + " yp-live-css' id='" + idAttr + "' " + customAttr + ">" + mediaBefore + ".yp-selected,.yp-selected-others," + get_current_selector() + "{" + id + ":" + val + " !important;-webkit-" + id + ":" + val + " !important;}" + mediaAfter + "</style>");
 
-                }else{ // default
+                } else { // default
 
                     iframeBody.append("<style class='" + idAttr + " yp-live-css' id='" + idAttr + "' " + customAttr + ">" + mediaBefore + ".yp-selected,.yp-selected-others," + get_current_selector() + "{" + id + ":" + val + " !important;}" + mediaAfter + "</style>");
 
@@ -8206,7 +8314,7 @@
         }
 
 
-        function transform_generator(type){
+        function transform_generator(type) {
 
             // Getting all other options.
             var scale = "scale(" + $.trim($("#scale-transform-value").val()) + ")";
@@ -8315,7 +8423,7 @@
         }
 
 
-        function filter_generator(type){
+        function filter_generator(type) {
 
             // Getting all other options.
             var blur = "blur(" + $.trim($("#blur-filter-value").val()) + "px)";
@@ -8437,7 +8545,7 @@
 
         }
 
-        function box_shadow_generator(){
+        function box_shadow_generator() {
 
             // Get inset option
             var inset = '';
@@ -8474,11 +8582,11 @@
 
             var shadowData = $.trim(horizontal + "px " + vertical + "px " + radius + "px " + spread + "px " + color + " " + inset);
 
-            if(horizontal == 0 && vertical == 0 && radius == 0 && spread == 0){
+            if (horizontal == 0 && vertical == 0 && radius == 0 && spread == 0) {
                 shadowData = 'disable';
             }
 
-            if(color == 'transparent'){
+            if (color == 'transparent') {
                 shadowData = 'disable';
             }
 
@@ -8507,9 +8615,9 @@
         }
 
         // Iris color picker creating live css on mousemove
-        mainDocument.on("mousemove", function(){
+        mainDocument.on("mousemove", function () {
 
-            var element,css,val;
+            var element, css, val;
 
             if ($(".iris-dragging").length > 0) {
 
@@ -8522,7 +8630,7 @@
                 insert_live_css(css, val, false);
 
 
-                if($(".fake-layer").length === 0){
+                if ($(".fake-layer").length === 0) {
                     $("body").append("<div class='fake-layer'></div>");
                 }
 
@@ -8538,7 +8646,7 @@
                 delete_live_css(css, false);
                 insert_live_css(css, val, false);
 
-                if($(".fake-layer").length === 0){
+                if ($(".fake-layer").length === 0) {
                     $("body").append("<div class='fake-layer'></div>");
                 }
 
@@ -8554,7 +8662,7 @@
                 delete_live_css(css, false);
                 insert_live_css(css, val, false);
 
-                if($(".fake-layer").length === 0){
+                if ($(".fake-layer").length === 0) {
                     $("body").append("<div class='fake-layer'></div>");
                 }
 
@@ -8563,7 +8671,7 @@
         });
 
         // Iris color picker click update.
-        $(".iris-square-handle").on("mouseup", function() {
+        $(".iris-square-handle").on("mouseup", function () {
 
             var element = $(this).parents(".yp-option-group");
             element.find(".wqcolorpicker").trigger("change");
@@ -8571,7 +8679,7 @@
         });
 
         // Iris color picker creating YP Data.
-        mainDocument.on("mouseup", function() {
+        mainDocument.on("mouseup", function () {
 
             var element;
 
@@ -8605,7 +8713,7 @@
         function color_option(id) {
 
             // Color picker on blur
-            $("#yp-" + id).on("blur", function() {
+            $("#yp-" + id).on("blur", function () {
 
                 // If empty, set disable.
                 if ($(this).val() == '') {
@@ -8615,7 +8723,7 @@
             });
 
             // Show picker on click
-            $("#yp-" + id).on("click", function() {
+            $("#yp-" + id).on("click", function () {
 
                 $(this).parent().parent().find(".iris-picker").show();
                 $(this).parent().parent().parent().css("opacity", 1);
@@ -8623,17 +8731,17 @@
             });
 
             // disable to true.
-            $("#" + id + "-group").find(".yp-after a").on("click", function() {
+            $("#" + id + "-group").find(".yp-after a").on("click", function () {
                 $(this).parent().parent().parent().css("opacity", 1);
             });
 
             // Update on keyup
-            $("#yp-" + id).on("keydown keyup", function() {
+            $("#yp-" + id).on("keydown keyup", function () {
                 $(this).parent().find(".wqminicolors-swatch-color").css("background-color", $(this).val());
             });
 
             // Color picker on change
-            $("#yp-" + id).on('change', function() {
+            $("#yp-" + id).on('change', function () {
 
                 var css = $(this).parent().parent().parent().data("css");
                 $(this).parent().parent().parent().addClass("eye-enable");
@@ -8672,7 +8780,7 @@
         function input_option(id) {
 
             // Keyup
-            $("#yp-" + id).on('keyup', function() {
+            $("#yp-" + id).on('keyup', function () {
 
                 $(this).parent().parent().addClass("eye-enable");
 
@@ -8724,10 +8832,10 @@
 
 
         // Clean data that not selected yet.
-        function simple_clean(){
+        function simple_clean() {
 
             // Animate update
-            if(body.hasClass("yp-animate-manager-active")){
+            if (body.hasClass("yp-animate-manager-active")) {
                 animation_manager();
             }
 
@@ -8744,12 +8852,12 @@
             iframe.find(".yp-edit-menu,.yp-selected-handle,.yp-selected-others-box,.yp-selected-tooltip,.yp-selected-boxed-top,.yp-selected-boxed-left,.yp-selected-boxed-right,.yp-selected-boxed-bottom,.yp-selected-boxed-margin-top,.yp-selected-boxed-margin-left,.yp-selected-boxed-margin-right,.yp-selected-boxed-margin-bottom,.selected-just-it-span,.yp-selected-boxed-padding-top,.yp-selected-boxed-padding-left,.yp-selected-boxed-padding-right,.yp-selected-boxed-padding-bottom,.yp-live-css,.yp-selected-tooltip span").remove();
 
             // Update
-            if($("body").hasClass("yp-select-just-it") === false){
+            if ($("body").hasClass("yp-select-just-it") === false) {
                 window.selectorClean = null;
             }
 
             // Update informations
-            if($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")){
+            if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
                 $(".info-element-selected-section").hide();
                 $(".info-no-element-selected").show();
             }
@@ -8765,18 +8873,18 @@
         function clean() {
 
             // Use yp_simple_clean function for simple clean data.
-            if(is_content_selected() === false){
+            if (is_content_selected() === false) {
                 simple_clean();
                 return false;
-            }else{
+            } else {
 
                 // Stop if dragging
-                if (is_dragging()){
+                if (is_dragging()) {
                     return false;
                 }
 
                 // Hide if close while playing an animate.
-                if(body.hasClass("yp-force-hide-select-ui")){
+                if (body.hasClass("yp-force-hide-select-ui")) {
                     body.removeClass("yp-force-hide-select-ui yp-hide-borders-now");
                 }
 
@@ -8786,12 +8894,12 @@
                 }
 
                 // destroy ex element draggable feature.
-                if (iframe.find(".yp-selected.ui-draggable").length > 0){
+                if (iframe.find(".yp-selected.ui-draggable").length > 0) {
                     get_selected_element().draggable("destroy");
                 }
 
                 // Clean animate buttons classes
-                if($("body").find(".yp-anim-cancel-link").length > 0){
+                if ($("body").find(".yp-anim-cancel-link").length > 0) {
                     $(".yp-anim-cancel-link").trigger("click");
                 }
 
@@ -8805,7 +8913,7 @@
                 $(".yp-editor-list > li.active:not(.yp-li-about) > h3").trigger("click");
 
                 // Dont stop playing animate
-                if($("body").hasClass("yp-animate-manager-playing") === false){
+                if ($("body").hasClass("yp-animate-manager-playing") === false) {
                     iframe.find(".yp_onscreen,.yp_hover,.yp_click,.yp_focus").removeClass("yp_onscreen yp_hover yp_click yp_focus");
                 }
 
@@ -8827,7 +8935,7 @@
                 $(".yp-active-contextmenu").removeClass("yp-active-contextmenu");
 
                 // Cancel if animater active
-                if(is_animate_creator() || $("body").hasClass("yp-anim-link-toggle")){
+                if (is_animate_creator() || $("body").hasClass("yp-anim-link-toggle")) {
                     yp_anim_cancel();
                 }
 
@@ -8842,10 +8950,9 @@
         }
 
 
-        function the_editor_data(){
+        function the_editor_data() {
             return iframe.find(".yp-styles-area");
         }
-
 
 
         /* ---------------------------------------------------- */
@@ -8853,7 +8960,7 @@
         /* ---------------------------------------------------- */
         function get_editor_data() {
             var data = the_editor_data().html();
-            if(data){
+            if (data) {
                 data = data.replace(/</g, 'YP|@');
                 data = data.replace(/>/g, 'YP@|');
                 return data;
@@ -8882,7 +8989,7 @@
                 "nth-of-type"
             );
 
-            for(var ai = 0; ai < ars.length; ai++){
+            for (var ai = 0; ai < ars.length; ai++) {
 
                 // Reg
                 var k = new RegExp(ars[ai] + "\\((.*?)\\)\{\r\r", "g");
@@ -8897,7 +9004,7 @@
 
                 var mediaArray = [];
 
-                iframe.find(".yp_current_styles").each(function() {
+                iframe.find(".yp_current_styles").each(function () {
                     var v = $(this).attr("data-size-mode");
 
                     if ($.inArray(v, mediaArray) === -1 && v != 'desktop') {
@@ -8905,7 +9012,7 @@
                     }
                 });
 
-                $.each(mediaArray, function(i, v) {
+                $.each(mediaArray, function (i, v) {
 
                     var q = get_css_by_screensize(v);
 
@@ -8954,7 +9061,7 @@
 
             totalCreated = '';
 
-            iframe.find(".yp_current_styles:not(.yp_step_end)[data-size-mode='" + size + "']").each(function() {
+            iframe.find(".yp_current_styles:not(.yp_step_end)[data-size-mode='" + size + "']").each(function () {
 
                 if (!$(this).hasClass("yp_step_end")) {
 
@@ -8972,7 +9079,7 @@
 
                     classes = $(this).data("style");
 
-                    iframe.find("style[data-style=" + classes + "][data-size-mode='" + size + "']").each(function() {
+                    iframe.find("style[data-style=" + classes + "][data-size-mode='" + size + "']").each(function () {
 
                         var datai;
                         if ($(this).first().html().indexOf("@media") != -1) {
@@ -9002,45 +9109,45 @@
         }
 
         // toggle created background image.
-        $("#background-image-group .yp-none-btn,#background-image-group .yp-disable-btn").click(function(e) {
-            if(e.originalEvent){
+        $("#background-image-group .yp-none-btn,#background-image-group .yp-disable-btn").click(function (e) {
+            if (e.originalEvent) {
                 $("#background-image-group .yp-background-image-show").toggle();
             }
         });
 
 
         // Getting MS from CSS Duration
-        function duration_ms(durations){
+        function duration_ms(durations) {
 
             durations = durations.toString();
-            durations = durations.replace(/ms/g,"");
+            durations = durations.replace(/ms/g, "");
 
             // result
             var duration = 0;
             var ms;
 
             // Is multi durations?
-            if(durations.indexOf(",") != -1){
+            if (durations.indexOf(",") != -1) {
 
                 var durationsArray = durations.split(",");
 
-                for(var i = 0; i < durationsArray.length; i++){
+                for (var i = 0; i < durationsArray.length; i++) {
 
                     var val = durationsArray[i];
 
                     // Has dot?
-                    if(val.indexOf(".") != -1){
+                    if (val.indexOf(".") != -1) {
 
                         ms = parseFloat(val).toString().split(".")[1].length;
-                        val = val.replace(".","").toString();
+                        val = val.replace(".", "").toString();
 
-                        if(ms == 2){
+                        if (ms == 2) {
                             val = val.replace(/s/g, "0");
-                        }else if(ms == 1){
+                        } else if (ms == 1) {
                             val = val.replace(/s/g, "00");
                         }
 
-                    }else{
+                    } else {
                         val = val.replace(/s/g, "000");
                     }
 
@@ -9050,21 +9157,21 @@
 
                 return duration;
 
-            }else{
+            } else {
 
                 // Has dot?
-                if(durations.indexOf(".") != -1){
+                if (durations.indexOf(".") != -1) {
 
                     ms = parseFloat(durations).toString().split(".")[1].length;
-                    durations = durations.replace(".","").toString();
+                    durations = durations.replace(".", "").toString();
 
-                    if(ms == 2){
+                    if (ms == 2) {
                         durations = durations.replace(/s/g, "0");
-                    }else if(ms == 1){
+                    } else if (ms == 1) {
                         durations = durations.replace(/s/g, "00");
                     }
 
-                }else{
+                } else {
                     durations = durations.replace(/s/g, "000");
                 }
 
@@ -9076,13 +9183,13 @@
 
 
         // Get inserted style by selector and rule.
-        function get_data_value(selector,css,check,size){
+        function get_data_value(selector, css, check, size) {
 
             // Defaults
-            var dataContentNew,value,valueDetail = false;
+            var dataContentNew, value, valueDetail = false;
 
             // Size mean media-size.
-            if(isUndefined(size)){
+            if (isUndefined(size)) {
                 size = get_media_condition();
             }
 
@@ -9096,7 +9203,7 @@
             valueDetail = cssData[1];
 
             // Get current selector
-            if(selector == null){
+            if (selector == null) {
                 selector = get_current_selector();
             }
 
@@ -9104,23 +9211,23 @@
             selector = get_id(selector);
 
             // Find
-            var style = iframe.find('.' + selector + '-' + css + '-style[data-size-mode="'+size+'"]');
+            var style = iframe.find('.' + selector + '-' + css + '-style[data-size-mode="' + size + '"]');
 
 
             // If there
-            if (style.length === 0){
+            if (style.length === 0) {
                 return false;
-            }else if(check == true){
+            } else if (check == true) {
 
-                if(valueDetail != null){ // if has detail
+                if (valueDetail != null) { // if has detail
 
-                    if(style.html().match(new RegExp(valueDetail,"g"))){
+                    if (style.html().match(new RegExp(valueDetail, "g"))) {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
 
-                }else{ // No detail
+                } else { // No detail
                     return true;
                 }
 
@@ -9136,29 +9243,29 @@
 
 
         // Getting rule value from an string as "element{color:red;}"
-        function escape_data_value(data){
+        function escape_data_value(data) {
 
             // Defaults
-            var value,dataNew;
+            var value, dataNew;
 
-            if(data === null || data === undefined || data === ''){
+            if (data === null || data === undefined || data === '') {
                 return false;
             }
 
             data = data.replace(/\/\*(.*?)\*\//g, "");
 
             // HasMedia?
-            if(data.indexOf("@media") != -1){
+            if (data.indexOf("@media") != -1) {
 
                 // Get media content
                 dataNew = data.match(/\){(.*?)\}$/g);
 
                 // re check for media.
-                if(dataNew == null){
+                if (dataNew == null) {
                     dataNew = data.match(/\{(.*?)\}$/g);
                 }
 
-            }else{
+            } else {
 
                 dataNew = data;
 
@@ -9168,12 +9275,12 @@
             value = dataNew.toString().split(":")[1].split("}")[0];
 
             // Be sure
-            if(!value){
+            if (!value) {
                 return false;
             }
 
             // who do like important tag?.
-            value = value.replace(/\s+?!important/g,'').replace(/\;$/g,'').trim();
+            value = value.replace(/\s+?!important/g, '').replace(/\;$/g, '').trim();
 
             // return
             return value;
@@ -9183,45 +9290,44 @@
 
         // Get real CSS name and replace fake rules as scale-transfrom.
         // param1 : real CSS name, param2 : [scale]-transfrom. ie "scale".
-        function get_css_id(css){
+        function get_css_id(css) {
 
             var cssDetail = null;
 
             // No webkit
-            css = css.replace(/\-webkit\-/g,'');
+            css = css.replace(/\-webkit\-/g, '');
 
             // Update transfrom parts
-            if(css.indexOf("-transform") != -1 && css != 'text-transform'){
+            if (css.indexOf("-transform") != -1 && css != 'text-transform') {
 
                 // CSS
-                cssDetail = css.replace(/-transform/g,'');
+                cssDetail = css.replace(/-transform/g, '');
                 css = 'transform';
-                cssDetail = cssDetail.replace(/\-/g,"");
+                cssDetail = cssDetail.replace(/\-/g, "");
 
             }
 
             // Update filter parts
-            if(css.indexOf("-filter") != -1){
+            if (css.indexOf("-filter") != -1) {
 
                 // CSS
-                cssDetail = css.replace(/-filter/g,'');
+                cssDetail = css.replace(/-filter/g, '');
                 css = 'filter';
 
             }
 
             // Update filter parts
-            if(css.indexOf("box-shadow-") != -1){
+            if (css.indexOf("box-shadow-") != -1) {
 
                 // CSS
                 css = 'box-shadow';
-                cssDetail = css.replace(/box-shadow-/g,'');
+                cssDetail = css.replace(/box-shadow-/g, '');
 
             }
 
-            return [css,cssDetail];
+            return [css, cssDetail];
 
         }
-
 
 
         /* ---------------------------------------------------- */
@@ -9236,11 +9342,11 @@
             var the_element = iframe.find(selector);
 
             // Adding animation classes to element
-            if (id == 'animation-name' || id == 'animation-iteration-count' || id == 'animation-duration' || id == 'animation-delay'){
+            if (id == 'animation-name' || id == 'animation-iteration-count' || id == 'animation-duration' || id == 'animation-delay') {
                 the_element.addClass("yp_onscreen yp_hover yp_click yp_focus");
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 // Current media size
                 var size = get_current_media_query();
@@ -9249,22 +9355,22 @@
                 var ypEvent = '';
 
                 // onscreen event
-                if (iframe.find('[data-style="' + elementID + get_id(".yp_onscreen") + '"][data-size-mode="'+size+'"]').length > 0) {
+                if (iframe.find('[data-style="' + elementID + get_id(".yp_onscreen") + '"][data-size-mode="' + size + '"]').length > 0) {
                     ypEvent = 'yp_onscreen';
                 }
 
                 // click event
-                if (iframe.find('[data-style="' + elementID + get_id(".yp_click") + '"][data-size-mode="'+size+'"]').length > 0) {
+                if (iframe.find('[data-style="' + elementID + get_id(".yp_click") + '"][data-size-mode="' + size + '"]').length > 0) {
                     ypEvent = 'yp_click';
                 }
 
                 // hover event
-                if (iframe.find('[data-style="' + elementID + get_id(".yp_hover") + '"][data-size-mode="'+size+'"]').length > 0) {
+                if (iframe.find('[data-style="' + elementID + get_id(".yp_hover") + '"][data-size-mode="' + size + '"]').length > 0) {
                     ypEvent = 'yp_hover';
                 }
 
                 // Focus event
-                if (iframe.find('[data-style="' + elementID + get_id(".yp_focus") + '"][data-size-mode="'+size+'"]').length > 0) {
+                if (iframe.find('[data-style="' + elementID + get_id(".yp_focus") + '"][data-size-mode="' + size + '"]').length > 0) {
                     ypEvent = 'yp_focus';
                 }
 
@@ -9292,24 +9398,23 @@
                 var cssDetail = ruleID[1];
 
                 // Has editor style?
-                if (id == 'animation-name' || id == 'animation-iteration-count' || id == 'animation-duration' || id == 'animation-delay'){
+                if (id == 'animation-name' || id == 'animation-iteration-count' || id == 'animation-duration' || id == 'animation-delay') {
 
-                    if(get_data_value(selector+"."+ypEvent,id,true)){
+                    if (get_data_value(selector + "." + ypEvent, id, true)) {
                         $("#" + id + "-group").addClass("eye-enable");
                     }
 
-                }else{
+                } else {
 
-                    if(get_data_value(selector,id,true)){
+                    if (get_data_value(selector, id, true)) {
                         $("#" + id + "-group").addClass("eye-enable");
                     }
 
                 }
 
 
-
                 // data is default value
-                var data,numberData;
+                var data, numberData;
 
                 // Getting CSS Data. (Animation play not an CSS rule.)
                 if (id != 'animation-play' && id != 'border-width' && id != 'border-color' && id != 'border-style' && elementID != 'transform') {
@@ -9326,27 +9431,27 @@
 
                 // Check border style
                 var top;
-                if(id == 'border-style'){
+                if (id == 'border-style') {
 
                     data = 'solid';
 
                     top = the_element.css("border-top-style");
 
-                    if(top == the_element.css("border-left-style") && top == the_element.css("border-right-style") && top == the_element.css("border-bottom-style")){
+                    if (top == the_element.css("border-left-style") && top == the_element.css("border-right-style") && top == the_element.css("border-bottom-style")) {
                         data = top;
                     }
 
                 }
 
                 // Check border width
-                if(id == 'border-width'){
+                if (id == 'border-width') {
 
                     data = '0px';
                     numberData = 0;
 
                     top = the_element.css("border-top-width");
 
-                    if(top == the_element.css("border-left-width") && top == the_element.css("border-right-width") && top == the_element.css("border-bottom-width")){
+                    if (top == the_element.css("border-left-width") && top == the_element.css("border-right-width") && top == the_element.css("border-bottom-width")) {
                         data = top;
                         numberData = number_filter(top);
                     }
@@ -9354,13 +9459,13 @@
                 }
 
                 // Check border color
-                if(id == 'border-color'){
+                if (id == 'border-color') {
 
                     data = the_element.css("color");
 
                     top = the_element.css("border-top-color");
 
-                    if(top == the_element.css("border-left-color") && top == the_element.css("border-right-color") && top == the_element.css("border-bottom-color")){
+                    if (top == the_element.css("border-left-color") && top == the_element.css("border-right-color") && top == the_element.css("border-bottom-color")) {
                         data = top;
                     }
 
@@ -9368,7 +9473,7 @@
 
 
                 // Check if margin left/right is auto or else.
-                if(id == 'margin-left' || id == 'margin-right'){
+                if (id == 'margin-left' || id == 'margin-right') {
 
                     var frameWidth = iframe.width();
 
@@ -9376,7 +9481,7 @@
                     var marginLeft = parseFloat(the_element.css("margin-left"));
                     var width = parseFloat(the_element.css("width"));
 
-                    if(frameWidth == (marginLeft * 2) + width){
+                    if (frameWidth == (marginLeft * 2) + width) {
                         data = 'auto';
                         numberData = 0;
                     }
@@ -9391,7 +9496,7 @@
 
 
                 // Play if is animation name.
-                if (id == 'animation-name' && data != 'none'){
+                if (id == 'animation-name' && data != 'none') {
 
                     // Add class.
                     body.addClass("yp-hide-borders-now yp-force-hide-select-ui");
@@ -9400,25 +9505,25 @@
                     var timeDelay = the_element.css("animation-delay");
 
                     // Getting right time delay if have multiple animations.
-                    var newDelay = get_multiple_delay(time,timeDelay);
+                    var newDelay = get_multiple_delay(time, timeDelay);
 
-                    if(newDelay !== false){
+                    if (newDelay !== false) {
                         timeDelay = newDelay;
-                    }else if(isUndefined(timeDelay)){
+                    } else if (isUndefined(timeDelay)) {
                         timeDelay = 0;
-                    }else{
+                    } else {
                         timeDelay = duration_ms(timeDelay); // timeDelay
                     }
 
-                    if (isUndefined(time)){
+                    if (isUndefined(time)) {
                         time = 1000;
-                    }else{
+                    } else {
                         time = duration_ms(time); // Time
                     }
 
                     time = parseFloat(time) + parseFloat(timeDelay);
 
-                    if(time === 0){
+                    if (time === 0) {
                         time = 1000;
                     }
 
@@ -9426,7 +9531,7 @@
 
                     clear_animation_timer();
 
-                    window.animationTimer2 = setTimeout(function() {
+                    window.animationTimer2 = setTimeout(function () {
 
                         element_animation_end();
 
@@ -9441,9 +9546,8 @@
                 }
 
 
-
                 // filter = explode filter data to parts
-                if (elementID == 'filter'){
+                if (elementID == 'filter') {
 
                     // Try to get css with webkit prefix.
                     if (data === null || data == 'none' || data === undefined) {
@@ -9454,7 +9558,7 @@
                     if (data != 'none' && data !== null && data !== undefined) {
 
                         // Get brightness, blur etc from filter data.
-                        data = data.match(new RegExp(cssDetail+"\\((.*?)\\)","g"));
+                        data = data.match(new RegExp(cssDetail + "\\((.*?)\\)", "g"));
 
                         // is?
                         if (isDefined(data)) {
@@ -9468,7 +9572,7 @@
                             // Update number data
                             numberData = data;
 
-                        }else{
+                        } else {
 
                             // Set default
                             data = 'disable';
@@ -9476,7 +9580,7 @@
 
                         }
 
-                    }else{
+                    } else {
 
                         // Set default
                         data = 'disable';
@@ -9488,12 +9592,20 @@
 
 
                 // Font weight fix.
-                if (id == 'font-weight'){
+                if (id == 'font-weight') {
 
-                    if(data == 'bolder'){ data = '700'; }
-                    if(data == 'bold'){ data = '600'; }
-                    if(data == 'normal'){ data = '400'; }
-                    if(data == 'lighter'){ data = '300'; }
+                    if (data == 'bolder') {
+                        data = '700';
+                    }
+                    if (data == 'bold') {
+                        data = '600';
+                    }
+                    if (data == 'normal') {
+                        data = '400';
+                    }
+                    if (data == 'lighter') {
+                        data = '300';
+                    }
 
                 }
 
@@ -9502,16 +9614,16 @@
                 if (elementID == 'transform') {
 
                     // Get transfrom style from editor data.
-                    data = get_data_value(selector,id,size);
+                    data = get_data_value(selector, id, size);
 
                     // Getting transform value from HTML Source ANIM.
                     var styleString = null;
-                    if (is_animate_creator()){
+                    if (is_animate_creator()) {
 
                         var currentScene = parseInt($("body").attr("data-anim-scene").replace("scene-", ""));
 
                         // Check scenes by scenes for get transfrom data.
-                        for(var transfromIndex = 0; transfromIndex < 6; transfromIndex++){
+                        for (var transfromIndex = 0; transfromIndex < 6; transfromIndex++) {
 
                             // style element
                             var styleOb = iframe.find('.scene-' + (currentScene - transfromIndex) + ' .scenes-transform-style');
@@ -9525,7 +9637,7 @@
                         }
 
                         // Get scene transform data else default.
-                        if(styleString != null){
+                        if (styleString != null) {
                             data = escape_data_value(styleString);
                         }
 
@@ -9536,7 +9648,7 @@
                     if (data != 'none' && data !== false && data !== undefined) {
 
                         // Get brightness, blur etc from filter data.
-                        data = data.match(new RegExp(cssDetail+"\\((.*?)\\)","g"));
+                        data = data.match(new RegExp(cssDetail + "\\((.*?)\\)", "g"));
 
                         // is?
                         if (isDefined(data)) {
@@ -9550,7 +9662,7 @@
                             // Update number data
                             numberData = data;
 
-                        }else{
+                        } else {
 
                             // Set default
                             data = 'disable';
@@ -9558,7 +9670,7 @@
 
                         }
 
-                    }else{
+                    } else {
 
                         // Set default
                         data = 'disable';
@@ -9588,8 +9700,8 @@
                 }
 
                 // Set auto
-                if(id == 'min-width' || id == 'min-height'){
-                    if(parseFloat(data) == 0){
+                if (id == 'min-width' || id == 'min-height') {
+                    if (parseFloat(data) == 0) {
                         data = 'auto';
                     }
                 }
@@ -9700,7 +9812,7 @@
                 // yellow pencil using css engine for parallax Property.
                 if (the_element.css(id) === undefined && iframe.find('.' + elementID + '-' + id + '-style').length > 0) {
 
-                    data = get_data_value(selector,id);
+                    data = get_data_value(selector, id);
                     numberData = number_filter(data);
 
                 } else if (isUndefined(the_element.css(id))) { // if no data, use "disable" for default.
@@ -9722,35 +9834,35 @@
                 var element = get_selected_element();
 
                 // IF THIS IS A SLIDER
-                if (the_option.hasClass("wqNoUi-target")){
+                if (the_option.hasClass("wqNoUi-target")) {
 
                     // if has multi duration
-                    if(id == 'animation-duration' && data.indexOf(",") != -1){
+                    if (id == 'animation-duration' && data.indexOf(",") != -1) {
                         data = '1s'; // Reading as 1second
                         $format = 's';
                         numberData = '1';
                         $("#animation-duration-group").addClass("hidden-option");
-                    }else if(id == 'animation-duration'){
+                    } else if (id == 'animation-duration') {
                         $("#animation-duration-group").removeClass("hidden-option");
                     }
 
 
                     // if has multi delay
-                    if(id == 'animation-delay' && data.indexOf(",") != -1){
+                    if (id == 'animation-delay' && data.indexOf(",") != -1) {
                         data = '0s'; // Reading as 1second
                         $format = 's';
                         numberData = '0';
                         $("#animation-delay-group").addClass("hidden-option");
-                    }else if(id == 'animation-delay'){
+                    } else if (id == 'animation-delay') {
                         $("#animation-delay-group").removeClass("hidden-option");
                     }
 
 
                     // if no data, active none option.
-                    if (data == 'none' || data == 'auto' || data == 'inherit' || data == 'initial'){
-                        if(id_prt.find(".yp-none-btn").hasClass("active")){
+                    if (data == 'none' || data == 'auto' || data == 'inherit' || data == 'initial') {
+                        if (id_prt.find(".yp-none-btn").hasClass("active")) {
                             id_prt.find(".yp-none-btn").trigger("click").trigger("click");
-                        }else{
+                        } else {
                             id_prt.find(".yp-none-btn").trigger("click");
                         }
                         $format = 'px';
@@ -9826,7 +9938,7 @@
 
                         if (the_element.parent().length > 0) {
 
-                            if($format == 'px' && element.parent().css("display") == 'block' && element.parent().css("float") == 'none'){
+                            if ($format == 'px' && element.parent().css("display") == 'block' && element.parent().css("float") == 'none') {
 
                                 var parentWidth = the_element.parent().width();
 
@@ -9837,19 +9949,19 @@
                                 }
 
                                 // if  width is 50% of parent width, so set 50%!
-                                if (id == 'width' && parseInt(parentWidth/2) == (parseInt(numberData)) && $format == 'px') {
+                                if (id == 'width' && parseInt(parentWidth / 2) == (parseInt(numberData)) && $format == 'px') {
                                     numberData = '50';
                                     $format = '%';
                                 }
 
                                 // if  width is 25% of parent width, so set 25%!
-                                if (id == 'width' && parseInt(parentWidth/4) == (parseInt(numberData)) && $format == 'px') {
+                                if (id == 'width' && parseInt(parentWidth / 4) == (parseInt(numberData)) && $format == 'px') {
                                     numberData = '25';
                                     $format = '%';
                                 }
 
                                 // if  width is 20% of parent width, so set 20%!
-                                if (id == 'width' && parseInt(parentWidth/5) == (parseInt(numberData)) && $format == 'px') {
+                                if (id == 'width' && parseInt(parentWidth / 5) == (parseInt(numberData)) && $format == 'px') {
                                     numberData = '20';
                                     $format = '%';
                                 }
@@ -9867,11 +9979,11 @@
                     }
 
                     // max and min for %.
-                    if ($format == '%'){
+                    if ($format == '%') {
                         range = $('#' + id + '-group').attr("data-pcv").split(",");
                         $min = range[0];
                         $max = range[1];
-                    }else if($format == 'em'){
+                    } else if ($format == 'em') {
                         range = $('#' + id + '-group').attr("data-emv").split(",");
                         $min = range[0];
                         $max = range[1];
@@ -9894,7 +10006,7 @@
                     // Update the input.
                     $('#' + id + '-value').val(numberData);
 
-                    $format = $format.replace(/\./g,'');
+                    $format = $format.replace(/\./g, '');
 
                     // set format of value. px, em etc.
                     $("#" + id + "-after").val($format);
@@ -9913,14 +10025,14 @@
 
                             var founded = false;
 
-                            $.each(data, function(i, v) {
+                            $.each(data, function (i, v) {
                                 if (founded === false) {
                                     data = $.trim(data[i].replace(/"/g, "").replace(/'/g, ""));
                                     founded = true;
                                 }
                             });
 
-                        }else{
+                        } else {
                             data = $.trim(data.replace(/"/g, "").replace(/'/g, ""));
                         }
 
@@ -9953,21 +10065,21 @@
                         if (id == 'font-family' && data.indexOf(",") == -1) {
 
                             // Getting value
-                            var value = $("#yp-font-family-data option").filter(function() {
+                            var value = $("#yp-font-family-data option").filter(function () {
                                 return $(this).text() === data;
                             }).first().attr("value");
 
                             // Select by value.
                             if (value !== undefined) {
 
-                                value = value.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                                value = value.toLowerCase().replace(/\b[a-z]/g, function (letter) {
                                     return letter.toUpperCase();
                                 });
 
                                 the_option.val(value);
                             } else {
 
-                                data = data.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                                data = data.toLowerCase().replace(/\b[a-z]/g, function (letter) {
                                     return letter.toUpperCase();
                                 });
 
@@ -9986,7 +10098,7 @@
                         }
 
                         if (id == 'font-family') {
-                            $("#yp-font-family,#yp-font-weight").each(function() {
+                            $("#yp-font-family,#yp-font-weight").each(function () {
                                 $(this).css("font-family", data);
                             });
                         }
@@ -10054,19 +10166,19 @@
 
                     // If rgba
                     var alpha = 100;
-                    if(data.indexOf("rgba") != -1){
-                        alpha = $.trim(data.replace(/^.*,(.+)\)/,'$1'));
-                        if(alpha.indexOf(".") != -1){
-                            alpha = alpha.replace("000.","").replace("00.","").replace("0.","").replace(".","");
-                            if(alpha.length == 1){
-                                alpha = alpha.toString()+"0";
+                    if (data.indexOf("rgba") != -1) {
+                        alpha = $.trim(data.replace(/^.*,(.+)\)/, '$1'));
+                        if (alpha.indexOf(".") != -1) {
+                            alpha = alpha.replace("000.", "").replace("00.", "").replace("0.", "").replace(".", "");
+                            if (alpha.length == 1) {
+                                alpha = alpha.toString() + "0";
                             }
                             alpha = alpha.replace(/^0/, "");
                         }
                     }
 
                     // Update iris alpha.
-                    id_prt.find(".cs-alpha-slider").slider({value:alpha});
+                    id_prt.find(".cs-alpha-slider").slider({value: alpha});
 
                     // Set current color on small area.
                     the_option.parent().find(".wqminicolors-swatch-color").css("background-color", rgbd).css("background-image", "none");
@@ -10143,7 +10255,7 @@
         function is_google_font(font) {
 
             var status = false;
-            $('select#yp-font-family-data option').each(function() {
+            $('select#yp-font-family-data option').each(function () {
                 if ($(this).text() == font) {
                     status = true;
                     return true;
@@ -10156,11 +10268,11 @@
 
 
         // Desktop | (max-width:980px) etc.
-        function get_current_media_query(){
+        function get_current_media_query() {
 
-            if(!body.hasClass("yp-responsive-device-mode")){
+            if (!body.hasClass("yp-responsive-device-mode")) {
                 return 'desktop';
-            }else{
+            } else {
                 var w = iframe.width();
                 var format = $(".media-control").attr("data-code");
                 return '(' + format + ':' + w + 'px)';
@@ -10169,11 +10281,10 @@
         }
 
 
-
         /* ---------------------------------------------------- */
         /* Converting selectors to Array                        */
         /* ---------------------------------------------------- */
-        function get_selector_array(selector){
+        function get_selector_array(selector) {
 
             var selectorArray = [];
 
@@ -10192,10 +10303,10 @@
             selector = $.trim(selector);
 
             // Check if still there have another selector
-            if(selector.indexOf(" ") != -1){
+            if (selector.indexOf(" ") != -1) {
 
                 // Split with space
-                $.each(selector.split(" "),function(i,v){
+                $.each(selector.split(" "), function (i, v) {
 
                     // Clean
                     v = $.trim(v);
@@ -10205,7 +10316,7 @@
 
                 });
 
-            }else{
+            } else {
 
                 // Push if single.
                 selectorArray.push(selector);
@@ -10215,8 +10326,8 @@
             var selectorArrayNew = [];
 
             // Add spaces again
-            $.each(selectorArray,function(i,v){
-                selectorArrayNew.push(v.replace(/\~/g,' ~ ').replace(/\+/g,' + '));
+            $.each(selectorArray, function (i, v) {
+                selectorArrayNew.push(v.replace(/\~/g, ' ~ ').replace(/\+/g, ' + '));
             });
 
             return selectorArrayNew;
@@ -10227,7 +10338,7 @@
         /* ---------------------------------------------------- */
         /* Converting Classes to Array                          */
         /* ---------------------------------------------------- */
-        function get_classes_array(classes){
+        function get_classes_array(classes) {
 
             var classesArray = [];
 
@@ -10238,10 +10349,10 @@
             classes = classes.replace(/\s\s+/g, ' ');
 
             // Check if still there have another class
-            if(classes.indexOf(" ") != -1){
+            if (classes.indexOf(" ") != -1) {
 
                 // Split with space
-                $.each(classes.split(" "),function(i,v){
+                $.each(classes.split(" "), function (i, v) {
 
                     // Clean
                     v = $.trim(v);
@@ -10251,7 +10362,7 @@
 
                 });
 
-            }else{
+            } else {
 
                 // Push if single.
                 classesArray.push(classes);
@@ -10610,7 +10721,6 @@
         ];
 
 
-
         /* ---------------------------------------------------- */
         /* Get Best Class Name                                  */
         /* ---------------------------------------------------- */
@@ -10621,7 +10731,7 @@
 
          If no class, using ID else using tag name.
          */
-        function get_best_class($element){
+        function get_best_class($element) {
 
             // Cache
             var element = $($element);
@@ -10654,27 +10764,27 @@
             }
 
             // If Element has ID, Return ID.
-            if (typeof id != 'undefined'){
+            if (typeof id != 'undefined') {
 
                 id = $.trim(id);
 
                 // If has "widget" term in classes, its is a widget element. dont select with the ID.
                 if (classes !== undefined && classes !== null) {
-                    if(classes.toString().match(/\b([a-zA-Z0-9_-]{1})?widget\b|\b([a-zA-Z0-9_-]{3})?widget\b|\b([a-zA-Z0-9_-]{4})?widget\b|\b([a-zA-Z0-9_-]{5})?widget\b|\b([a-zA-Z0-9_-]{6})?widget\b/g)){
+                    if (classes.toString().match(/\b([a-zA-Z0-9_-]{1})?widget\b|\b([a-zA-Z0-9_-]{3})?widget\b|\b([a-zA-Z0-9_-]{4})?widget\b|\b([a-zA-Z0-9_-]{5})?widget\b|\b([a-zA-Z0-9_-]{6})?widget\b/g)) {
                         id = '';
                     }
                 }
 
                 // One plugin prefix that create random base64 id.
-                if ($.trim(id).substring(0, 4) == "fws_"){
+                if ($.trim(id).substring(0, 4) == "fws_") {
                     id = '';
                 }
 
                 // Check if ID has number.
-                if(id.match(/\d+/g)){
+                if (id.match(/\d+/g)) {
 
                     // If its has 'slide', 'section' so let to it or else.
-                    if(id.match(/((?=.*module)|(?=.*slide)|(?=.*section)|(?=.*row)|(?=.*layout)|(?=.*form)|(?=.*pg-)|(?=.*wrapper)|(?=.*container)|(?=.*parallax)|(?=.*block)|(?=.*layers-widget-column)|(?=.*layers-widget-slide)|(?=.*layers-widget-layers-pro-call-to-action)|(?=.*builder-module-))(?=.*\d+)|\bptpb_s(\d+)\b/g) === null){
+                    if (id.match(/((?=.*module)|(?=.*slide)|(?=.*section)|(?=.*row)|(?=.*layout)|(?=.*form)|(?=.*pg-)|(?=.*wrapper)|(?=.*container)|(?=.*parallax)|(?=.*block)|(?=.*layers-widget-column)|(?=.*layers-widget-slide)|(?=.*layers-widget-layers-pro-call-to-action)|(?=.*builder-module-))(?=.*\d+)|\bptpb_s(\d+)\b/g) === null) {
                         id = '';
                     }
 
@@ -10696,10 +10806,10 @@
                 // Foreach classes.
                 // If has normal classes and nunmmeric classes,
                 // Find normal classes and cache to best_classes variable.
-                $(ArrayClasses).each(function(i, v) {
+                $(ArrayClasses).each(function (i, v) {
 
-                    if (v.match(/\d+/g)){
-                        if(!v.match(/page-item/g)){
+                    if (v.match(/\d+/g)) {
+                        if (!v.match(/page-item/g)) {
                             nummeric_class = v;
                         }
                     } else {
@@ -10711,13 +10821,13 @@
             }
 
             // we want never use some class names. so disabling this classes.
-            if(isDefined(best_classes)){
-                $.each(filterBadClassesBasic,function(i,v){
+            if (isDefined(best_classes)) {
+                $.each(filterBadClassesBasic, function (i, v) {
 
-                    v = v.replace(/\-/g,'W06lXW').replace(/0W06lXW9/g,'0-9').replace(/\(\w\+\)/g,'\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g,'a-zA-Z0-9_-').toString();
-                    var re = new RegExp("\\b"+v+"\\b","g");
+                    v = v.replace(/\-/g, 'W06lXW').replace(/0W06lXW9/g, '0-9').replace(/\(\w\+\)/g, '\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g, 'a-zA-Z0-9_-').toString();
+                    var re = new RegExp("\\b" + v + "\\b", "g");
 
-                    best_classes = best_classes.toString().replace(/\-/g,'W06lXW').replace(re, '');
+                    best_classes = best_classes.toString().replace(/\-/g, 'W06lXW').replace(re, '');
 
                 });
             }
@@ -10729,13 +10839,13 @@
                 the_best = get_classes_array(best_classes);
 
                 // Replace significant classes and keep best classes.
-                var significant_classes = $.trim(best_classes.replace(/\-/g,'W06lXW'));
+                var significant_classes = $.trim(best_classes.replace(/\-/g, 'W06lXW'));
 
                 // Replace all non useful classes
-                if(isDefined(significant_classes)){
-                    $.each(filterSomeClasses,function(i,v){
-                        v = v.replace(/\-/g,'W06lXW').replace(/0W06lXW9/g,'0-9').replace(/\(\w\+\)/g,'\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g,'a-zA-Z0-9_-').toString();
-                        var re = new RegExp("\\b"+v+"\\b","g");
+                if (isDefined(significant_classes)) {
+                    $.each(filterSomeClasses, function (i, v) {
+                        v = v.replace(/\-/g, 'W06lXW').replace(/0W06lXW9/g, '0-9').replace(/\(\w\+\)/g, '\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g, 'a-zA-Z0-9_-').toString();
+                        var re = new RegExp("\\b" + v + "\\b", "g");
 
                         significant_classes = significant_classes.replace(re, '');
 
@@ -10749,16 +10859,16 @@
                 // If has this any classes, keep this more important.
                 var i;
                 var return_the_best = '';
-                for (i = 0; i < the_best.length; i++){
+                for (i = 0; i < the_best.length; i++) {
 
-                    if(filterGoodClasses.indexOf(the_best[i]) != -1){
+                    if (filterGoodClasses.indexOf(the_best[i]) != -1) {
 
                         // Don't focus to current and active classes on single selector tool.
                         if (body.hasClass(("yp-sharp-selector-mode-active"))) {
                             if (the_best[i] != 'current' && the_best[i] != 'active') {
                                 return_the_best = the_best[i];
                             }
-                        }else{
+                        } else {
                             return_the_best = the_best[i];
                         }
 
@@ -10766,8 +10876,8 @@
 
                     // Don't see slider-active classes.
                     if (return_the_best == '' && body.hasClass("yp-sharp-selector-mode-active") === false) {
-                        if (the_best[i].indexOf("active") != -1 || the_best[i].indexOf("current") != -1){
-                            if(the_best[i].indexOf("slide") == -1){
+                        if (the_best[i].indexOf("active") != -1 || the_best[i].indexOf("current") != -1) {
+                            if (the_best[i].indexOf("slide") == -1) {
                                 return_the_best = the_best[i];
                             }
                         }
@@ -10776,15 +10886,15 @@
                 }
 
                 // Some nummeric classes is important.
-                if(nummeric_class != ''){
+                if (nummeric_class != '') {
 
                     // section-1, section-2 etc
-                    if(nummeric_class.indexOf("section") != -1){
+                    if (nummeric_class.indexOf("section") != -1) {
                         return_the_best = nummeric_class;
                     }
 
                     // slide-0, slide-1 etc
-                    if(nummeric_class.indexOf("slide") != -1){
+                    if (nummeric_class.indexOf("slide") != -1) {
                         return_the_best = nummeric_class;
                     }
 
@@ -10796,14 +10906,14 @@
                 }
 
                 // Image selection
-                if (return_the_best == '' && nummeric_class.indexOf("wp-image-") > -1 && tag == 'img'){
+                if (return_the_best == '' && nummeric_class.indexOf("wp-image-") > -1 && tag == 'img') {
                     return_the_best = $.trim(nummeric_class.match(/wp-image-[0-9]+/g).toString());
                 }
 
                 // Good num classes
-                if (return_the_best == ''){
+                if (return_the_best == '') {
 
-                    if(nummeric_class.indexOf('section') != -1 || nummeric_class.indexOf("button") != -1 || nummeric_class.indexOf("image") != -1 || nummeric_class.indexOf("fusion-fullwidth") != -1 || nummeric_class.indexOf('vc_custom_') != -1 || (nummeric_class.indexOf('row-') != -1 && the_best.indexOf("row") != -1) || (nummeric_class.indexOf('fl-node-') != -1 && the_best.indexOf("fl-row") != -1)){
+                    if (nummeric_class.indexOf('section') != -1 || nummeric_class.indexOf("button") != -1 || nummeric_class.indexOf("image") != -1 || nummeric_class.indexOf("fusion-fullwidth") != -1 || nummeric_class.indexOf('vc_custom_') != -1 || (nummeric_class.indexOf('row-') != -1 && the_best.indexOf("row") != -1) || (nummeric_class.indexOf('fl-node-') != -1 && the_best.indexOf("fl-row") != -1)) {
                         return_the_best = nummeric_class;
                     }
 
@@ -10829,29 +10939,29 @@
 
                 }
 
-                return_the_best  = $.trim(return_the_best.replace(/W06lXW/g, "-"));
-                significant_classes  = $.trim(significant_classes.replace(/W06lXW/g, "-"));
+                return_the_best = $.trim(return_the_best.replace(/W06lXW/g, "-"));
+                significant_classes = $.trim(significant_classes.replace(/W06lXW/g, "-"));
 
 
-                if(Array.isArray(the_best)){
+                if (Array.isArray(the_best)) {
 
                     the_best = $.trim(the_best.toString().replace(/W06lXW/g, "-"));
 
-                    if(the_best.indexOf(",") != -1){
+                    if (the_best.indexOf(",") != -1) {
                         the_best = the_best.split(",");
                     }
 
-                    if(the_best.indexOf(" ") != -1){
+                    if (the_best.indexOf(" ") != -1) {
                         the_best = the_best.split(" ");
                     }
 
-                }else{
+                } else {
 
                     the_best = $.trim(the_best.replace(/W06lXW/g, "-"));
 
                 }
 
-                if(typeof the_best == 'string'){
+                if (typeof the_best == 'string') {
                     the_best = get_classes_array(the_best);
                 }
 
@@ -10862,7 +10972,7 @@
                     the_best = '.' + return_the_best;
 
                     // If can't find best classes, use significant classes.
-                } else if (significant_classes != '' && tagFounded === false){
+                } else if (significant_classes != '' && tagFounded === false) {
 
                     // Convert to array.
                     significant_classes = get_classes_array(significant_classes);
@@ -10870,17 +10980,17 @@
                     var matchlessFounded = false;
 
                     // Find matchless classes for single selector tool.
-                    if($("body").hasClass("yp-sharp-selector-mode-active")){
+                    if ($("body").hasClass("yp-sharp-selector-mode-active")) {
 
-                        var matchlessClasses = significant_classes.sort(function(b, a) {
-                            return iframeBody.find("."+b).length - iframeBody.find("."+a).length;
+                        var matchlessClasses = significant_classes.sort(function (b, a) {
+                            return iframeBody.find("." + b).length - iframeBody.find("." + a).length;
                         });
 
-                        if(iframeBody.find("."+matchlessClasses[0]).length == 1){
+                        if (iframeBody.find("." + matchlessClasses[0]).length == 1) {
                             the_best = '.' + matchlessClasses[0];
                             matchlessFounded = true;
-                        }else if(matchlessClasses[1] !== undefined){
-                            if(iframeBody.find("."+matchlessClasses[0]+"."+matchlessClasses[1]).length == 1){
+                        } else if (matchlessClasses[1] !== undefined) {
+                            if (iframeBody.find("." + matchlessClasses[0] + "." + matchlessClasses[1]).length == 1) {
                                 the_best = '.' + matchlessClasses[0] + '.' + matchlessClasses[1];
                                 matchlessFounded = true;
                             }
@@ -10888,25 +10998,25 @@
 
                     }
 
-                    if(matchlessFounded === false){
+                    if (matchlessFounded === false) {
 
                         // Find most long classes.
-                        var maxlengh = significant_classes.sort(function(a, b) {
+                        var maxlengh = significant_classes.sort(function (a, b) {
                             return b.length - a.length;
                         });
 
                         // If finded, find classes with this char "-"
-                        if (maxlengh[0] != 'undefined'){
+                        if (maxlengh[0] != 'undefined') {
 
                             // Finded.
-                            var maxChar = significant_classes.sort(function(a, b) {
+                            var maxChar = significant_classes.sort(function (a, b) {
                                 return b.indexOf("-") - a.indexOf("-");
                             });
 
                             // First prefer max class with "-" char.
                             if (maxChar[0] != 'undefined' && maxChar[0].indexOf("-") != -1) {
                                 the_best = '.' + maxChar[0];
-                            } else if (maxlengh[0] != 'undefined'){ // else try most long classes.
+                            } else if (maxlengh[0] != 'undefined') { // else try most long classes.
                                 the_best = '.' + maxlengh[0];
                             }
 
@@ -10919,20 +11029,19 @@
 
                     }
 
-                } else if (tagFounded === false){
+                } else if (tagFounded === false) {
 
                     // If has any nummeric class
-                    if ($.trim(nummeric_class) != ''){
+                    if ($.trim(nummeric_class) != '') {
 
                         the_best = '.' + nummeric_class;
 
-                    }else{
+                    } else {
 
                         // Get first founded any class.
                         the_best = '.' + the_best[0];
 
                     }
-
 
 
                 }
@@ -10964,7 +11073,7 @@
         /* ---------------------------------------------------- */
         /* Get All Current Parents                              */
         /* ---------------------------------------------------- */
-        function get_current_selector(){
+        function get_current_selector() {
 
             var parentsv = body.attr("data-clickable-select");
 
@@ -10977,15 +11086,15 @@
         }
 
 
-        function filter_bad_quies(data){
-            return  data.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035\u201C\u201D]/g,'');
+        function filter_bad_quies(data) {
+            return data.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035\u201C\u201D]/g, '');
         }
 
 
         /* ---------------------------------------------------- */
         /* Getting minimized CSS. Cleaning spaces.              */
         /* ---------------------------------------------------- */
-        function get_minimized_css(data,media){
+        function get_minimized_css(data, media) {
 
             // Clean.
             data = data.replace(/(\r\n|\n|\r)/g, "").replace(/\t/g, '');
@@ -11001,8 +11110,8 @@
             data = filter_bad_quies(data);
 
             // Don't care rules in media query
-            if(media === true){
-                data = data.replace(/@media(.*?)\}\}/g, '').replace(/@?([a-zA-Z0-9_-]+)?keyframes(.*?)\}\}/g, '').replace(/@font-face(.*?)\}\}/g, '').replace(/@import(.*?)\;/g,'').replace(/@charset(.*?)\;/g,'');
+            if (media === true) {
+                data = data.replace(/@media(.*?)\}\}/g, '').replace(/@?([a-zA-Z0-9_-]+)?keyframes(.*?)\}\}/g, '').replace(/@font-face(.*?)\}\}/g, '').replace(/@import(.*?)\;/g, '').replace(/@charset(.*?)\;/g, '');
             }
 
             // data
@@ -11018,18 +11127,18 @@
         /* ---------------------------------------------------- */
         /* Get Human Selectors                                  */
         /* ---------------------------------------------------- */
-        function get_human_selector(data){
+        function get_human_selector(data) {
 
-            var allSelectors,i;
+            var allSelectors, i;
 
             // Don't search it always
-            if(window.humanSelectorArray.length === 0){
+            if (window.humanSelectorArray.length === 0) {
 
                 // Getting minimized data.
-                data = get_minimized_css(data,true);
+                data = get_minimized_css(data, true);
 
                 // if no data, stop.
-                if(data == ''){
+                if (data == '') {
                     return false;
                 }
 
@@ -11045,46 +11154,46 @@
             var selector;
 
             // get cached selector Array
-            if(window.humanSelectorArrayEnd){
+            if (window.humanSelectorArrayEnd) {
                 allSelectors = window.humanSelectorArray;
             }
 
-            if(isUndefined(allSelectors)){
+            if (isUndefined(allSelectors)) {
                 return false;
             }
 
             // Each All Selectors
-            for (i = 0; i < allSelectors.length; i++){
+            for (i = 0; i < allSelectors.length; i++) {
 
                 // Get Selector.
                 selector = space_cleaner(allSelectors[i]);
-                selector = space_cleaner(selector.replace("{",'').replace("}",''));
+                selector = space_cleaner(selector.replace("{", '').replace("}", ''));
 
                 // YP not like so advanced selectors.
-                if(selector.indexOf(",") != -1 || selector.indexOf(":") != -1 || selector.indexOf("*") != -1 || selector.indexOf("/") != -1){
+                if (selector.indexOf(",") != -1 || selector.indexOf(":") != -1 || selector.indexOf("*") != -1 || selector.indexOf("/") != -1) {
                     continue;
                 }
 
                 // Not basic html tag selectors.
-                if(selector.indexOf("#") == -1 && selector.indexOf(".") == -1){
+                if (selector.indexOf("#") == -1 && selector.indexOf(".") == -1) {
                     continue;
                 }
 
                 // min two
-                if(get_selector_array(selector).length < 2){
+                if (get_selector_array(selector).length < 2) {
                     continue;
                 }
 
                 // Check if selector valid
-                if(iframeBody.find(selector).length > 0){
+                if (iframeBody.find(selector).length > 0) {
 
                     // Cache other selectors.
-                    if(window.humanSelectorArrayEnd === false){
+                    if (window.humanSelectorArrayEnd === false) {
                         window.humanSelectorArray.push(selector);
                     }
 
                     // Founded Selector
-                    if(iframeBody.find(selector).hasClass("yp-selected")){
+                    if (iframeBody.find(selector).hasClass("yp-selected")) {
                         foundedSelectors.push(selector);
                     }
 
@@ -11100,39 +11209,39 @@
 
             // Each all founded selectors.
             // Don't use if has non useful classes as format-link etc.
-            for(i = 0; i < foundedSelectors.length; i++){
+            for (i = 0; i < foundedSelectors.length; i++) {
 
-                var selectorBefore = foundedSelectors[i].replace(/\-/g,'W06lXW');
+                var selectorBefore = foundedSelectors[i].replace(/\-/g, 'W06lXW');
                 var passedClasses = true;
 
                 // Check if has an useful class
-                $.each((filterBadClassesBasic),function(x,v){
+                $.each((filterBadClassesBasic), function (x, v) {
 
-                    v = v.replace(/\-/g,'W06lXW').replace(/0W06lXW9/g,'0-9').replace(/\(\w\+\)/g,'\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g,'a-zA-Z0-9_-').toString();
-                    var re = new RegExp("\\b"+v+"\\b","g");
+                    v = v.replace(/\-/g, 'W06lXW').replace(/0W06lXW9/g, '0-9').replace(/\(\w\+\)/g, '\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g, 'a-zA-Z0-9_-').toString();
+                    var re = new RegExp("\\b" + v + "\\b", "g");
 
                     // Founded an non useful class.
-                    if(selectorBefore.match(re) !== null){
+                    if (selectorBefore.match(re) !== null) {
                         passedClasses = false;
                     }
 
                 });
 
                 // Check if has bad class
-                $.each((filterBadClassesPlus),function(x,v){
+                $.each((filterBadClassesPlus), function (x, v) {
 
-                    v = v.replace(/\-/g,'W06lXW').replace(/0W06lXW9/g,'0-9').replace(/\(\w\+\)/g,'\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g,'a-zA-Z0-9_-').toString();
-                    var re = new RegExp("\\b"+v+"\\b","g");
+                    v = v.replace(/\-/g, 'W06lXW').replace(/0W06lXW9/g, '0-9').replace(/\(\w\+\)/g, '\(\\w\+\)').replace(/aW06lXWzAW06lXWZ0-9_W06lXW/g, 'a-zA-Z0-9_-').toString();
+                    var re = new RegExp("\\b" + v + "\\b", "g");
 
                     // Founded an bad class.
-                    if(selectorBefore.match(re) !== null){
+                    if (selectorBefore.match(re) !== null) {
                         passedClasses = false;
                     }
 
                 });
 
                 // Successful.
-                if(passedClasses === true){
+                if (passedClasses === true) {
                     foundedNewSelectors.push(foundedSelectors[i]);
                 }
 
@@ -11143,11 +11252,10 @@
         }
 
 
-
         /* ---------------------------------------------------- */
         /* Get All Parents                                      */
         /* ---------------------------------------------------- */
-        function get_parents(element, status){
+        function get_parents(element, status) {
 
             // If parent already has.
             var parentsv = body.attr("data-clickable-select");
@@ -11159,7 +11267,7 @@
                 }
             }
 
-            if(element === null){
+            if (element === null) {
                 element = get_selected_element();
             }
 
@@ -11170,12 +11278,12 @@
 
 
             // Is sharp?
-            if($("body").hasClass("yp-sharp-selector-mode-active")){
+            if ($("body").hasClass("yp-sharp-selector-mode-active")) {
                 status = 'sharp';
             }
 
             // Get cached selector
-            if(status == 'default' && element.hasAttr("data-default-selector") === true){
+            if (status == 'default' && element.hasAttr("data-default-selector") === true) {
                 return element.attr("data-default-selector");
             }
 
@@ -11183,7 +11291,7 @@
             var tagE = element[0].tagName;
 
             // ?
-            if(isUndefined(tagE)){
+            if (isUndefined(tagE)) {
                 return false;
             }
 
@@ -11219,7 +11327,7 @@
 
                     // Check if this Class.
                     // Reset past selector names if current selector already one in document.
-                    if (thisSelector.indexOf(".") != -1 && iframe.find(thisSelector).length == 1){
+                    if (thisSelector.indexOf(".") != -1 && iframe.find(thisSelector).length == 1) {
 
                         if (status != 'sharp') {
                             selector = thisSelector + window.separator; // Reset
@@ -11248,7 +11356,7 @@
 
             // Adding Last element to selector.
             // and check custom last element part for input tags.
-            if (tagE == 'INPUT'){ // if input,use tag name with TYPE.
+            if (tagE == 'INPUT') { // if input,use tag name with TYPE.
 
                 var type;
 
@@ -11257,12 +11365,12 @@
                     type = element.attr("type");
                     lastSelector = window.separator + 'input[type=' + type + ']';
 
-                }else{
+                } else {
 
                     var sharpLast = get_best_class(element);
 
-                    if(sharpLast.indexOf("input#") != -1){
-                        sharpLast = sharpLast.replace("input#","#");
+                    if (sharpLast.indexOf("input#") != -1) {
+                        sharpLast = sharpLast.replace("input#", "#");
                     }
 
                     type = element.attr("type");
@@ -11272,7 +11380,7 @@
                 }
 
 
-            }else{ // else find the best class.
+            } else { // else find the best class.
 
                 lastSelector = window.separator + get_best_class(element);
 
@@ -11282,7 +11390,7 @@
             selector += lastSelector;
 
             // Fix google map contents
-            if(selector.indexOf(".gm-style") != -1){
+            if (selector.indexOf(".gm-style") != -1) {
                 selector = '.gm-style';
             }
 
@@ -11331,16 +11439,16 @@
 
 
             // Check all others elements has same nodename or not.
-            if(tagE == 'H1' || tagE == 'H2' || tagE == 'H3' || tagE == 'H4' || tagE == 'H5' || tagE == 'H6' || tagE == 'P' || tagE == 'SPAN' || tagE == 'IMG' || tagE == 'STRONG' || tagE == 'A' || tagE == 'LI' || tagE == 'UL'){
+            if (tagE == 'H1' || tagE == 'H2' || tagE == 'H3' || tagE == 'H4' || tagE == 'H5' || tagE == 'H6' || tagE == 'P' || tagE == 'SPAN' || tagE == 'IMG' || tagE == 'STRONG' || tagE == 'A' || tagE == 'LI' || tagE == 'UL') {
 
                 var foundedTags = [];
-                iframeBody.find(selector).each(function(){
-                    if(foundedTags.indexOf($(this)[0].nodeName) == -1){
+                iframeBody.find(selector).each(function () {
+                    if (foundedTags.indexOf($(this)[0].nodeName) == -1) {
                         foundedTags.push($(this)[0].nodeName);
                     }
                 });
 
-                if(foundedTags.length > 1){
+                if (foundedTags.length > 1) {
                     selector = selector.split(lastSelector)[0] + window.separator + tagE.toLowerCase();
                 }
 
@@ -11350,12 +11458,12 @@
             // Use > If has same selectored element in selected element
             if (status == 'default') {
 
-                var selectedInSelected = iframeBody.find(selector+window.separator+lastSelector).length;
+                var selectedInSelected = iframeBody.find(selector + window.separator + lastSelector).length;
 
                 // USE : ">"
-                if(selectedInSelected > 0){
+                if (selectedInSelected > 0) {
 
-                    var untilLast = get_parents(element.parent(),"defaultS");
+                    var untilLast = get_parents(element.parent(), "defaultS");
 
                     selector = untilLast + " > " + lastSelector;
 
@@ -11366,7 +11474,7 @@
             }
 
             // Getting selectors by CSS files.
-            if(get_selector_array(selector).length > 1){
+            if (get_selector_array(selector).length > 1) {
 
                 // Get human selectors
                 var humanSelectors = get_human_selector(window.humanStyleData);
@@ -11375,13 +11483,13 @@
                 var goodHumanSelectors = [];
 
                 // Check is valid
-                if(humanSelectors.length > 0){
+                if (humanSelectors.length > 0) {
 
                     // Each founded selectors
-                    $.each(humanSelectors,function(qx){
+                    $.each(humanSelectors, function (qx) {
 
                         // Find the best in human selectors
-                        if(iframe.find(humanSelectors[qx]).length == iframe.find(selector).length){
+                        if (iframe.find(humanSelectors[qx]).length == iframe.find(selector).length) {
 
                             // Push
                             goodHumanSelectors.push(humanSelectors[qx]);
@@ -11391,15 +11499,15 @@
                     });
 
                     // There is good selectors?
-                    if(goodHumanSelectors.length > 0){
+                    if (goodHumanSelectors.length > 0) {
 
                         // Find max long selector
-                        var maxSelector = goodHumanSelectors.sort(function(a, b) {
+                        var maxSelector = goodHumanSelectors.sort(function (a, b) {
                             return b.length - a.length;
                         });
 
                         // Be sure more long than 10 char
-                        if(maxSelector[0].length > 10){
+                        if (maxSelector[0].length > 10) {
 
                             // Update
                             selector = maxSelector[0];
@@ -11414,7 +11522,7 @@
 
 
             // Keep selectors smart and short!
-            if(get_selector_array(selector).length > 5){
+            if (get_selector_array(selector).length > 5) {
 
                 // short Selector Ready
                 var shortSelectorReady = false;
@@ -11426,21 +11534,21 @@
                 var shortSelector = get_selector_array(selector);
 
                 // Each array items
-                $.each(shortSelector,function(){
+                $.each(shortSelector, function () {
 
-                    if(shortSelectorReady === false){
+                    if (shortSelectorReady === false) {
 
                         // Shift
                         shortSelector.shift();
 
                         // make it short
-                        var shortSelectorString = shortSelector.toString().replace(/\,/g," ");
+                        var shortSelectorString = shortSelector.toString().replace(/\,/g, " ");
 
                         // Search
-                        var foundedElShort =  iframe.find(shortSelectorString).length;
+                        var foundedElShort = iframe.find(shortSelectorString).length;
 
                         // Shift until make it minimum 5 item
-                        if(shortSelector.length <= 5 && foundedElements == foundedElShort){
+                        if (shortSelector.length <= 5 && foundedElements == foundedElShort) {
                             shortSelectorReady = true;
                             selector = shortSelectorString;
                         }
@@ -11452,16 +11560,14 @@
             }
 
             // Save as cache
-            if(status == 'default'){
-                element.attr("data-default-selector",space_cleaner(selector));
+            if (status == 'default') {
+                element.attr("data-default-selector", space_cleaner(selector));
             }
 
             // Return result.
             return space_cleaner(selector);
 
         }
-
-
 
 
         // A simple trim function
@@ -11567,7 +11673,7 @@
                     iframe.find("." + classes + "-margin-left").css("top", topBoxes).css("left", parseFloat(leftBoxes) - parseFloat(marginLeft)).css("height", heightBoxes).css("width", marginLeft);
 
                     // Right Margin
-                    iframe.find("." + classes + "-margin-right").css("top", topBoxes).css("left", rightBoxes+2).css("height", heightBoxes).css("width", marginRight);
+                    iframe.find("." + classes + "-margin-right").css("top", topBoxes).css("left", rightBoxes + 2).css("height", heightBoxes).css("width", marginRight);
 
                     // Top Padding
                     iframe.find("." + classes + "-padding-top").css("top", parseFloat(topBoxes)).css("left", parseFloat(leftBoxes)).css("width", parseFloat(widthBoxes / 2)).css("height", paddingTop);
@@ -11581,7 +11687,7 @@
                     // Right Padding
                     iframe.find("." + classes + "-padding-right").css("top", topBoxes).css("left", rightBoxes - parseFloat(paddingRight)).css("height", heightBoxes / 2).css("width", paddingRight);
 
-                    if(is_resizing() == false && is_dragging() == false){
+                    if (is_resizing() == false && is_dragging() == false) {
                         iframe.find(".yp-selected-handle").css("left", leftBoxes).css("top", topBoxes);
                     }
 
@@ -11632,25 +11738,25 @@
 
 
         // Remove multiple selected element
-        iframe.on("click", '.yp-selected-others', function() {
+        iframe.on("click", '.yp-selected-others', function () {
 
             var el = $(this);
 
             var currentSelector = get_current_selector();
 
-            if(body.hasClass("yp-control-key-down") && currentSelector.split(",").length > 0){
+            if (body.hasClass("yp-control-key-down") && currentSelector.split(",").length > 0) {
 
                 // Remove YP Classes
                 el.removeClass("yp-selected-others yp-recent-hover-element");
 
                 // Get Selector
-                var selector = get_parents(el,'sharp');
+                var selector = get_parents(el, 'sharp');
 
-                currentSelector = currentSelector.replace(new RegExp(","+selector,"g"),"");
+                currentSelector = currentSelector.replace(new RegExp("," + selector, "g"), "");
 
                 var firstEl = get_selected_element();
 
-                set_selector(currentSelector,firstEl);
+                set_selector(currentSelector, firstEl);
 
                 // return false to block other click function
                 return false;
@@ -11692,17 +11798,17 @@
             }
 
             // Stop.
-            if(body.hasClass("yp-has-transform")){
+            if (body.hasClass("yp-has-transform")) {
                 return false;
             }
 
             // not draw new box and delete last.
-            if(isDefined(elementClasses)){
+            if (isDefined(elementClasses)) {
 
-                elementClasses = elementClasses.replace(/yp-selected-others/g,'');
+                elementClasses = elementClasses.replace(/yp-selected-others/g, '');
 
-                if(elementClasses.match(/yp-selected/g) || elementClasses.match(/yp-tooltip-small/g) || elementClasses.match(/yp-edit-menu/g) || element_p.hasClass("yp-selected-others-box")){
-                    if(iframe.find("." + classes + "-" + $i + "-box").length > 0){
+                if (elementClasses.match(/yp-selected/g) || elementClasses.match(/yp-tooltip-small/g) || elementClasses.match(/yp-edit-menu/g) || element_p.hasClass("yp-selected-others-box")) {
+                    if (iframe.find("." + classes + "-" + $i + "-box").length > 0) {
                         iframe.find("." + classes + "-" + $i + "-box").remove();
                     }
 
@@ -11738,7 +11844,7 @@
                 }
 
                 // Dynamic Boxes position
-                iframe.find("." + classes + "-" + $i + "-box").css("top", topBoxes).css("left", leftBoxes).css("width", widthBoxes).css("height",heightBoxes);
+                iframe.find("." + classes + "-" + $i + "-box").css("top", topBoxes).css("left", leftBoxes).css("width", widthBoxes).css("height", heightBoxes);
 
             }
 
@@ -11763,7 +11869,7 @@
         /* ---------------------------------------------------- */
         /* Draw Tooltip and borders.                            */
         /* ---------------------------------------------------- */
-        function draw_tooltip(){
+        function draw_tooltip() {
 
             if (iframe.find(".yp-selected-tooltip").length <= 0) {
                 return false;
@@ -11875,8 +11981,8 @@
             }
 
 
-            tooltip.css({"visibility":"visible","pointer-events":"none"});
-            tooltipMenu.css({"visibility":"visible","pointer-events":"none"});
+            tooltip.css({"visibility": "visible", "pointer-events": "none"});
+            tooltipMenu.css({"visibility": "visible", "pointer-events": "none"});
 
             // If high
             if (iframe.width() - (tooltip.width() + tooltip.offset().left + 80) <= 0) {
@@ -11904,19 +12010,18 @@
 
             }
 
-            tooltip.css({"pointer-events":"auto"});
-            tooltipMenu.css({"pointer-events":"auto"});
+            tooltip.css({"pointer-events": "auto"});
+            tooltipMenu.css({"pointer-events": "auto"});
 
         }
 
 
+        /*        // if mouseup on iframe, trigger for document.
+         iframe.on("mouseup", iframe, function() {
 
-/*        // if mouseup on iframe, trigger for document.
-        iframe.on("mouseup", iframe, function() {
+         $(document).trigger("mouseup");
 
-            $(document).trigger("mouseup");
-
-        });*/
+         });*/
 
 
         function set_draggable(element) {
@@ -11928,7 +12033,7 @@
 
                     containment: iframeBody,
                     delay: 100,
-                    start: function(e, ui) {
+                    start: function (e, ui) {
 
                         window.elDragWidth = element.outerWidth();
                         window.elDragHeight = element.outerHeight();
@@ -11960,20 +12065,20 @@
                         create_smart_guides();
 
                         // Delete important tag from old for let to drag elements. Top left right bottom..
-                        var corners = ['top','left','right','bottom'],ex;
-                        for(var i = 0; i < 4; i++){
+                        var corners = ['top', 'left', 'right', 'bottom'], ex;
+                        for (var i = 0; i < 4; i++) {
 
-                            ex = iframe.find("[data-style='"+get_id(get_current_selector())+"'][data-rule='"+corners[i]+"']");
+                            ex = iframe.find("[data-style='" + get_id(get_current_selector()) + "'][data-rule='" + corners[i] + "']");
 
-                            if(ex.length > 0){
-                                ex.html(ex.html().replace(/\s+?!important/g,'').replace(/\;$/g,''));
+                            if (ex.length > 0) {
+                                ex.html(ex.html().replace(/\s+?!important/g, '').replace(/\;$/g, ''));
                             }
 
                         }
 
 
                     },
-                    drag: function(event, ui) {
+                    drag: function (event, ui) {
 
                         if (window.elDragHeight != $(this).outerHeight()) {
                             element.css("width", window.elDragWidth + 1);
@@ -11986,10 +12091,10 @@
                         var t = 6;
 
                         // Defaults
-                        var c,f;
+                        var c, f;
 
                         // Variables
-                        var wLeft,wWidth,wTop,forceH,wHeight,forceW,otherTop,otherLeft,otherWidth,otherHeight,otherBottom,otherRight;
+                        var wLeft, wWidth, wTop, forceH, wHeight, forceW, otherTop, otherLeft, otherWidth, otherHeight, otherBottom, otherRight;
 
                         // this
                         var self = $(this);
@@ -12076,7 +12181,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherTop - selfTop) + selfPTop);
                                 ui.position.top = f;
-                                xBorder.css({'top': wTop,'left': wLeft,'width': wWidth,'display': 'block'});
+                                xBorder.css({'top': wTop, 'left': wLeft, 'width': wWidth, 'display': 'block'});
                             }
 
                             c = (ui.offset.top + selfTopMargin) - otherBottom + selfHeight;
@@ -12084,7 +12189,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherBottom - selfBottom) + selfPTop);
                                 ui.position.top = f;
-                                xBorder.css({'top': wTop,'left': wLeft,'width': wWidth,'display': 'block'});
+                                xBorder.css({'top': wTop, 'left': wLeft, 'width': wWidth, 'display': 'block'});
                             }
 
                             c = (ui.offset.top + selfTopMargin) - otherTop + selfHeight;
@@ -12092,7 +12197,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherTop - selfBottom) + selfPTop);
                                 ui.position.top = f;
-                                xBorder.css({'top': wTop,'left': wLeft,'width': wWidth,'display': 'block'});
+                                xBorder.css({'top': wTop, 'left': wLeft, 'width': wWidth, 'display': 'block'});
                             }
 
                             c = (ui.offset.top + selfTopMargin) - otherBottom;
@@ -12100,7 +12205,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherBottom - selfTop) + selfPTop);
                                 ui.position.top = f;
-                                xBorder.css({'top': wTop,'left': wLeft,'width': wWidth,'display': 'block'});
+                                xBorder.css({'top': wTop, 'left': wLeft, 'width': wWidth, 'display': 'block'});
                             }
 
                         }
@@ -12165,7 +12270,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherLeft - selfLeft) + selfPLeft);
                                 ui.position.left = f;
-                                yBorder.css({'top': wTop,'left': wLeft,'height': wHeight,'display': 'block'});
+                                yBorder.css({'top': wTop, 'left': wLeft, 'height': wHeight, 'display': 'block'});
                             }
 
                             // controller
@@ -12175,7 +12280,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherRight - selfLeft) + selfPLeft);
                                 ui.position.left = f;
-                                yBorder.css({'top': wTop,'left': wLeft,'height': wHeight,'display': 'block'});
+                                yBorder.css({'top': wTop, 'left': wLeft, 'height': wHeight, 'display': 'block'});
                             }
 
                             // controller
@@ -12185,7 +12290,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherRight - selfRight) + selfPLeft);
                                 ui.position.left = f;
-                                yBorder.css({'top': wTop,'left': wLeft,'height': wHeight,'display': 'block'});
+                                yBorder.css({'top': wTop, 'left': wLeft, 'height': wHeight, 'display': 'block'});
                             }
 
                             // controller
@@ -12195,7 +12300,7 @@
                             if (c < t && c > -Math.abs(t)) {
                                 f = Math.round((otherLeft - selfRight) + selfPLeft - (selfRW - selfWidth));
                                 ui.position.left = f;
-                                yBorder.css({'top': wTop,'left': wLeft,'height': wHeight,'display': 'block'});
+                                yBorder.css({'top': wTop, 'left': wLeft, 'height': wHeight, 'display': 'block'});
                             }
 
                         }
@@ -12223,7 +12328,7 @@
                         }
 
                     },
-                    stop: function() {
+                    stop: function () {
 
                         clean_smart_guides();
 
@@ -12241,7 +12346,7 @@
                         draw_tooltip();
 
                         // Wait for process.
-                        setTimeout(function() {
+                        setTimeout(function () {
 
                             var t = element.css("top");
                             var l = element.css("left");
@@ -12252,7 +12357,7 @@
                             // Back To Orginal Style Attr.
                             if (isDefined(window.styleAttr)) {
 
-                                var trimAtr = window.styleAttr.replace(/position:(\s*?)relative(\;?)/g,"");
+                                var trimAtr = window.styleAttr.replace(/position:(\s*?)relative(\;?)/g, "");
 
                                 if (trimAtr == '') {
                                     element.removeAttr("style");
@@ -12288,7 +12393,7 @@
 
                             // Set default values for top and left options.
                             if ($("li.position-option.active").length > 0) {
-                                $("#top-group,#left-group").each(function() {
+                                $("#top-group,#left-group").each(function () {
                                     alert('1');
                                     set_default_value(get_option_id(this));
                                 });
@@ -12360,17 +12465,17 @@
             return $.trim(domain);
         }
 
-        var get_absolute_path = function(href){
+        var get_absolute_path = function (href) {
             var link = document.createElement("a");
             link.href = href;
-            return (link.protocol+"//"+link.host+link.pathname+link.search+link.hash);
+            return (link.protocol + "//" + link.host + link.pathname + link.search + link.hash);
         };
 
-        iframe.find('a[href]').on("click", iframe, function(evt) {
+        iframe.find('a[href]').on("click", iframe, function (evt) {
 
             $(this).attr("target", "_self");
 
-            if($("body").hasClass("yp-metric-disable") === false){
+            if ($("body").hasClass("yp-metric-disable") === false) {
                 return false;
             }
 
@@ -12387,7 +12492,12 @@
                 href = get_absolute_path(href);
 
                 if (href.indexOf("#noAiming") > -1) {
-                    swal({title: "Sorry.",text: "This link is not an wordpress page. You can't edit this page.",type: "warning",animation: false});
+                    swal({
+                        title: "Sorry.",
+                        text: "This link is not an wordpress page. You can't edit this page.",
+                        type: "warning",
+                        animation: false
+                    });
                     return false;
                 }
 
@@ -12397,12 +12507,12 @@
                     var main_host = window.location.hostname;
 
                     if (link_host != main_host) {
-                        swal({title: "Sorry.",text: "This is external link. You can't edit this page.",type: "warning",animation: false});
-                        return false;
-                    }
-
-                    if (href.indexOf(siteurl.split("://")[1]) == -1 || href.indexOf("wp-login.php?action=logout") != -1) {
-                        swal({title: "Sorry.",text: "This link is not an wordpress page. You can't edit this page.",type: "warning",animation: false});
+                        swal({
+                            title: "Sorry.",
+                            text: "This is external link. You can't edit this page.",
+                            type: "warning",
+                            animation: false
+                        });
                         return false;
                     }
 
@@ -12419,7 +12529,7 @@
                     }
 
                     // if selector mode not active and need to save.
-                    if ($(".yp-save-btn").hasClass(("waiting-for-save"))){
+                    if ($(".yp-save-btn").hasClass(("waiting-for-save"))) {
                         if (confirm(l18_sure) == true) {
                             $(".waiting-for-save").removeClass("waiting-for-save");
                         } else {
@@ -12449,11 +12559,11 @@
                 }
 
                 var isAdmin = false;
-                $.get(newURL, function(data){
+                $.get(newURL, function (data) {
 
                     $("body").append("<div id='yp-load-test-admin'></div>");
 
-                    if(data.match(/adminmenumain/g)){
+                    if (data.match(/adminmenumain/g)) {
                         isAdmin = true;
                     }
 
@@ -12463,14 +12573,13 @@
                     parentURL = parentURL + newURL; // update parent URL
 
                     // Check if is admin?
-                    if(body.hasClass(("yp-wordpress-admin-editing") && isAdmin)){
+                    if (body.hasClass(("yp-wordpress-admin-editing") && isAdmin)) {
                         parentURL = parentURL + '&yp_type=wordpress_panel';
                     }
 
                     window.location = parentURL;
 
                 });
-
 
 
             }
@@ -12481,7 +12590,7 @@
         /* ---------------------------------------------------- */
         /* Cancel Selected El. And Select The Element Function  */
         /* ---------------------------------------------------- */
-        iframe.on("click", iframe, function(evt) {
+        iframe.on("click", iframe, function (evt) {
             if ($(evt.target).closest('#plugin-content').length > 0) {
                 return false;
             }
@@ -12495,7 +12604,7 @@
 
 
                 // Not clickable while animate playing
-                if(body.hasClass("yp-animate-manager-playing")){
+                if (body.hasClass("yp-animate-manager-playing")) {
                     return false;
                 }
 
@@ -12514,7 +12623,7 @@
 
                 if ($(".yp_flat_colors_area:visible").length !== 0) {
 
-                    $(".yp-flat-colors.active").each(function() {
+                    $(".yp-flat-colors.active").each(function () {
                         $(this).trigger("click");
                     });
 
@@ -12524,7 +12633,7 @@
 
                 if ($(".yp_meterial_colors_area:visible").length !== 0) {
 
-                    $(".yp-meterial-colors.active").each(function() {
+                    $(".yp-meterial-colors.active").each(function () {
                         $(this).trigger("click");
                     });
 
@@ -12534,7 +12643,7 @@
 
                 if ($(".yp_nice_colors_area:visible").length !== 0) {
 
-                    $(".yp-nice-colors.active").each(function() {
+                    $(".yp-nice-colors.active").each(function () {
                         $(this).trigger("click");
                     });
 
@@ -12544,7 +12653,7 @@
 
                 if ($(".iris-picker:visible").length !== 0) {
 
-                    $(".iris-picker:visible").each(function() {
+                    $(".iris-picker:visible").each(function () {
                         $(this).hide();
                     });
 
@@ -12554,7 +12663,7 @@
 
                 if ($(".yp_background_assets:visible").length !== 0) {
 
-                    $(".yp-bg-img-btn.active").each(function() {
+                    $(".yp-bg-img-btn.active").each(function () {
                         $(this).trigger("click");
                     });
 
@@ -12564,7 +12673,7 @@
 
                 if ($("body").hasClass(("autocomplete-active"))) {
 
-                    $(".input-autocomplete").each(function() {
+                    $(".input-autocomplete").each(function () {
                         $(this).autocomplete("close");
                     });
 
@@ -12651,15 +12760,15 @@
                             }
 
                             // Multiable Selector
-                            if(is_content_selected() && body.hasClass("yp-control-key-down")){
+                            if (is_content_selected() && body.hasClass("yp-control-key-down")) {
 
-                                if(element.hasClass("yp-selected-others-box") === false){
+                                if (element.hasClass("yp-selected-others-box") === false) {
 
                                     var selectorCurrent = get_current_selector();
                                     var selectorNew = get_parents(element, "sharp");
                                     iframe.find(".yp-selected-others-multiable-box").remove();
                                     iframe.find(".yp-multiple-selected").addClass("yp-selected-others").removeClass("yp-multiple-selected");
-                                    set_selector(selectorCurrent+","+selectorNew,get_selected_element());
+                                    set_selector(selectorCurrent + "," + selectorNew, get_selected_element());
 
                                     // Disable focus style after clicked.
                                     element.blur();
@@ -12681,9 +12790,9 @@
 
                     } else {
 
-                        if (is_content_selected() === false){
+                        if (is_content_selected() === false) {
 
-                            if (check_with_parents(element, "transform", "none", "!=") === true){
+                            if (check_with_parents(element, "transform", "none", "!=") === true) {
                                 body.addClass("yp-has-transform");
                             }
 
@@ -12725,12 +12834,12 @@
                             // Disable focus style after clicked.
                             element.blur();
 
-                            if(body.hasClass("yp-animate-manager-active")){
+                            if (body.hasClass("yp-animate-manager-active")) {
                                 animation_manager();
                             }
 
                             // Update the element informations.
-                            if($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")){
+                            if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
                                 update_design_information("element");
                             }
 
@@ -12764,10 +12873,9 @@
         });
 
 
+        function create_smart_guides() {
 
-        function create_smart_guides(){
-
-            if(body.hasClass("yp-smart-guide-disabled") || body.hasClass("yp-has-transform")){
+            if (body.hasClass("yp-smart-guide-disabled") || body.hasClass("yp-has-transform")) {
                 return false;
             }
 
@@ -12778,7 +12886,7 @@
             // Smart guides: START
             var Allelements = iframeBody.find(get_all_elements(":not(ul li)"));
 
-            for (var i=0; i < Allelements.length; i++){
+            for (var i = 0; i < Allelements.length; i++) {
 
                 // Element
                 var el = $(Allelements[i]);
@@ -12786,9 +12894,9 @@
 
 
                 // 720 768 940 960 980 1030 1040 1170 1210 1268
-                if(otherWidth >= 720 && otherWidth <= 1268 && otherWidth < (k-80)){
+                if (otherWidth >= 720 && otherWidth <= 1268 && otherWidth < (k - 80)) {
 
-                    if(otherWidth > maxWidth){
+                    if (otherWidth > maxWidth) {
                         maxWidthEl = el;
                     }
 
@@ -12797,7 +12905,7 @@
                 }
 
 
-                if(el.parents(".yp-selected").length <= 0 && el.parents(".yp-selected-others").length <= 0 && el.css("display") != 'none' && el.css("opacity") != "0" && el.css("visibility") != 'hidden' && el.height() >= 10){
+                if (el.parents(".yp-selected").length <= 0 && el.parents(".yp-selected-others").length <= 0 && el.css("display") != 'none' && el.css("opacity") != "0" && el.css("visibility") != 'hidden' && el.height() >= 10) {
 
                     var offset = el.offset();
 
@@ -12807,19 +12915,19 @@
                     var otherHeight = Math.round(el.outerHeight());
 
                     // don't add "inner" same size elements.
-                    if(iframeBody.find('[data-yp-top="'+otherTop+'"][data-yp-left="'+otherLeft+'"][data-yp-width="'+otherWidth+'"][data-yp-height="'+otherHeight+'"]').length <= 0){
+                    if (iframeBody.find('[data-yp-top="' + otherTop + '"][data-yp-left="' + otherLeft + '"][data-yp-width="' + otherWidth + '"][data-yp-height="' + otherHeight + '"]').length <= 0) {
 
                         // Saving for use on drag event.
                         // faster performance.
                         el.addClass("yp-smart-guide-elements")
-                            .attr("data-yp-top",otherTop)
-                            .attr("data-yp-left",otherLeft)
-                            .attr("data-yp-top-round",yp_round(otherTop))
-                            .attr("data-yp-bottom-round",yp_round(otherTop+otherHeight))
-                            .attr("data-yp-left-round",yp_round(otherLeft))
-                            .attr("data-yp-right-round",yp_round(otherLeft+otherWidth))
-                            .attr("data-yp-width",otherWidth)
-                            .attr("data-yp-height",otherHeight);
+                            .attr("data-yp-top", otherTop)
+                            .attr("data-yp-left", otherLeft)
+                            .attr("data-yp-top-round", yp_round(otherTop))
+                            .attr("data-yp-bottom-round", yp_round(otherTop + otherHeight))
+                            .attr("data-yp-left-round", yp_round(otherLeft))
+                            .attr("data-yp-right-round", yp_round(otherLeft + otherWidth))
+                            .attr("data-yp-width", otherWidth)
+                            .attr("data-yp-height", otherHeight);
                     }
 
                 }
@@ -12827,17 +12935,17 @@
             }
 
             // Not adding on responsive mode.
-            if(maxWidthEl !== null){
+            if (maxWidthEl !== null) {
 
                 var Pleft = maxWidthEl.offset().left;
 
-                if(Pleft > 50){
+                if (Pleft > 50) {
 
-                    var Pright = Pleft+maxWidth;
+                    var Pright = Pleft + maxWidth;
 
-                    if(parseInt(Pleft) == parseInt(iframe.width()-Pright)){
+                    if (parseInt(Pleft) == parseInt(iframe.width() - Pright)) {
 
-                        iframeBody.append("<div class='yp-page-border-left' style='left:"+Pleft+"px;'></div><div class='yp-page-border-right' style='left:"+Pright+"px;'></div>");
+                        iframeBody.append("<div class='yp-page-border-left' style='left:" + Pleft + "px;'></div><div class='yp-page-border-right' style='left:" + Pright + "px;'></div>");
 
                     }
 
@@ -12851,7 +12959,7 @@
         }
 
 
-        function clean_smart_guides(){
+        function clean_smart_guides() {
 
             iframeBody.find(".yp-page-border-left,.yp-page-border-right").remove();
 
@@ -12872,14 +12980,14 @@
 
 
         // RESIZE: WIDTH HANDLER
-        iframe.on("mousedown", '.yp-selected-boxed-left,.yp-selected-boxed-right', function(event) {
+        iframe.on("mousedown", '.yp-selected-boxed-left,.yp-selected-boxed-right', function (event) {
 
             var element = $(this);
 
             body.addClass("resize-time-delay");
 
             clearTimeout(window.resizeDelay);
-            window.resizeDelay = setTimeout(function(){
+            window.resizeDelay = setTimeout(function () {
 
                 if (is_content_selected() === false) {
                     return false;
@@ -12896,7 +13004,7 @@
                 window.mouseisDown = true;
 
                 var el = iframeBody.find(".yp-selected");
-                if(el.length === 0){
+                if (el.length === 0) {
                     el = iframeBody;
                 }
                 window.mouseDownX = el.offset().left;
@@ -12919,19 +13027,19 @@
 
                 create_smart_guides();
 
-            },150);
+            }, 150);
 
         });
 
         // RESIZE:HEIGHT HANDLER
-        iframe.on("mousedown", '.yp-selected-boxed-top,.yp-selected-boxed-bottom', function(event) {
+        iframe.on("mousedown", '.yp-selected-boxed-top,.yp-selected-boxed-bottom', function (event) {
 
             var element = $(this);
 
             body.addClass("resize-time-delay");
 
             clearTimeout(window.resizeDelay);
-            window.resizeDelay = setTimeout(function(){
+            window.resizeDelay = setTimeout(function () {
 
                 if (is_content_selected() === false) {
                     return false;
@@ -12949,7 +13057,7 @@
                 }
 
                 var el = iframeBody.find(".yp-selected");
-                if(el.length === 0){
+                if (el.length === 0) {
                     el = iframeBody;
                 }
                 window.mouseDownY = el.offset().top;
@@ -12975,14 +13083,13 @@
 
                 create_smart_guides();
 
-            },150);
+            }, 150);
 
         });
 
 
-
         // RESIZE:RESIZING
-        iframe.on("mousemove", iframe, function(event) {
+        iframe.on("mousemove", iframe, function (event) {
 
             // Record mousemoves after element selected.
             window.lastTarget = event.target;
@@ -13005,12 +13112,12 @@
                 }
 
                 var format = 'px';
-                var width,smartData,height,dif;
+                var width, smartData, height, dif;
 
                 // If width
                 if (window.visualResizingType == "width") {
 
-                    if (window.ResizeSelectedBorder == 'left'){
+                    if (window.ResizeSelectedBorder == 'left') {
                         width = Math.round(elof.left) + Math.round(element.outerWidth()) - Math.round(event.pageX);
                     } else {
                         width = Math.round(event.pageX) - Math.round(elof.left);
@@ -13025,15 +13132,15 @@
                         }
 
                         // calcature smart sizes. 100% etc
-                        smartData = calcature_smart_sizes(element,width);
+                        smartData = calcature_smart_sizes(element, width);
 
                         // Update
                         width = smartData.val;
                         format = smartData.format;
 
-                        if(window.wasLockX === false){
-                            if (window.ResizeSelectedBorder == 'left'){
-                                dif = Math.round(event.pageX)-Math.round(window.mouseDownX)+window.currentMarginLeft;
+                        if (window.wasLockX === false) {
+                            if (window.ResizeSelectedBorder == 'left') {
+                                dif = Math.round(event.pageX) - Math.round(window.mouseDownX) + window.currentMarginLeft;
                                 element.cssImportant("margin-left", dif + "px");
                             }
 
@@ -13050,21 +13157,21 @@
                 } else if (window.visualResizingType == "height") { // else height
 
                     if (window.ResizeSelectedBorder == 'top') {
-                        height = Math.round(elof.top+element.outerHeight()) - Math.round(event.pageY);
+                        height = Math.round(elof.top + element.outerHeight()) - Math.round(event.pageY);
                     } else {
                         height = Math.round(event.pageY) - Math.round(elof.top);
                     }
 
                     // Min 4px
-                    if (height > 4){
+                    if (height > 4) {
 
                         if (element.css("box-sizing") == 'content-box') {
                             height = height - Math.round(parseFloat(element.css("padding-top"))) - Math.round(parseFloat(element.css("padding-bottom")));
                         }
 
-                        if(window.wasLockY === false){
-                            if (window.ResizeSelectedBorder == 'top'){
-                                dif = Math.round(event.pageY)-Math.round(window.mouseDownY)+window.currentMarginTop;
+                        if (window.wasLockY === false) {
+                            if (window.ResizeSelectedBorder == 'top') {
+                                dif = Math.round(event.pageY) - Math.round(window.mouseDownY) + window.currentMarginTop;
                                 element.cssImportant("margin-top", dif + "px");
                             }
                             element.cssImportant("height", height + format);
@@ -13081,12 +13188,16 @@
                 var tooltipContent = '';
 
                 // Update helper tooltip
-                if(window.visualResizingType == "width"){
-                    if(width < 5){width = 5;}
-                    tooltipContent = 'W : '+Math.round(width) + format;
-                }else{
-                    if(height < 5){height = 5;}
-                    tooltipContent = 'H : '+Math.round(height) + format;
+                if (window.visualResizingType == "width") {
+                    if (width < 5) {
+                        width = 5;
+                    }
+                    tooltipContent = 'W : ' + Math.round(width) + format;
+                } else {
+                    if (height < 5) {
+                        height = 5;
+                    }
+                    tooltipContent = 'H : ' + Math.round(height) + format;
                 }
 
                 // offsets
@@ -13096,121 +13207,124 @@
                 var selfBottom = Math.round(parseFloat(iframeBody.find(".yp-selected-boxed-bottom").css("top")));
 
                 // Variables
-                var wLeft,wWidth,wTop,forceH,wHeight,forceW,otherTop,otherLeft,otherWidth,otherHeight,otherBottom,otherRight;
+                var wLeft, wWidth, wTop, forceH, wHeight, forceW, otherTop, otherLeft, otherWidth, otherHeight, otherBottom, otherRight;
 
                 // Create smart guides for height.
-                if(window.visualResizingType == "height"){
+                if (window.visualResizingType == "height") {
 
-                    xBorder.css("display","none");
+                    xBorder.css("display", "none");
                     window.wasLockY = false;
 
-                    var axsisxEl = iframeBody.find(".yp-smart-guide-elements[data-yp-top-round='"+yp_round(event.pageY)+"'],.yp-smart-guide-elements[data-yp-bottom-round='"+yp_round(event.pageY)+"']").first();
+                    var axsisxEl = iframeBody.find(".yp-smart-guide-elements[data-yp-top-round='" + yp_round(event.pageY) + "'],.yp-smart-guide-elements[data-yp-bottom-round='" + yp_round(event.pageY) + "']").first();
 
-                    if(axsisxEl.length > 0){
+                    if (axsisxEl.length > 0) {
 
                         // Getting sizes
                         otherTop = parseFloat(axsisxEl.attr("data-yp-top"));
                         otherLeft = parseFloat(axsisxEl.attr("data-yp-left"));
                         otherWidth = parseFloat(axsisxEl.attr("data-yp-width"));
                         otherHeight = parseFloat(axsisxEl.attr("data-yp-height"));
-                        otherBottom = parseFloat(otherTop+otherHeight);
-                        otherRight = parseFloat(otherLeft+otherWidth);
+                        otherBottom = parseFloat(otherTop + otherHeight);
+                        otherRight = parseFloat(otherLeft + otherWidth);
 
                         // Calculate smart guides positions.
-                        if(selfLeft > otherLeft){
+                        if (selfLeft > otherLeft) {
                             wLeft = otherLeft;
-                            wWidth = selfRight-wLeft;
-                        }else{
+                            wWidth = selfRight - wLeft;
+                        } else {
                             wLeft = selfLeft;
-                            wWidth = otherRight-selfLeft;
+                            wWidth = otherRight - selfLeft;
                         }
 
                         // Find top or bottom.
-                        if(axsisxEl.attr("data-yp-top-round") == yp_round(event.pageY)){
+                        if (axsisxEl.attr("data-yp-top-round") == yp_round(event.pageY)) {
                             wTop = otherTop;
-                            forceH = otherTop-selfTop;
-                        }else{
+                            forceH = otherTop - selfTop;
+                        } else {
                             wTop = otherBottom;
-                            forceH = otherBottom-selfTop;
+                            forceH = otherBottom - selfTop;
                         }
 
-                        if(window.ResizeSelectedBorder != 'top'){
+                        if (window.ResizeSelectedBorder != 'top') {
                             element.cssImportant("height", forceH + format);
                             window.wasLockY = true;
-                        }else{
+                        } else {
                             forceH = height;
                         }
 
-                        xBorder.css({'top':wTop,'left':wLeft,'width':wWidth,'display':'block'});
+                        xBorder.css({'top': wTop, 'left': wLeft, 'width': wWidth, 'display': 'block'});
 
-                        tooltipContent = 'H : '+Math.round(forceH) + format;
+                        tooltipContent = 'H : ' + Math.round(forceH) + format;
 
                     }
 
                 }
 
                 // Create smart guides for width.
-                if(window.visualResizingType == "width"){
+                if (window.visualResizingType == "width") {
 
                     window.wasLockX = false;
-                    yBorder.css("display","none");
+                    yBorder.css("display", "none");
 
-                    var axsisyEl = iframeBody.find(".yp-smart-guide-elements[data-yp-left-round='"+yp_round(event.pageX)+"'],.yp-smart-guide-elements[data-yp-right-round='"+yp_round(event.pageX)+"']").first();
+                    var axsisyEl = iframeBody.find(".yp-smart-guide-elements[data-yp-left-round='" + yp_round(event.pageX) + "'],.yp-smart-guide-elements[data-yp-right-round='" + yp_round(event.pageX) + "']").first();
 
-                    if(axsisyEl.length > 0){
+                    if (axsisyEl.length > 0) {
 
                         // Getting sizes
                         otherTop = parseFloat(axsisyEl.attr("data-yp-top"));
                         otherLeft = parseFloat(axsisyEl.attr("data-yp-left"));
                         otherWidth = parseFloat(axsisyEl.attr("data-yp-width"));
                         otherHeight = parseFloat(axsisyEl.attr("data-yp-height"));
-                        otherBottom = parseFloat(otherTop+otherHeight);
-                        otherRight = parseFloat(otherLeft+otherWidth);
+                        otherBottom = parseFloat(otherTop + otherHeight);
+                        otherRight = parseFloat(otherLeft + otherWidth);
 
                         // Calculate smart guides positions.
-                        if(selfTop > otherTop){
+                        if (selfTop > otherTop) {
                             wTop = otherTop;
-                            wHeight = selfBottom-otherTop;
-                        }else{
+                            wHeight = selfBottom - otherTop;
+                        } else {
                             wTop = selfTop;
-                            wHeight = otherBottom-selfTop;
+                            wHeight = otherBottom - selfTop;
                         }
 
                         // Find top or bottom.
-                        if(axsisyEl.attr("data-yp-left-round") == yp_round(event.pageX)){
+                        if (axsisyEl.attr("data-yp-left-round") == yp_round(event.pageX)) {
                             wLeft = otherLeft;
-                            forceW = otherLeft-selfLeft;
-                        }else{
+                            forceW = otherLeft - selfLeft;
+                        } else {
                             wLeft = otherRight;
-                            forceW = otherRight-selfLeft;
+                            forceW = otherRight - selfLeft;
                         }
 
 
                         // calcature smart sizes. 100% etc
-                        smartData = calcature_smart_sizes(element,forceW);
+                        smartData = calcature_smart_sizes(element, forceW);
 
                         // Update
                         forceW = smartData.val;
                         format = smartData.format;
 
 
-                        if(window.ResizeSelectedBorder != 'left'){
+                        if (window.ResizeSelectedBorder != 'left') {
                             element.cssImportant("width", forceW + format);
                             window.wasLockX = true;
-                        }else{
+                        } else {
                             forceW = width;
                         }
 
-                        yBorder.css({'top':wTop,'left':wLeft,'height':wHeight,'display':'block'});
+                        yBorder.css({'top': wTop, 'left': wLeft, 'height': wHeight, 'display': 'block'});
 
-                        tooltipContent = 'W : '+Math.round(forceW) + format;
+                        tooltipContent = 'W : ' + Math.round(forceW) + format;
 
                     }
 
                 }
 
                 // Update helper tooltip
-                iframeBody.find(".yp-helper-tooltip").css({'top':event.pageY,'left':event.pageX+30}).html(tooltipContent);
+                iframeBody.find(".yp-helper-tooltip").css({
+                    'top': event.pageY,
+                    'left': event.pageX + 30
+                }).html(tooltipContent);
 
 
             }
@@ -13218,7 +13332,7 @@
         });
 
 
-        function calcature_smart_sizes(element,val){
+        function calcature_smart_sizes(element, val) {
 
             // Variable
             var result = [];
@@ -13226,9 +13340,9 @@
             var founded = false;
 
             // Check parent details.
-            if(element.parent().length > 0){
+            if (element.parent().length > 0) {
 
-                if(element.parent().css("display") == 'block' && element.parent().css("float") == 'none'){
+                if (element.parent().css("display") == 'block' && element.parent().css("float") == 'none') {
 
                     var parentWidth = element.parent().width();
 
@@ -13245,7 +13359,7 @@
                     }
 
                     // if width is 50% with parent width, so set 50%!
-                    if (parseInt(parentWidth/2) == parseInt(val)) {
+                    if (parseInt(parentWidth / 2) == parseInt(val)) {
 
                         // Flag
                         founded = true;
@@ -13257,7 +13371,7 @@
                     }
 
                     // if width is 25% with parent width, so set 25%!
-                    if (parseInt(parentWidth/4) == parseInt(val)) {
+                    if (parseInt(parentWidth / 4) == parseInt(val)) {
 
                         // Flag
                         founded = true;
@@ -13269,7 +13383,7 @@
                     }
 
                     // if width is 20% with parent width, so set 20%!
-                    if (parseInt(parentWidth/5) == parseInt(val)) {
+                    if (parseInt(parentWidth / 5) == parseInt(val)) {
 
                         // Flag
                         founded = true;
@@ -13285,7 +13399,7 @@
             }
 
             // Return default
-            if(founded === false){
+            if (founded === false) {
                 result.val = val;
                 result.format = 'px';
             }
@@ -13296,7 +13410,7 @@
 
 
         // RESIZE:STOP
-        iframe.on("mouseup", iframe, function() {
+        iframe.on("mouseup", iframe, function () {
 
             clearTimeout(window.resizeDelay);
 
@@ -13318,12 +13432,12 @@
                 }
 
                 // Wait for process.
-                setTimeout(function() {
+                setTimeout(function () {
 
                     var bWidth;
-                    if(window.visualResizingType == 'width'){
+                    if (window.visualResizingType == 'width') {
                         bWidth = window.exWidthX;
-                    }else{
+                    } else {
                         bWidth = window.exWidthY;
                     }
 
@@ -13339,7 +13453,7 @@
                     if (window.visualResizingType == 'width') {
 
                         // calcature smart sizes. 100% etc
-                        var smartData = calcature_smart_sizes(element,width);
+                        var smartData = calcature_smart_sizes(element, width);
 
                         // Update
                         width = smartData.val;
@@ -13347,12 +13461,12 @@
 
                     }
 
-                    if(window.exWidthX !== null && window.ResizeSelectedBorder == 'left' && widthCa != bWidth){
-                        insert_rule(null,"margin-left",parseFloat(element.css("margin-left")),'px');
+                    if (window.exWidthX !== null && window.ResizeSelectedBorder == 'left' && widthCa != bWidth) {
+                        insert_rule(null, "margin-left", parseFloat(element.css("margin-left")), 'px');
                     }
 
-                    if(window.exWidthY !== null && window.ResizeSelectedBorder == 'top' && widthCa != bWidth){
-                        insert_rule(null,"margin-top",parseFloat(element.css("margin-top")),'px');
+                    if (window.exWidthY !== null && window.ResizeSelectedBorder == 'top' && widthCa != bWidth) {
+                        insert_rule(null, "margin-top", parseFloat(element.css("margin-top")), 'px');
                     }
 
                     //return to default
@@ -13363,7 +13477,7 @@
                     }
 
                     // insert to data.
-                    if(widthCa != bWidth){
+                    if (widthCa != bWidth) {
                         insert_rule(null, window.visualResizingType, width, format);
                     }
 
@@ -13371,13 +13485,13 @@
 
 
                     // If width/height large than max width/height
-                    if(window.maxData[window.visualResizingType] < width){
-                        insert_rule(null, "max-"+window.visualResizingType, width, format);
+                    if (window.maxData[window.visualResizingType] < width) {
+                        insert_rule(null, "max-" + window.visualResizingType, width, format);
                     }
 
                     // If width large than max width/height
-                    if(window.minData[window.visualResizingType] > width){
-                        insert_rule(null, "min-"+window.visualResizingType, width, format);
+                    if (window.minData[window.visualResizingType] > width) {
+                        insert_rule(null, "min-" + window.visualResizingType, width, format);
                     }
 
                     draw();
@@ -13386,7 +13500,7 @@
                     option_change();
 
                     // Set default values for top and left options.
-                    $.each(['width','height','max-width','max-height','min-width','min-height','margin-left','margin-top'], function(i, v) {
+                    $.each(['width', 'height', 'max-width', 'max-height', 'min-width', 'min-height', 'margin-left', 'margin-top'], function (i, v) {
                         set_default_value(v);
                     });
 
@@ -13396,7 +13510,7 @@
 
                 }, delay);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     body.removeClass("yp-element-resized resize-time-delay");
                 }, 100);
 
@@ -13405,13 +13519,13 @@
         });
 
 
-        function yp_round(x){
+        function yp_round(x) {
             return Math.round(x / 6) * 6;
         }
 
         // Load default value after setting pane hover
         // because I not want load ":hover" values.
-        body.on('mousedown', '.yp-editor-list > li:not(.yp-li-footer):not(.yp-li-about):not(.active)', function() {
+        body.on('mousedown', '.yp-editor-list > li:not(.yp-li-footer):not(.yp-li-about):not(.active)', function () {
 
             if (is_content_selected() === true) {
 
@@ -13422,7 +13536,7 @@
                 if (typeof data == typeof undefined || data === false) {
 
                     // Set default values
-                    $(this).find(".yp-option-group").each(function() {
+                    $(this).find(".yp-option-group").each(function () {
                         set_default_value(get_option_id(this));
                     });
 
@@ -13437,12 +13551,12 @@
 
 
         // Update boxes while mouse over and out selected elements.
-        iframe.on("mouseout mouseover", '.yp-selected', function() {
+        iframe.on("mouseout mouseover", '.yp-selected', function () {
 
             if (is_content_selected() == true && is_resizing() == false && is_dragging() == false) {
 
                 clearTimeout(window.update_drawmouseOver);
-                window.update_drawmouseOver = setTimeout(function() {
+                window.update_drawmouseOver = setTimeout(function () {
                     draw();
                 }, 50);
 
@@ -13452,7 +13566,7 @@
 
 
         // Used by smart guides etc.
-        function get_all_elements(custom){
+        function get_all_elements(custom) {
 
             var selector = '*';
 
@@ -13485,7 +13599,7 @@
             // Get classes added by editor
             var pluginClasses = window.plugin_classes_list.split("|");
 
-            for(var x = 0; x < pluginClasses.length; x++){
+            for (var x = 0; x < pluginClasses.length; x++) {
                 pluginClasses[x] = "." + pluginClasses[x];
             }
 
@@ -13493,12 +13607,12 @@
             notSelectors = notSelectors.concat(pluginClasses);
 
             // Adding not selectors
-            for(var i = 0; i < notSelectors.length; i++){
-                selector += ":not("+notSelectors[i]+")";
+            for (var i = 0; i < notSelectors.length; i++) {
+                selector += ":not(" + notSelectors[i] + ")";
             }
 
             // parement
-            if(custom !== undefined){
+            if (custom !== undefined) {
                 selector += custom;
             }
 
@@ -13516,13 +13630,13 @@
         /*
          none and disable button api.
          */
-        $(".yp-btn-action").click(function(e) {
+        $(".yp-btn-action").click(function (e) {
 
             var elementPP = $(this).parent().parent().parent();
 
             var id = get_option_id(elementPP);
 
-            var value,prefix;
+            var value, prefix;
 
             // inherit, none etc.
             if ($(this).hasClass("yp-none-btn")) {
@@ -13575,7 +13689,6 @@
                 } else if (elementPP.find(".yp-radio-content").length > 0) {
 
 
-
                     if ($(this).hasClass("active")) {
 
                         $(this).removeClass("active");
@@ -13598,7 +13711,6 @@
 
                     // If is select
                 } else if (elementPP.find("select").length > 0) {
-
 
 
                     if ($(this).hasClass("active")) {
@@ -13800,7 +13912,7 @@
         /* ---------------------------------------------------- */
         /* Collapse List                                        */
         /* ---------------------------------------------------- */
-        $(".yp-editor-list > li > h3").click(function() {
+        $(".yp-editor-list > li > h3").click(function () {
 
             if ($(this).parent().hasClass("yp-li-about") || $(this).parent().hasClass("yp-li-footer")) {
                 return '';
@@ -13809,7 +13921,7 @@
             $(this).parent().addClass("current");
 
             // Disable.
-            $(".yp-editor-list > li.active:not(.current)").each(function() {
+            $(".yp-editor-list > li.active:not(.current)").each(function () {
 
                 $(".yp-editor-list > li").show(0);
                 $(this).find(".yp-this-content").hide(0).parent().removeClass("active");
@@ -13869,7 +13981,7 @@
         }
 
 
-        var get_basic_id = function(str) {
+        var get_basic_id = function (str) {
             if (typeof str !== "undefined" && str != '') {
                 str = str.replace(/\W+/g, "");
                 return str;
@@ -13909,7 +14021,7 @@
         function array_cleaner(actual) {
 
             var uniqueArray = [];
-            $.each(actual, function(i, el) {
+            $.each(actual, function (i, el) {
                 if ($.inArray(el, uniqueArray) === -1) uniqueArray.push(el);
             });
 
@@ -13918,19 +14030,20 @@
         }
 
 
-        function uppercase_first_letter(str){
-            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        function uppercase_first_letter(str) {
+            return str.replace(/\w\S*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
         }
 
 
-
         // Getting selected element's names
-        function get_tag_information(selectors){
+        function get_tag_information(selectors) {
 
             var selectorsArray = selectors.split(",");
 
             // If is one selector
-            if(selectorsArray.length == 1){
+            if (selectorsArray.length == 1) {
                 return get_single_tag_information(selectors);
             }
 
@@ -13940,61 +14053,61 @@
             var name = '';
 
             // Get all tag names by selectors
-            for(var i = 0; i < selectorsArray.length; i++){
+            for (var i = 0; i < selectorsArray.length; i++) {
 
                 // Get tag name
                 name = get_single_tag_information(selectorsArray[i]);
 
                 // Push if the name not in name-list
-                if(allTagNames.indexOf(name) == -1){
+                if (allTagNames.indexOf(name) == -1) {
                     allTagNames.push(name);
                 }
 
             }
 
-            return allTagNames.toString().replace(/\,/g,", ");
+            return allTagNames.toString().replace(/\,/g, ", ");
 
         }
 
 
-        function get_foundable_query(selector,css,body,animation){
+        function get_foundable_query(selector, css, body, animation) {
 
-            if(css === true){
+            if (css === true) {
 
                 // Hover Focus
-                selector = selector.replace(/:hover/g,'').replace(/:focus/g,'');
+                selector = selector.replace(/:hover/g, '').replace(/:focus/g, '');
 
                 // After
-                selector = selector.replace(/:after/g,'').replace(/::after/g,'');
+                selector = selector.replace(/:after/g, '').replace(/::after/g, '');
 
                 // Before
-                selector = selector.replace(/:before/g,'').replace(/::before/g,'');
+                selector = selector.replace(/:before/g, '').replace(/::before/g, '');
 
                 // First Letter
-                selector = selector.replace(/:first-letter/g,'').replace(/::first-letter/g,'');
+                selector = selector.replace(/:first-letter/g, '').replace(/::first-letter/g, '');
 
                 // First Line
-                selector = selector.replace(/:first-line/g,'').replace(/::first-line/g,'');
+                selector = selector.replace(/:first-line/g, '').replace(/::first-line/g, '');
 
                 // Selection
-                selector = selector.replace(/:selection/g,'').replace(/::selection/g,'');
+                selector = selector.replace(/:selection/g, '').replace(/::selection/g, '');
 
             }
 
-            if(body === true){
+            if (body === true) {
 
                 // YP Selector Hover
-                selector = selector.replace(/body\.yp-selector-hover/g,'').replace(/\.yp-selector-hover/g,'');
+                selector = selector.replace(/body\.yp-selector-hover/g, '').replace(/\.yp-selector-hover/g, '');
 
                 // YP Selector Focus
-                selector = selector.replace(/body\.yp-selector-focus/g,'').replace(/\.yp-selector-focus/g,'');
+                selector = selector.replace(/body\.yp-selector-focus/g, '').replace(/\.yp-selector-focus/g, '');
 
             }
 
-            if(animation === true){
+            if (animation === true) {
 
                 // YP Animations
-                selector = selector.replace(/.yp_onscreen/g,'').replace(/.yp_focus/g,'').replace(/.yp_hover/g,'').replace(/.yp_click/g,'');
+                selector = selector.replace(/.yp_onscreen/g, '').replace(/.yp_focus/g, '').replace(/.yp_hover/g, '').replace(/.yp_click/g, '');
 
             }
 
@@ -14004,23 +14117,23 @@
 
 
         // No multiple spaces.
-        function space_cleaner(data){
-            return $.trim(data.replace(/\s\s+/g,' '));
+        function space_cleaner(data) {
+            return $.trim(data.replace(/\s\s+/g, ' '));
         }
 
 
         /* ---------------------------------------------------- */
         /* Info About class or tagName                          */
         /* ---------------------------------------------------- */
-        function get_single_tag_information(selector){
+        function get_single_tag_information(selector) {
 
-            selector = get_foundable_query(selector,true,true,true);
+            selector = get_foundable_query(selector, true, true, true);
 
-            if(iframe.find(selector).length <= 0){
+            if (iframe.find(selector).length <= 0) {
                 return;
             }
 
-            var PPname,Pname;
+            var PPname, Pname;
 
             // tagName
             var a = iframe.find(selector)[0].nodeName;
@@ -14030,7 +14143,7 @@
 
             // Names
             var n = get_selector_array(selector)[length].toUpperCase();
-            if (n.indexOf(".") != -1){
+            if (n.indexOf(".") != -1) {
                 n = n.split(".")[1].replace(/[^\w\s]/gi, '');
             }
 
@@ -14407,6 +14520,7 @@
         function title_case(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
+
         // http://www.corelangs.com/js/string/cap.html#sthash.vke6OlCk.dpuf
 
         function get_name_by_classes(className) {
@@ -14469,7 +14583,7 @@
         }
 
         // disable jquery plugins. // Parallax.
-        $("#yp-background-parallax .yp-radio").click(function() {
+        $("#yp-background-parallax .yp-radio").click(function () {
 
             var v = $(this).find("input").val();
 
@@ -14482,26 +14596,26 @@
         });
 
         // Update saved btn
-        function option_change(){
+        function option_change() {
 
-            if(window.option_changeType != 'auto'){
+            if (window.option_changeType != 'auto') {
                 $(".yp-save-btn").html(l18_save).removeClass("yp-disabled").addClass("waiting-for-save");
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 // Call CSS Engine.
                 $(document).CallCSSEngine(get_clean_css(true));
 
             }, 200);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 editor.setValue(get_clean_css(true));
             }, 200);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 check_undoable_history();
-            },220);
+            }, 220);
 
         }
 
@@ -14517,7 +14631,7 @@
                 iframeBody.trigger("scroll");
                 $("body").removeClass("yp-css-editor-active");
 
-                $(".css-editor-btn").attr("data-original-title",$(".css-editor-btn").attr("data-title"));
+                $(".css-editor-btn").attr("data-original-title", $(".css-editor-btn").attr("data-title"));
 
                 // Update All.
                 draw();
@@ -14544,7 +14658,7 @@
                 body.find(".yp-processing").show();
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 css_to_data('desktop');
 
@@ -14553,10 +14667,10 @@
                     var mediaTotal = editor.getValue().toString().replace(/(\r\n|\n|\r)/g, "").match(/@media(.*?){/g);
 
                     // Search medias and convert to Yellow Pencil Data
-                    $.each(mediaTotal, function(index, value) {
+                    $.each(mediaTotal, function (index, value) {
 
                         // make .min the media content
-                        value = get_minimized_css(value,false);
+                        value = get_minimized_css(value, false);
 
                         css_to_data(value);
 
@@ -14569,7 +14683,7 @@
                 // Added from css_to_data function. must remove.
                 body.removeClass("process-by-code-editor");
 
-                setTimeout(function() {
+                setTimeout(function () {
                     body.removeClass("yp-processing-now");
                     body.find(".yp-processing").hide();
 
@@ -14587,24 +14701,24 @@
                         yp_id: id,
                         yp_stype: type,
                         yp_data: get_clean_css(true),
-                        yp_editor_data: get_editor_data()
+                        //yp_editor_data: get_editor_data()
                     });
 
-                    $.post(ajaxurl, {
+                    /*             $.post(ajaxurl, {
 
-                        action: "yp_preview_data_save",
-                        yp_data: data
+                     action: "yp_preview_data_save",
+                     yp_data: data
 
-                    });
+                     });*/
 
                     // Done.
-                    posting.complete(function(data) {
+                    posting.complete(function (data) {
                         $(".yp-save-btn").html(l18_saved).addClass("yp-disabled").removeClass("waiting-for-save");
                     });
 
                 }
 
-                if(body.hasClass("yp-animate-manager-active")){
+                if (body.hasClass("yp-animate-manager-active")) {
                     animation_manager();
                 }
 
@@ -14616,8 +14730,8 @@
         function get_color(rgb) {
             if (typeof rgb !== 'undefined') {
 
-                if(rgb.indexOf("rgba") != -1){
-                    return rgb.replace(/\s+/g,"");
+                if (rgb.indexOf("rgba") != -1) {
+                    return rgb.replace(/\s+/g, "");
                 }
 
                 rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
@@ -14631,7 +14745,9 @@
 
 
         // Long to short sorted for replacement.
-        window.plugin_classes_list_sorted = window.plugin_classes_list.split("|").sort(function(a, b){return b.length - a.length;}).join("|");
+        window.plugin_classes_list_sorted = window.plugin_classes_list.split("|").sort(function (a, b) {
+            return b.length - a.length;
+        }).join("|");
 
 
         // Clean classes by yellow pencil control classes.
@@ -14641,13 +14757,13 @@
                 return '';
             }
 
-            return data.replace(new RegExp(window.plugin_classes_list_sorted,"gi"), '');
+            return data.replace(new RegExp(window.plugin_classes_list_sorted, "gi"), '');
 
         }
 
 
         // there is a few play method and this func clear all animation timeout.
-        function clear_animation_timer(){
+        function clear_animation_timer() {
 
             clearTimeout(window.animationTimer1);
             clearTimeout(window.animationTimer2);
@@ -14658,9 +14774,9 @@
 
 
         // trigger end.
-        function element_animation_end(){
+        function element_animation_end() {
 
-            if(is_content_selected()){
+            if (is_content_selected()) {
                 get_selected_element().trigger("animationend webkitAnimationEnd oanimationend MSAnimationEnd");
             }
 
@@ -14732,9 +14848,9 @@
                 // Find element
                 var element = iframe.find(selectorOrginal);
 
-                if(element.length > 0){
+                if (element.length > 0) {
 
-                    if(element[0].nodeName == 'BODY'){
+                    if (element[0].nodeName == 'BODY') {
 
                         var bodyClasses = get_classes_array(iframeBody.attr("class"));
 
@@ -14825,7 +14941,9 @@
                     elem.msRequestFullscreen();
                 }
                 body.addClass("yp-fullscreen");
-                setTimeout(function(){draw_responsive_handle();},250);
+                setTimeout(function () {
+                    draw_responsive_handle();
+                }, 250);
             } else {
                 if (document.cancelFullScreen) {
                     document.cancelFullScreen();
@@ -14837,11 +14955,13 @@
                     document.msExitFullscreen();
                 }
                 body.removeClass("yp-fullscreen");
-                setTimeout(function(){draw_responsive_handle();},250);
+                setTimeout(function () {
+                    draw_responsive_handle();
+                }, 250);
             }
         }
 
-        $(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e) {
+        $(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
             var state = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
             var event = state ? 'FullscreenOn' : 'FullscreenOff';
 
@@ -14859,8 +14979,8 @@
 
 
         // Disable history shift mouse.
-        mainDocument.keydown(function(e){
-            if (e.shiftKey && (e.which == '61' || e.which == '107' || e.which == '173' || e.which == '109'  || e.which == '187'  || e.which == '189'  ) ) {
+        mainDocument.keydown(function (e) {
+            if (e.shiftKey && (e.which == '61' || e.which == '107' || e.which == '173' || e.which == '109' || e.which == '187' || e.which == '189'  )) {
                 e.preventDefault();
             }
         });

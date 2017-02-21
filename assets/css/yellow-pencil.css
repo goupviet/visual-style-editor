@@ -18,6 +18,11 @@
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
 }
 
+.sweet-alert p{
+    max-height: 180px;
+    overflow-y: scroll;
+}
+
 .loading-files {
     width: 130px;
     height: 24px;
