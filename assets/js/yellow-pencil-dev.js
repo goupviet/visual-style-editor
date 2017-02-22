@@ -1945,6 +1945,7 @@
 
                     if (!$("body").hasClass("css-editor-close-by-editor")) {
 
+                        debugger
                         if ($("#cssEditorBar").css("display") == 'block') {
                             if (body.hasClass("yp-fullscreen-editor")) {
                                 body.removeClass("yp-fullscreen-editor");
@@ -2439,31 +2440,6 @@
 
         };
 
-        $(".yp-button-live").click(function () {
-
-            var el = $(this);
-            var href = el.attr("data-href");
-            el.addClass("live-btn-loading");
-
-            if ($("body").hasClass("yp-yellow-pencil-demo-mode")) {
-                swal({title: "Sorry.", text: l18_live_preview, type: "info", animation: false});
-                el.removeClass("live-btn-loading");
-                return false;
-            }
-
-            var posting = $.post(ajaxurl, {
-                action: "yp_preview_data_save",
-                yp_data: get_clean_css(true)
-            });
-
-            // Done.
-            posting.complete(function (data) {
-                el.removeClass("live-btn-loading");
-                window.open(href, href);
-                return false;
-            });
-
-        });
 
         $(".yp-close-btn").click(function () {
             if ($('.yp-close-btn').hasClass('dashicons-no-alt')) {
@@ -3813,7 +3789,7 @@
 
                     if (status && typeof get_editor_data() !== 'undefined') {
 
-                        var posting = $.post(ajaxurl, {
+                        /*var posting = $.post(ajaxurl, {
 
                             action: "yp_ajax_save",
                             yp_id: id,
@@ -3821,20 +3797,27 @@
                             yp_data: data,
                             //yp_editor_data: get_editor_data()
 
-                        });
+                        });*/
 
                         swal({
-                            title: "Here's the result", text: data, showCancelButton: false,
-                            closeOnConfirm: true
-                        }, function () {
-                            $(".yp-save-btn").html(l18_save).removeClass("yp-disabled");
-                            return true;
+                            title: "Here's the result", text: data,
+                            showCancelButton: true,
+                            confirmButtonText: "copy it",
+                            cancelButtonText: "just close",
+                            confirmButtonColor: "#DD6B55",
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        }, function (isConfirm) {
+                            if (isConfirm) {
+                                $(".yp-save-btn").html(l18_save).removeClass("yp-disabled");
+                                swal("copied!", "Your css result has been copied to clipboard.", "success");
+                            }
                         });
 
                         // Done.
-                        posting.complete(function (data) {
+                        //posting.complete(function (data) {
                             $(".yp-save-btn").html(l18_saved).addClass("yp-disabled").removeClass("waiting-for-save");
-                        });
+                        //});
 
                     }
 
@@ -5366,10 +5349,6 @@
                 "editselector": {
                     name: "Edit Selector",
                     className: "yp-contextmenu-selector-edit"
-                },
-                "writeCSS": {
-                    name: "Write CSS",
-                    className: "yp-contextmenu-type-css"
                 },
                 "selectjustit": {
                     name: "Select just it",
@@ -12591,9 +12570,16 @@
         /* Cancel Selected El. And Select The Element Function  */
         /* ---------------------------------------------------- */
         iframe.on("click", iframe, function (evt) {
+
             if ($(evt.target).closest('#plugin-content').length > 0) {
                 return false;
             }
+
+            if($(evt.target).closest('.context-menu-list').length > 0){
+                return false;
+            }
+
+
 
             if ($(".yp-selector-mode.active").length > 0 && $("body").hasClass(("yp-metric-disable"))) {
 
@@ -14696,13 +14682,13 @@
                 // Save
                 if (id !== false && typeof get_editor_data() !== 'undefined') {
 
-                    var posting = $.post(ajaxurl, {
+                    /*var posting = $.post(ajaxurl, {
                         action: "yp_ajax_save",
                         yp_id: id,
                         yp_stype: type,
                         yp_data: get_clean_css(true),
                         //yp_editor_data: get_editor_data()
-                    });
+                    });*/
 
                     /*             $.post(ajaxurl, {
 

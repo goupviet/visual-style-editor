@@ -35,8 +35,6 @@ chrome.runtime.onMessage.addListener(
                         var body = iframe.find("body");
 
                         // Loading Styles
-                        $('<script src="' + chrome.extension.getURL("assets/js/jquery/jquery.js") + '" >').appendTo("head");
-
                         $('<link rel="stylesheet" href="' + chrome.extension.getURL("assets/css/dashicons.min.css") + '" >').appendTo('head');
                         $('<link rel="stylesheet" href="' + chrome.extension.getURL("assets/css/contextmenu.css") + '" >').appendTo('head');
                         $('<link rel="stylesheet" href="' + chrome.extension.getURL("assets/css/nouislider.css") + '" >').appendTo('head');
