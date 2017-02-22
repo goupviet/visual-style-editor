@@ -3810,6 +3810,13 @@
                         }, function (isConfirm) {
                             if (isConfirm) {
                                 $(".yp-save-btn").html(l18_save).removeClass("yp-disabled");
+                                var input = document.createElement('textarea');
+                                document.body.appendChild(input);
+                                input.value = data;
+                                input.focus();
+                                input.select();
+                                document.execCommand('Copy');
+                                input.remove();
                                 swal("copied!", "Your css result has been copied to clipboard.", "success");
                             }
                         });
