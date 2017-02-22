@@ -323,7 +323,7 @@ body.yp-responsive-device-mode .context-menu-root {
 /* Left Area Styles                                     */
 /* ---------------------------------------------------- */
 .yp-select-bar {
-    position: absolute;
+    position: fixed;
     right: 10px;
     margin-left: 10px;
     margin-right: 26px;
