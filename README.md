@@ -15,7 +15,7 @@ This plugin can modify styles of 'text', 'background', 'margin', 'padding', 'bor
 * select any element and change the style into what you want;
 * copy the result and put it into the last position of the head tag when redeploy the site;
 
-#### license
+#### License
 MIT
 
 ![示例](https://github.com/benyasin/visual-style-editor/blob/master/snapshot.jpg)
