@@ -67,7 +67,6 @@ chrome.runtime.onMessage.addListener(
                             scripts.push(chrome.extension.getURL("assets/js/bootstrap-tooltip.js"));
                             scripts.push(chrome.extension.getURL("assets/js/css-engine.js"));
                             scripts.push(chrome.extension.getURL("assets/js/ace/ace.js"));
-                            scripts.push(chrome.extension.getURL("assets/js/ace/ext-language_tools.js"));
                             scripts.push(chrome.extension.getURL("assets/js/sweetalert.js"));
                             scripts.push(chrome.extension.getURL("assets/js/yellow-pencil-dev.js"));
 

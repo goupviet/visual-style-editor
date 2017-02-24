@@ -24,16 +24,6 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     });
 });
 
-
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        if( request.message === "dom_loaded" ) {
-            var id = request.id;
-
-        }
-    }
-);
-
 chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
     if (request == "getUrls") {
         sendResponse({

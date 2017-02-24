@@ -3,19 +3,9 @@
     "use strict";
     // Ace Editor Set Up
     ace.config.set("basePath", window.aceEditorBase);
-    ace.require("ace/ext/language_tools");
     var editor = ace.edit("cssData");
-    //editor.getSession().setMode("ace/mode/css");
-    //editor.setTheme("ace/theme/twilight");
     editor.getSession().setUseWrapMode(true);
     editor.$blockScrolling = Infinity;
-
-    // enable autocompletion and snippets
-    editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: false,
-        enableLiveAutocompletion: true
-    });
 
     // Set font size to editor
     if ($(window).height() > 790) {
