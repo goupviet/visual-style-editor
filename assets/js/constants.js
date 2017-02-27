@@ -4,12 +4,11 @@ var ajaxurl = "http://localhost/ajax";
 
 // Languages
 var l18_saving = "saving";
-var l18_back_to_menu = "返回菜单";
-var l18_close_editor = "关闭浏览器";
+var l18_back_to_menu = "back to menu";
+var l18_close_editor = "close editor";
 var l18_save = "save";
 var l18_saved = "saved";
 var l18_demo_alert = "Saving is disabled in demo mode.";
-var l18_live_preview = "Live preview disabled in demo mode.";
 var l18_clear = "Clear";
 var l18_footer = "Footer";
 var l18_content = "Content";
