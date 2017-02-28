@@ -23,11 +23,3 @@ chrome.browserAction.onClicked.addListener(function (tab) {
         chrome.tabs.sendMessage(id, 'browserAction');
     });
 });
-
-chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
-    if (request == "getUrls") {
-        sendResponse({
-            "action": localStorage["codecola_save_action"] ? localStorage["codecola_save_action"] : ""
-        });
-    }
-});

@@ -17,8 +17,6 @@ chrome.runtime.onMessage.addListener(
                     success: function (data) {
                         $('body').append(data).addClass('yp-yellow-pencil wt-yellow-pencil yp-metric-disable yp-body-selector-mode-active browser_chrome');
 
-                        chrome.runtime.sendMessage({"message": "dom_loaded", "id": request.id});
-
                         // All plugin element list
                         window.plugin_classes_list = 'yp-styles-area|yp-animating|yp-animate-data|yp-scene-1|yp-sharp-selector-mode-active|yp-scene-2|yp-scene-3|yp-scene-4|yp-scene-5|yp-scene-6|yp-anim-creator|data-anim-scene|yp-anim-link-toggle|yp-animate-test-playing|ui-draggable-handle|yp-css-data-trigger|yp-yellow-pencil-demo-mode|yp-yellow-pencil-loaded|yp-element-resized|resize-time-delay|yp-selected-handle|yp-parallax-disabled|yp_onscreen|yp_hover|yp_click|yp_focus|yp-recent-hover-element|yp-selected-others|yp-multiple-selected|yp-demo-link|yp-live-editor-link|yp-yellow-pencil|wt-yellow-pencil|yp-content-selected|yp-selected-has-transform|yp-hide-borders-now|ui-draggable|yp-target-active|yp-yellow-pencil-disable-links|yp-closed|yp-responsive-device-mode|yp-metric-disable|yp-css-editor-active|wtfv|yp-clean-look|yp-has-transform|yp-will-selected|yp-selected|yp-fullscreen-editor|yp-element-resizing|yp-element-resizing-width-left|yp-element-resizing-width-right|yp-element-resizing-height-top|yp-element-resizing-height-bottom|context-menu-active|yp-selectors-hide|yp-contextmenuopen|yp-control-key-down|yp-selected-others-multiable-box';
                         // Any visible element.
@@ -30,8 +28,6 @@ chrome.runtime.onMessage.addListener(
 
 
                         var iframe = $(document);
-                        var iframeHead = iframe.find("head");
-                        var iframeBody = iframe.find("body");
                         var body = iframe.find("body");
 
                         // Loading Styles
@@ -239,8 +235,7 @@ chrome.runtime.onMessage.addListener(
                 });
 
             });
-            // This line is new!
-            //chrome.runtime.sendMessage({"message": "open_new_tab", "url": firstHref});
+
         }
     }
 );
