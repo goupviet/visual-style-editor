@@ -18,4 +18,4 @@ This plugin can modify styles of 'text', 'background', 'margin', 'padding', 'bor
 #### License
 MIT
 
-![示例](https://github.com/benyasin/visual-style-editor/blob/master/snapshot.jpg)
+![示例](https://github.com/benyasin/visual-style-editor/blob/master/snapshot.gif)
