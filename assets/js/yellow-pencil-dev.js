@@ -584,443 +584,6 @@
 
         }
 
-
-        // Get all Animated Elements
-        function animation_manager() {
-
-            $(".yp-animate-manager [data-toggle='tooltipAnim']").tooltip("destroy");
-            $(".yp-anim-process-bar-delay,.yp-anim-process-bar").resizable('destroy');
-            $(".yp-anim-el-column,.yp-animate-bar").remove();
-
-            // Update metric
-            $(".yp-anim-metric").empty();
-            for (var i = 1; i < 61; i++) {
-                $(".yp-anim-metric").append('<div class="second"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>' + i + 's</b></div>');
-            }
-
-            iframe.find('[data-rule="animation-name"]').each(function (iX) {
-
-                // Variables
-                var data = $(this).html().replace(/\/\*(.*?)\*\//g, "");
-                var device = $(this).attr("data-size-mode");
-                var array = data.split("{");
-                var selector = array[0];
-                var animateName = escape_data_value(data);
-                var animateDelayOr = "0s";
-                var animateTimeOr = "1s";
-                var mode = 'yp_onscreen';
-
-                if (animateName == 'none') {
-                    return true;
-                }
-
-                if (selector.indexOf("yp_hover") != -1) {
-                    mode = 'yp_hover';
-                } else if (selector.indexOf("yp_focus") != -1) {
-                    mode = 'yp_focus';
-                } else if (selector.indexOf("yp_click") != -1) {
-                    mode = 'yp_click';
-                } else if (selector.indexOf("yp_onscreen") != -1) {
-                    mode = 'yp_onscreen';
-                }
-
-                var deviceName = '';
-                var deviceHTML = '';
-                var modeName = mode.replace("yp_", "");
-
-                // Get Selector
-                if (selector.indexOf("@media") != -1) {
-                    device = $.trim(selector.replace("@media", ""));
-                    selector = array[1].split("{")[0];
-                }
-
-                if (device != 'desktop') {
-                    deviceName = 'Responsive';
-                }
-
-                if (deviceName !== '') {
-                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>" + deviceName + "</label><span class='yp-anim-media-details'>" + device + "</span>";
-                }
-
-                // Clean Selector
-                var selectorClean = selector.replace(".yp_hover", "").replace(".yp_focus", "").replace(".yp_click", "").replace(".yp_onscreen", "");
-
-                // Get Element Name
-                var elementName = 'Undefined';
-                if (iframe.find(selectorClean).length > 0) {
-                    elementName = removeDiacritics(uppercase_first_letter(get_tag_information(selectorClean)).replace(/\d+/g, ''));
-                }
-
-                // Element Variables
-                if (iframe.find("." + get_id(selector) + "-animation-duration-style[data-size-mode='" + device + "']").length > 0) {
-                    animateTimeOr = iframe.find("." + get_id(selector) + "-animation-duration-style[data-size-mode='" + device + "']").html();
-                    animateTimeOr = escape_data_value(animateTimeOr);
-                }
-
-                if (iframe.find("." + get_id(selector) + "-animation-delay-style[data-size-mode='" + device + "']").length > 0) {
-                    animateDelayOr = iframe.find("." + get_id(selector) + "-animation-delay-style[data-size-mode='" + device + "']").html();
-                    animateDelayOr = escape_data_value(animateDelayOr);
-                }
-
-                var animateTime = $.trim(animateTimeOr.replace('/[^0-9\.]+/g', '').replace(/ms/g, "").replace(/s/g, ""));
-                var animateDelay = $.trim(animateDelayOr.replace('/[^0-9\.]+/g', '').replace(/ms/g, "").replace(/s/g, ""));
-
-                if (animateName.indexOf(",") == -1) {
-
-                    animateTime = animateTime * 100;
-                    animateDelay = animateDelay * 100;
-
-                    if (animateDelay < 10) {
-                        animateDelay = 10;
-                    }
-
-                }
-
-                var extraClass = '';
-                if (animateDelay == 10) {
-                    extraClass = ' yp-delay-zero';
-                }
-
-                var animateContent = "<div class='yp-anim-process-bar-delay" + extraClass + "' data-toggle='tooltipAnim' data-placement='top' title='Delay " + parseFloat(animateDelayOr).toFixed(2) + "s' style='width:" + animateDelay + "px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: " + parseFloat(animateTimeOr).toFixed(2) + "s' style='width:" + animateTime + "px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>" + animateName + "</div>";
-
-
-                var childAnimateDelayOr, childAnimateDelay, childAnimateTimeOr, childAnimateTime;
-                if (animateName.indexOf(",") != -1) {
-
-                    animateContent = '';
-
-                    var prevsBeforeAppend = 0;
-
-                    for (var i = 0; i < animateName.split(",").length; i++) {
-
-                        if (animateDelayOr.toString().indexOf(",") != -1) {
-                            childAnimateDelayOr = $.trim(animateDelayOr.split(",")[i]);
-                        } else {
-                            childAnimateDelayOr = animateDelayOr;
-                        }
-
-                        // default is 1s for child animate delay Or.
-                        if (isUndefined(childAnimateDelayOr)) {
-                            childAnimateDelayOr = "0s";
-                        }
-
-                        if (animateDelay.toString().indexOf(",") != -1) {
-                            childAnimateDelay = $.trim(animateDelay.split(",")[i]);
-                        } else {
-                            childAnimateDelay = animateDelay;
-                        }
-
-                        // default is 1s for child animate delay.
-                        if (isUndefined(childAnimateDelay)) {
-                            childAnimateDelay = 0;
-                        }
-
-                        if (animateTimeOr.toString().indexOf(",") != -1) {
-                            childAnimateTimeOr = $.trim(animateTimeOr.split(",")[i]);
-                        } else {
-                            childAnimateTimeOr = animateTimeOr;
-                        }
-
-                        // default is 1s for child animate time Or.
-                        if (isUndefined(childAnimateTimeOr)) {
-                            childAnimateTimeOr = "1s";
-                        }
-
-
-                        if (animateTime.toString().indexOf(",") != -1) {
-                            childAnimateTime = $.trim(animateTime.split(",")[i]);
-                        } else {
-                            childAnimateTime = animateTime;
-                        }
-
-                        // default is 1s for child animate.
-                        if (isUndefined(childAnimateTime)) {
-                            childAnimateTime = 1;
-                        }
-
-                        var childAnimate = $.trim(animateName.split(",")[i].replace(/\s+?!important/g, '').replace(/\;$/g, ''));
-
-                        childAnimateTime = childAnimateTime * 100;
-                        childAnimateDelay = childAnimateDelay * 100;
-
-                        if (childAnimateDelay < 10) {
-                            childAnimateDelay = 10;
-                        }
-
-                        var SmartDelayView = (childAnimateDelay - prevsBeforeAppend);
-                        var smartDelayOrView = SmartDelayView / 100;
-                        if (SmartDelayView <= 10) {
-                            SmartDelayView = 10;
-                            smartDelayOrView = "0s";
-                        }
-
-                        extraClass = '';
-                        if (SmartDelayView == 10) {
-                            extraClass = ' yp-delay-zero';
-                        }
-
-                        animateContent += "<div class='yp-anim-process-bar-delay" + extraClass + "' data-toggle='tooltipAnim' data-placement='top' title='Delay " + parseFloat(smartDelayOrView).toFixed(2) + "s' style='width:" + SmartDelayView + "px;'></div><div class='yp-anim-process-bar' data-toggle='tooltipAnim' data-placement='top' title='Duration: " + parseFloat(childAnimateTimeOr).toFixed(2) + "s' style='width:" + childAnimateTime + "px;'><span class='animate-part-icons yp-control-trash' data-toggle='tooltipAnim' data-placement='top' title='Delete'><span class='dashicons dashicons-trash'></span></span>" + childAnimate + "</div>";
-
-                        prevsBeforeAppend = childAnimateDelay + childAnimateTime;
-
-                    }
-
-                }
-
-                // Append.
-                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column yp-anim-el-column-" + get_id(selectorClean) + "' data-anim-media-size='" + device + "'><span data-toggle='tooltipAnim' data-placement='right' title='" + selectorClean + "'>" + elementName + "</span> <label>" + modeName + "</label>" + deviceHTML + "</div>");
-
-                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar' id='yp-animate-bar-" + iX + "'><div class='yp-anim-process-bar-area' data-responsive='" + device + "' data-selector='" + selectorClean + "' data-selector-full='" + selector + "'><div class='yp-anim-process-inner'>" + animateContent + "</div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
-
-            });
-
-            $(".yp-delay-zero").each(function () {
-
-                var allLeft = $(".yp-anim-process-inner").offset().left - 5;
-                var left = $(this).next(".yp-anim-process-bar").offset().left - allLeft;
-                $(this).css("left", left);
-
-                $(this).next(".yp-anim-process-bar").addClass("yp-anim-has-zero-delay");
-
-            });
-
-            // Get current selector
-            var Cselector = get_current_selector();
-            var Lineway = $(".yp-anim-el-column-" + get_id(Cselector) + "[data-anim-media-size='" + get_current_media_query() + "']");
-
-            // has selected element and there not have same element in manager list
-            if (isDefined(Cselector) && Lineway.length === 0) {
-
-                // Get Element Name
-                var elementName = 'Undefined';
-                if (iframe.find(Cselector).length > 0) {
-                    elementName = removeDiacritics(uppercase_first_letter(get_tag_information(Cselector)).replace(/\d+/g, ''));
-                }
-
-                var deviceHTML = '';
-
-                if (get_current_media_query() != 'desktop') {
-                    deviceHTML = " <label data-toggle='tooltipAnim' data-placement='right' title='This animation will only play on specific screen sizes.' class='yp-device-responsive'>Responsive</label><span class='yp-anim-media-details'>" + get_current_media_query() + "</span>";
-                }
-
-                // Bar
-                $(".yp-anim-left-part-column").append("<div class='yp-anim-el-column anim-active-row yp-anim-el-column-" + get_id(Cselector) + "' data-anim-media-size='" + get_current_media_query() + "'><span data-toggle='tooltipAnim' data-placement='right' title='" + Cselector + "'>" + elementName + "</span> <label>onscreen</label>" + deviceHTML + "</div>");
-
-                // Adding
-                $(".yp-anim-right-part-column").append("<div class='yp-animate-bar anim-active-row' id='yp-animate-bar-current'><div class='yp-anim-process-bar-area' data-responsive='" + get_current_media_query() + "' data-selector='" + Cselector + "' data-selector-full='" + (Cselector + ".yp_onscreen") + "'><div class='yp-anim-process-inner'></div><a class='yp-anim-add' data-toggle='tooltipAnim' data-placement='right' title='Add New Animate'></a></div>");
-
-            } else {
-                Lineway.addClass("anim-active-row");
-            }
-
-            // resizable
-            $(".yp-anim-process-bar-delay,.yp-anim-process-bar").resizable({
-                handles: 'e',
-                minWidth: 10,
-                start: function () {
-
-                    $(".yp-anim-process-bar-delay,.yp-anim-process-bar").not(this).tooltip("disable").tooltip("hide");
-
-                },
-                resize: function (event, ui) {
-
-                    var that = $(this);
-                    var w = ui.size.width;
-                    var s = parseFloat(w / 100).toFixed(2);
-
-                    var newTitle;
-                    if (that.hasClass(("yp-anim-process-bar-delay"))) {
-
-                        if (w == 10) {
-                            s = "0";
-                        }
-                        newTitle = "Delay: " + s;
-
-                        // Delay zero
-                        if (w <= 10) {
-                            that.addClass("yp-delay-zero");
-                        }
-
-                        // clean delay zero
-                        if (that.hasClass(("yp-delay-zero"))) {
-                            that.removeClass("yp-delay-zero").css("left", "0");
-                        }
-
-                    } else {
-
-                        newTitle = "Duration: " + s;
-
-                        if (that.prev(".yp-anim-process-bar-delay").hasClass("yp-delay-zero")) {
-                            that.addClass("yp-anim-has-zero-delay");
-                        } else if (that.hasClass(("yp-anim-has-zero-delay"))) {
-                            that.removeClass("yp-anim-has-zero-delay");
-                        }
-
-                    }
-
-
-                    $(this).parents(".yp-animate-bar").find(".yp-delay-zero").each(function () {
-
-                        var allLeft = $(".yp-anim-process-inner").offset().left - 5;
-                        var left = $(this).next(".yp-anim-process-bar").offset().left - allLeft;
-                        $(this).css("left", left);
-
-                    });
-
-
-                    that.attr('data-original-title', newTitle + "s").tooltip('show');
-
-                },
-                stop: function () {
-
-                    update_animation_manager();
-                    $(".yp-anim-process-bar-delay,.yp-anim-process-bar").tooltip("enable");
-
-                }
-
-            });
-
-
-            $('[data-toggle="tooltipAnim"]').tooltip({
-                animation: false,
-                container: ".yp-animate-manager",
-                html: true
-            });
-
-            $("[data-toggle='tooltipAnim']").on('show.bs.tooltip', function () {
-                $("[data-toggle='tooltipAnim']").not(this).tooltip("hide");
-            });
-
-            if ($(".yp-animate-bar").length === 0) {
-                $(".animation-manager-empty").show();
-            } else {
-                $(".animation-manager-empty").hide();
-            }
-
-        }
-
-
-        function update_animation_manager() {
-
-            body.addClass("yp-animate-manager-mode");
-
-            // Find largest line for play/stop.
-            var maxWidth = Math.max.apply(null, $('.yp-anim-process-inner').map(function () {
-                return $(this).outerWidth(true);
-            }).get());
-
-            // Always add more px to animate bar width on update.
-            $(".yp-anim-process-bar-area").width(maxWidth + $(window).width());
-
-            // Each all lines
-            $(".yp-animate-bar").each(function () {
-
-                // Get selector with mode.
-                var selector = $(this).find(".yp-anim-process-bar-area").attr("data-selector-full");
-
-                // Animate name array.
-                var sMultiNames = [];
-
-                // Find all delays in this line.
-                var sMulti = [];
-                var sMultiDuration = [];
-
-                // delay
-                var delay = 0;
-                var offets = '';
-
-                // Get size
-                var size = $(this).find(".yp-anim-process-bar-area").attr("data-responsive");
-                if (size == '') {
-                    size = 'desktop';
-                }
-
-                // Each all animate bars
-                $(this).find(".yp-anim-process-bar,.yp-anim-process-bar-delay").each(function () {
-
-                    // Get width.
-                    var w = $(this).width();
-
-                    // Width to Second.
-                    var s = w / 100;
-
-                    // If delay and its not a multiable line.
-                    if ($(this).hasClass(("yp-anim-process-bar-delay")) && $(this).parent().find(".yp-anim-process-bar-delay").length == 1) {
-
-                        if (w == 10) {
-                            s = "0";
-                        }
-
-                        // Update one delay.
-                        insert_rule(selector, "animation-delay", Math.round(s * 100) / 100, 's', size);
-
-                        // If animate bar and not a multiable line.
-                    } else if ($(this).hasClass(("yp-anim-process-bar")) && $(this).parent().find(".yp-anim-process-bar").length == 1) {
-
-                        // Update one duration.
-                        insert_rule(selector, "animation-duration", s, 's', size);
-                        insert_rule(selector, "animation-name", $(this).text(), '', size);
-                        sMultiNames.push($(this).text());
-
-                        // If multi line and its delay or animate bar.
-                    } else if ($(this).parent().find(".yp-anim-process-bar-delay").length > 1 || $(this).parent().find(".yp-anim-process-bar").length > 1) {
-
-                        // Delay.. Multi..
-                        if ($(this).hasClass("yp-anim-process-bar-delay")) {
-
-                            offets = $(this).offset().left - $(this).parent(".yp-anim-process-inner").offset().left;
-                            offets = offets / 100;
-                            offets = Math.round(offets * 100) / 100;
-
-                            if ($(this).width() > 10) {
-
-                                delay = $(this).width() / 100;
-                                delay = Math.round(delay * 100) / 100;
-                                sMulti.push(delay + offets + "s");
-
-                            } else {
-
-                                sMulti.push(offets + "s");
-
-                            }
-
-                        }
-
-                        // Duration.. Multi..
-                        if ($(this).hasClass("yp-anim-process-bar")) {
-
-                            var xy = $(this).width() / 100;
-
-                            sMultiDuration.push(xy + "s");
-                            sMultiNames.push($(this).text());
-
-                        }
-
-                    }
-
-                });
-
-                // Insert multi delays.
-                if (sMulti.length > 1) {
-                    insert_rule(selector, "animation-delay", sMulti.toString(), '', size);
-                    insert_rule(selector, "animation-duration", sMultiDuration.toString(), '', size);
-                    insert_rule(selector, "animation-name", sMultiNames.toString(), '', size);
-
-                } else if (sMultiNames.length === 0 && body.hasClass("yp-anim-removing")) {
-                    insert_rule(selector, "animation-delay", "disable", '', size);
-                    insert_rule(selector, "animation-duration", "disable", '', size);
-                    insert_rule(selector, "animation-name", "disable", '', size);
-                }
-
-                option_change();
-
-            });
-
-            body.removeClass("yp-animate-manager-mode");
-
-        }
-
-
         // Lite Version Modal Close
         $(".yp-info-modal-close").click(function () {
             $(this).parent().parent().hide();
@@ -1154,10 +717,6 @@
         mainDocument.on("mouseup", function () {
 
             if (window.responsiveModeRMDown === true) {
-
-                if (body.hasClass("yp-animate-manager-active")) {
-                    animation_manager();
-                }
 
                 window.responsiveModeRMDown = false;
 
@@ -1551,7 +1110,6 @@
 
                     if (!$("body").hasClass("css-editor-close-by-editor")) {
 
-                        debugger
                         if ($("#cssEditorBar").css("display") == 'block') {
                             if (body.hasClass("yp-fullscreen-editor")) {
                                 body.removeClass("yp-fullscreen-editor");
@@ -2077,10 +1635,6 @@
 
             body.addClass("yp-content-selected");
 
-            if (body.hasClass("yp-animate-manager-active")) {
-                animation_manager();
-            }
-
             if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
                 update_design_information("element");
             }
@@ -2119,10 +1673,6 @@
             gui_update();
 
             draw();
-
-            if (body.hasClass("yp-animate-manager-active")) {
-                animation_manager();
-            }
 
             // Update the element informations.
             if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
@@ -2196,12 +1746,6 @@
             title: l18_picker
         });
 
-        $('[data-toggle="tooltipAnimGenerator"]').tooltip({
-            animation: false,
-            html: true
-        });
-
-
         // CSSEngine is javascript based jquery
         // plugin by WaspThemes Team.
         $(document).CallCSSEngine(get_clean_css(true));
@@ -2241,12 +1785,6 @@
                 clean();
             }
         });
-
-        function update_animate_creator_view() {
-            if (!$(".anim-bar").hasClass("anim-bar-dragged")) {
-                $(".anim-bar").css("left", parseFloat($(window).width() / 2) - ($(".anim-bar").width() / 2));
-            }
-        }
 
         // Only number
         $(document).on('keydown keyup', '.scenes .scene input', function (e) {
@@ -2683,9 +2221,6 @@
         window.option_changeType = 'auto';
         option_change();
         window.option_changeType = 'default';
-
-        // The title
-        $("title").html("Yellow Pencil: " + iframe.find("title").html());
 
         // Check before exit page.
         window.onbeforeunload = confirm_exit;
@@ -3451,12 +2986,6 @@
         var wIris = 237;
 
         // iris plugin.
-        /*            $('.yp-select-bar > ul > li > div > div > div > div > .wqcolorpicker').cs_iris({
-         hide: true,
-         width: wIris
-         });*/
-
-        // iris plugin.
         $('.yp-select-bar .wqcolorpicker').cs_iris({
             hide: true,
             width: wIris
@@ -3757,10 +3286,6 @@
                 draw();
             }
 
-            if (body.hasClass("yp-animate-manager-active")) {
-                animation_manager();
-            }
-
         });
 
         // Reset Button
@@ -3925,73 +3450,6 @@
             }
 
         }
-
-        // process CSS before open CSS editor.
-        $("body:not(.yp-css-editor-active) .css-editor-btn").hover(function () {
-            if (!$("body").hasClass("yp-css-editor-active")) {
-                process(false, false, false);
-            }
-        });
-
-        // Hide CSS Editor.
-        $(".css-editor-btn,.yp-css-close-btn").click(function () {
-
-            if (body.hasClass("yp-animate-manager-active")) {
-                $(".animation-manager-btn.active").trigger("click");
-            }
-
-            // delete fullscreen editor
-            if (body.hasClass("yp-fullscreen-editor")) {
-                body.removeClass("yp-fullscreen-editor");
-            }
-
-            if ($("#leftAreaEditor").css("display") == 'none') {
-
-                // No selected
-                if (!is_content_selected()) {
-                    editor.setValue(get_clean_css(true));
-                    editor.focus();
-                    editor.execCommand("gotolineend");
-                } else {
-                    insert_rule(null, 'a', 'a', '');
-                    var cssData = get_clean_css(false);
-                    var goToLine = cssData.split("a:a")[0].split(/\r\n|\r|\n/).length;
-                    cssData = cssData.replace(/a:a !important;/g, "");
-                    cssData = cssData.replace(/a:a;/g, "");
-                    editor.setValue(cssData);
-                    editor.resize(true);
-                    setTimeout(function () {
-                        editor.scrollToLine(goToLine, true, false);
-                    }, 2);
-                    editor.focus();
-                    if ($("body").hasClass("yp-responsive-device-mode")) {
-                        editor.gotoLine(goToLine, 2, true);
-                    } else {
-                        editor.gotoLine(goToLine, 1, true);
-                    }
-                }
-
-                $("#cssData,#cssEditorBar,#leftAreaEditor").show();
-                $("body").addClass("yp-css-editor-active");
-
-                var ebtn = $(".css-editor-btn");
-                var title = ebtn.attr("data-original-title"); // Save
-                ebtn.attr("data-title", title); // save as data
-                ebtn.attr("data-original-title", ""); // remove title
-
-                iframeBody.trigger("scroll");
-
-            } else {
-
-                // CSS To data
-                process(true, false, false);
-
-            }
-
-            // Update All.
-            draw();
-
-        });
 
         // Blur: Custom Slider Value
         $(".yp-after-css-val,.yp-after-prefix").on("keydown keyup", function (e) {
@@ -5057,70 +4515,6 @@
 
         //setup before functions
         var typingTimer;
-
-        // Keyup bind For CSS Editor.
-        $("#cssData").on("keyup", function (e) {
-
-            var typingTimerS = 0;
-            if (e.originalEvent) {
-                typingTimerS = 900;
-            }
-
-            if (body.hasClass("yp-selectors-hide") === false && body.hasClass("yp-css-data-trigger") === false && typingTimerS !== 0) {
-
-                body.addClass("yp-selectors-hide");
-
-                // Opacity Selector
-                if (iframe.find(".context-menu-active").length > 0) {
-                    get_selected_element().contextMenu("hide");
-                }
-
-                hide_frame_ui(0);
-
-            }
-
-            body.removeClass("yp-css-data-trigger");
-
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(function () {
-
-                if (body.hasClass(("yp-selectors-hide")) && $(".wqNoUi-active").length === 0 && $("body").hasClass("autocomplete-active") === false && $(".yp-select-bar .tooltip").length === 0) {
-
-                    body.removeClass("yp-selectors-hide");
-
-                    show_frame_ui(200);
-
-                }
-
-                insert_default_options();
-                return false;
-
-            }, typingTimerS);
-
-            // Append all css to iframe.
-            if (iframe.find("#yp-css-data-full").length === 0) {
-                the_editor_data().after("<style id='yp-css-data-full'></style>");
-            }
-
-            // Need to process.
-            body.addClass("yp-need-to-process");
-
-            // Update css source.
-            iframe.find("#yp-css-data-full").html(editor.getValue());
-
-            // Empty data.
-            the_editor_data().empty();
-
-            // Remove ex.
-            iframe.find(".yp-live-css").remove();
-
-            // Update
-            $(".yp-save-btn").html(l18_save).removeClass("yp-disabled").addClass("waiting-for-save");
-
-            // Update sceen.
-            gui_update();
-
-        });
 
         // Return to data again.
         $(".yp-select-bar").on("mouseover mouseout", function () {
@@ -7780,11 +7174,6 @@
         // Clean data that not selected yet.
         function simple_clean() {
 
-            // Animate update
-            if (body.hasClass("yp-animate-manager-active")) {
-                animation_manager();
-            }
-
             // Clean basic classes
             body.removeAttr("data-clickable-select").removeAttr("data-yp-selector").removeClass("yp-selector-focus yp-selector-hover yp-css-data-trigger yp-contextmenuopen yp-content-selected yp-body-select-just-it yp-has-transform yp-element-resizing yp-element-resizing-height-top yp-element-resizing-height-bottom yp-element-resizing-width-left yp-element-resizing-width-right");
 
@@ -10197,7 +9586,6 @@
 
         }
 
-
         /* ---------------------------------------------------- */
         /* Get All Parents                                      */
         /* ---------------------------------------------------- */
@@ -10515,13 +9903,11 @@
 
         }
 
-
         // A simple trim function
         function left_trim(str, chr) {
             var rgxtrim = (!chr) ? new RegExp('^\\s+') : new RegExp('^' + chr + '+');
             return str.replace(rgxtrim, '');
         }
-
 
         /* ---------------------------------------------------- */
         /* Draw Tooltip and borders.                            */
@@ -10682,7 +10068,6 @@
 
         }
 
-
         // Remove multiple selected element
         iframe.on("click", '.yp-selected-others', function () {
 
@@ -10710,7 +10095,6 @@
             }
 
         });
-
 
         /* ---------------------------------------------------- */
         /* Draw Tooltip and borders.                            */
@@ -10960,14 +10344,6 @@
             tooltipMenu.css({"pointer-events": "auto"});
 
         }
-
-
-        /*        // if mouseup on iframe, trigger for document.
-         iframe.on("mouseup", iframe, function() {
-
-         $(document).trigger("mouseup");
-
-         });*/
 
 
         function set_draggable(element) {
@@ -11786,10 +11162,6 @@
 
                             // Disable focus style after clicked.
                             element.blur();
-
-                            if (body.hasClass("yp-animate-manager-active")) {
-                                animation_manager();
-                            }
 
                             // Update the element informations.
                             if ($(".advanced-info-box").css("display") == 'block' && $(".element-btn").hasClass("active")) {
@@ -13669,10 +13041,6 @@
                         $(".yp-save-btn").html(l18_saved).addClass("yp-disabled").removeClass("waiting-for-save");
                     });
 
-                }
-
-                if (body.hasClass("yp-animate-manager-active")) {
-                    animation_manager();
                 }
 
             }, 50);
