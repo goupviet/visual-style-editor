@@ -8,6 +8,11 @@ Inspired by a WordPress plugin named yellow pencil, Visual Style Editor is very 
 for handling the scenario in which hundreds of customers with hundreds of need based on a fixed interface.
 This plugin can modify styles of 'text', 'background', 'margin', 'padding', 'border', 'border-radius', 'position', 'size', 'filters', 'box shadow' and so on.
 
+
+If you like my work, please donate me a cup of coffee. Thank you!
+![支付宝](./donate.jpg)
+
+
 #### Usage
 
 * open [visual style editor's address](https://chrome.google.com/webstore/detail/visual-style-editor/ejldbbhgmnldjbmapiojihadmleplcgc) or search 'Visual Style Editor' in chrome webstore and install it;
@@ -17,8 +22,5 @@ This plugin can modify styles of 'text', 'background', 'margin', 'padding', 'bor
 
 #### License
 MIT
-
-If you like my work, please donate me a cup of coffee. Thank you!
-![支付宝](./donate.jpg)
 
 ![示例](./snapshot.gif)
