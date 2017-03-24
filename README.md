@@ -9,10 +9,6 @@ for handling the scenario in which hundreds of customers with hundreds of need b
 This plugin can modify styles of 'text', 'background', 'margin', 'padding', 'border', 'border-radius', 'position', 'size', 'filters', 'box shadow' and so on.
 
 
-If you like my work, please donate me a cup of coffee. Thank you!
-![支付宝](./donate.jpg)
-
-
 #### Usage
 
 * open [visual style editor's address](https://chrome.google.com/webstore/detail/visual-style-editor/ejldbbhgmnldjbmapiojihadmleplcgc) or search 'Visual Style Editor' in chrome webstore and install it;
